@@ -1,6 +1,7 @@
 import type { NextPage } from "next";
 import Head from "next/head";
 import { PlayIcon, DocumentTextIcon } from '@heroicons/react/solid'
+import Link from "next/link";
 
 type ActionButtonProps = {
   name: string;
@@ -30,13 +31,13 @@ const Home: NextPage = () => {
           <ActionButton
             name="New game"
             description="Start a new round of Mölkky"
-            link="newgame"
+            link="/newgame"
             icon={<PlayIcon />}
           />
           <ActionButton
             name="Rules"
             description="Read the rules"
-            link="rules"
+            link="/rules"
             icon={<DocumentTextIcon />}
           />
         </div>
@@ -60,15 +61,17 @@ const ActionButton = ({
   icon
 }: ActionButtonProps) => {
   return (
-    <a
-      aria-label={description}
-      className="flex items-center justify-between w-2/3 px-5 py-3 transition-colors bg-purple-600 border border-purple-600 rounded-lg hover:bg-transparent group focus:outline-none focus:ring" href={`${link}`}
-    >
-      <span className="font-medium text-white transition-colors group-active:text-purple-500 group-hover:text-purple-600">
-        {name}
-      </span>
-      <ActionButtonIcon icon={icon} />
-    </a>
+    <Link href={link}>
+      <a
+        aria-label={description}
+        className="flex items-center justify-between w-2/3 px-5 py-3 transition-colors bg-purple-600 border border-purple-600 rounded-lg hover:bg-transparent group focus:outline-none focus:ring"
+      >
+        <span className="font-medium text-white transition-colors group-active:text-purple-500 group-hover:text-purple-600">
+          {name}
+        </span>
+        <ActionButtonIcon icon={icon} />
+      </a>
+    </Link>
   );
 };
 
