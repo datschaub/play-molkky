@@ -22,11 +22,11 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main className="container mx-auto flex flex-col items-center justify-center h-screen p-4">
+      <main className="container flex flex-col items-center justify-center h-screen p-4 mx-auto">
         <h1 className="text-5xl md:text-[5rem] leading-normal font-extrabold text-gray-700">
           Play <span className="text-purple-300">MÖLKKY</span>
         </h1>
-        <div className="grid gap-3 pt-3 mt-3 text-center md:grid-cols-3 lg:w-2/3">
+        <div className="flex flex-col items-center w-full pt-3 mt-3 space-y-4 text-center lg:w-2/3">
           <ActionButton
             name="New game"
             description="Start a new round of Mölkky"
@@ -47,7 +47,7 @@ const Home: NextPage = () => {
 
 const ActionButtonIcon = ({ icon }: ActionButtonIconProps) => {
   return (
-    <div className="h-6 w-6 flex-shrink-0 ml-4 text-purple-600 bg-white border border-white rounded-full group-active:text-purple-500">
+    <div className="flex-shrink-0 w-8 h-8 ml-4 text-white transition-colors rounded-full group-active:text-purple-500 group-hover:text-purple-600">
       {icon}
     </div>
   )
@@ -62,7 +62,7 @@ const ActionButton = ({
   return (
     <a
       aria-label={description}
-      className="flex items-center justify-between px-5 py-3 transition-colors bg-purple-600 border border-purple-600 rounded-lg hover:bg-transparent group focus:outline-none focus:ring" href={`${link}`}
+      className="flex items-center justify-between w-2/3 px-5 py-3 transition-colors bg-purple-600 border border-purple-600 rounded-lg hover:bg-transparent group focus:outline-none focus:ring" href={`${link}`}
     >
       <span className="font-medium text-white transition-colors group-active:text-purple-500 group-hover:text-purple-600">
         {name}
