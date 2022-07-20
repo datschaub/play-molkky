@@ -38,7 +38,6 @@ export default function Modal({ isOpen, closeModal, children }: ModalProps) {
                             >
                                 <Dialog.Panel className="w-full max-w-md p-6 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl">
                                     {children}
-
                                     <div className="mt-4">
                                         <button
                                             type="button"
