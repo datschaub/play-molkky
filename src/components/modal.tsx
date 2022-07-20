@@ -3,12 +3,11 @@ import { Fragment, useState } from 'react'
 
 type ModalProps = {
     isOpen: boolean;
-    children: JSX.Element;
-    closeModal: (value: boolean) => void;
+    children?: JSX.Element;
+    closeModal: () => void;
 }
 
 export default function Modal({ isOpen, closeModal, children }: ModalProps) {
-
 
     return (
         <>
@@ -37,7 +36,19 @@ export default function Modal({ isOpen, closeModal, children }: ModalProps) {
                                 leaveFrom="opacity-100 scale-100"
                                 leaveTo="opacity-0 scale-95"
                             >
-                                {children}
+                                <Dialog.Panel className="w-full max-w-md p-6 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl">
+                                    {children}
+
+                                    <div className="mt-4">
+                                        <button
+                                            type="button"
+                                            className="inline-flex justify-center px-4 py-2 text-sm font-medium text-blue-900 bg-blue-100 border border-transparent rounded-md hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+                                            onClick={() => closeModal()}
+                                        >
+                                            Got it, thanks!
+                                        </button>
+                                    </div>
+                                </Dialog.Panel>
                             </Transition.Child>
                         </div>
                     </div>

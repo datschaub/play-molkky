@@ -1,30 +1,19 @@
 import type { NextPage } from "next";
 import Head from "next/head";
+import { NewGame } from "../components/NewGame";
+import Modal from "../components/Modal";
+import { Rules } from "../components/Rules";
+import { useState } from "react";
 import { PlayIcon, DocumentTextIcon } from '@heroicons/react/solid'
-import Link from "next/link";
-import { NewGame } from "../components/newgame";
-import Modal from "../components/modal";
-import { useRouter } from "next/router";
-import { Rules } from "../components/rules";
-import { Fragment, useState } from "react";
-import { Dialog, Transition } from "@headlessui/react";
-
-type ActionButtonIconProps = {
-  icon: JSX.Element;
-};
-
+import { ModalButton } from "../components/ModalButton";
 //https://codesandbox.io/s/p828k6zom?fontsize=14&file=/src/components/Scenario/index.js:322-331
 
 const Home: NextPage = () => {
   let [modalIsOpen, setModalIsOpen] = useState(false); //TODO: isOpen opens both modals
-  let [modalTitle, setModalTitle] = useState<string>();
+  let [modalContent, setModalContent] = useState<JSX.Element>();
 
-  function closeModal() {
-    setModalIsOpen(false)
-  }
-
-  const handleOpenModal = (modalTitle: string) => {
-    setModalTitle(modalTitle)
+  const handleOpenModal = (modalContent: JSX.Element) => {
+    setModalContent(modalContent)
     setModalIsOpen(true)
   }
 
@@ -45,130 +34,27 @@ const Home: NextPage = () => {
           Play <span className="text-purple-300">MÖLKKY</span>
         </h1>
         <div className="flex flex-col items-center w-full pt-3 mt-3 space-y-4 text-center lg:w-2/3">
-          <ActionButton
+          <ModalButton
             name="New game"
-            isOpen={modalIsOpen}
             closeModal={handleCloseModal}
             handleOpenModal={handleOpenModal}
-            modalTitle={"Start new game"}
+            modalContent={<NewGame />}
+            icon={<PlayIcon />}
           />
-          <ActionButton
+          <ModalButton
             name="Rules"
-            isOpen={modalIsOpen}
             closeModal={handleCloseModal}
             handleOpenModal={handleOpenModal}
-            modalTitle={"These are the rules"}
+            modalContent={<Rules />}
+            icon={<DocumentTextIcon />}
           />
         </div>
-        <Transition appear show={modalIsOpen} as={Fragment}>
-          <Dialog as="div" className="relative z-10" onClose={closeModal}>
-            <Transition.Child
-              as={Fragment}
-              enter="ease-out duration-300"
-              enterFrom="opacity-0"
-              enterTo="opacity-100"
-              leave="ease-in duration-200"
-              leaveFrom="opacity-100"
-              leaveTo="opacity-0"
-            >
-              <div className="fixed inset-0 bg-black bg-opacity-25" />
-            </Transition.Child>
-
-            <div className="fixed inset-0 overflow-y-auto">
-              <div className="flex items-center justify-center min-h-full p-4 text-center">
-                <Transition.Child
-                  as={Fragment}
-                  enter="ease-out duration-300"
-                  enterFrom="opacity-0 scale-95"
-                  enterTo="opacity-100 scale-100"
-                  leave="ease-in duration-200"
-                  leaveFrom="opacity-100 scale-100"
-                  leaveTo="opacity-0 scale-95"
-                >
-                  <Dialog.Panel className="w-full max-w-md p-6 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl">
-                    <Dialog.Title
-                      as="h3"
-                      className="text-lg font-medium leading-6 text-gray-900"
-                    >
-                      {modalTitle}
-                    </Dialog.Title>
-                    <div className="mt-2">
-                      <p className="text-sm text-gray-500">
-                        Your payment has been successfully submitted. We’ve sent
-                        you an email with all of the details of your order.
-                      </p>
-                    </div>
-
-                    <div className="mt-4">
-                      <button
-                        type="button"
-                        className="inline-flex justify-center px-4 py-2 text-sm font-medium text-blue-900 bg-blue-100 border border-transparent rounded-md hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
-                        onClick={() => closeModal()}
-                      >
-                        Got it, thanks!
-                      </button>
-                    </div>
-                  </Dialog.Panel>
-                </Transition.Child>
-              </div>
-            </div>
-          </Dialog>
-        </Transition>
+        <Modal isOpen={modalIsOpen} closeModal={handleCloseModal}>
+          {modalContent}
+        </Modal>
       </main>
     </>
   );
 };
-
-const ActionButtonIcon = ({ icon }: ActionButtonIconProps) => {
-  return (
-    <div className="flex-shrink-0 w-8 h-8 ml-4 text-white transition-colors rounded-full group-active:text-purple-500 group-hover:text-purple-600">
-      {icon}
-    </div>
-  )
-}
-
-type ActionButtonProps = {
-  name: string;
-  isOpen: boolean;
-  closeModal: () => void;
-  handleOpenModal: (value: string) => void;
-  children?: JSX.Element;
-  modalTitle: string;
-};
-
-const ActionButton = ({
-  name,
-  isOpen,
-  closeModal,
-  handleOpenModal,
-  children,
-  modalTitle
-}: ActionButtonProps) => {
-
-  const openModal = () => {
-    console.log(modalTitle)
-    handleOpenModal(modalTitle)
-  }
-
-  return (
-    <>
-      <button
-        type="button"
-        onClick={() => openModal()}
-        aria-label={`Hey ho`}
-        className="flex items-center justify-between w-2/3 px-5 py-3 transition-colors bg-purple-600 border border-purple-600 rounded-lg hover:bg-transparent group focus:outline-none focus:ring"
-      >
-        <span className="font-medium text-white transition-colors group-active:text-purple-500 group-hover:text-purple-600">
-          {name}
-        </span>
-        <ActionButtonIcon icon={<PlayIcon />} />
-      </button>
-
-
-    </>
-  );
-};
-
-
 
 export default Home;
