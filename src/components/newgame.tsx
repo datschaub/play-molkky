@@ -2,6 +2,7 @@ import { Dialog } from "@headlessui/react";
 
 import { Formik, Field, Form, ErrorMessage } from 'formik'
 import { useState } from "react";
+import { NewGameForm } from "./NewPlayerForm";
 
 export function NewGame() {
 
@@ -16,22 +17,17 @@ export function NewGame() {
             </Dialog.Title>
             <div className="mt-2">
                 <h4>Add players</h4>
-                <p className="mt-2 text-sm text-gray-500">
-                    <Formik
-                        initialValues={{
-                            player: '',
-                        }}
-                        onSubmit={(values) => {
-                            alert(JSON.stringify(values, null, 2))
-                        }}
-                    >
-                        <Form className="flex items-center">
-                            <label className="text-sm font-bold text-gray-700 shrink-0" htmlFor='Player'>
-                                Player {players.length}
-                            </label>
-                            <Field className="w-full px-3 py-2 ml-2 leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline" id='player' name='player' />
-                        </Form>
-                    </Formik>
+                <p className="flex flex-col mt-2 space-y-2 text-sm text-gray-500">
+                    {
+                        players.map((player) => {
+                            return (
+                                <NewGameForm
+                                    key={players.indexOf(player) + 1}
+                                    playerPlaceholder={players.indexOf(player) + 1}
+                                />
+                            )
+                        })
+                    }
                 </p>
             </div>
         </>
