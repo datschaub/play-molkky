@@ -2,9 +2,10 @@ import { Dialog } from "@headlessui/react";
 import { Formik, Field, Form, ErrorMessage, FormikProps } from 'formik'
 import { NewPlayerForm } from "./NewPlayerForm";
 import { PlusCircleIcon } from "@heroicons/react/solid";
+import { Player } from "../types/types";
 
 type NewGameProps = {
-    players: string[];
+    players: Player[];
     handleAddPlayers: () => void;
     closeModal: () => void;
     handleSubmit: (newPlayers: any) => void;
@@ -39,11 +40,12 @@ export function NewGame({ players, handleAddPlayers, closeModal, handleSubmit }:
                                         key={1}
                                         playerPlaceholder={1}
                                     />
-                                    : players.map((player) => {
+                                    : players.map((player: Player) => {
                                         return (
                                             <NewPlayerForm
-                                                key={players.indexOf(player) + 1}
+                                                key={player.id}
                                                 playerPlaceholder={players.indexOf(player) + 1}
+                                                playerName={player.name}
                                             />
                                         )
                                     })

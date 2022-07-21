@@ -2,9 +2,10 @@ import { Field } from "formik"
 
 type NewGameFormProps = {
     playerPlaceholder: number;
+    playerName?: string;
 }
 
-export function NewPlayerForm({ playerPlaceholder }: NewGameFormProps) {
+export function NewPlayerForm({ playerPlaceholder, playerName }: NewGameFormProps) {
 
     return (
         <div className="relative">
@@ -14,6 +15,7 @@ export function NewPlayerForm({ playerPlaceholder }: NewGameFormProps) {
                 id={`player-${playerPlaceholder}`}
                 name={`player-${playerPlaceholder}`}
                 placeholder={`Player ${playerPlaceholder}`}
+                value={playerName}
             />
         </div>
     )
