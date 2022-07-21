@@ -2,14 +2,9 @@ import { Field, Form, Formik } from "formik"
 
 type NewGameFormProps = {
     playerPlaceholder: number;
-    handleAddPlayer: () => void;
 }
 
-export function NewPlayerForm({ playerPlaceholder, handleAddPlayer }: NewGameFormProps) {
-
-    const addPlayer = () => {
-        handleAddPlayer()
-    }
+export function NewPlayerForm({ playerPlaceholder }: NewGameFormProps) {
 
     return (
         <div className="relative">

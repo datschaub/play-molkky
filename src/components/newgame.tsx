@@ -4,13 +4,12 @@ import { useState } from "react";
 import { NewPlayerForm } from "./NewPlayerForm";
 import { PlusCircleIcon } from "@heroicons/react/solid";
 
-export function NewGame() {
+type NewGameProps = {
+    players: string[];
+    handleAddPlayers: () => void;
+}
 
-    const [players, setPlayers] = useState<string[]>(["player-1"]);
-
-    const handleAddPlayer = () => {
-        setPlayers([...players, `player-${players.length + 1}`])
-    }
+export function NewGame({players, handleAddPlayers}: NewGameProps) {
 
     return (
         <>
@@ -39,7 +38,6 @@ export function NewGame() {
                                         <NewPlayerForm
                                             key={players.indexOf(player) + 1}
                                             playerPlaceholder={players.indexOf(player) + 1}
-                                            handleAddPlayer={handleAddPlayer}
                                         />
                                     )
                                 })
@@ -50,7 +48,7 @@ export function NewGame() {
                 <button
                     className="w-10 h-10 mt-4 text-purple-600 rounded-full"
                     type="button"
-                    onClick={() => handleAddPlayer()}>
+                    onClick={() => handleAddPlayers()}>
                     <PlusCircleIcon />
                 </button>
             </div>

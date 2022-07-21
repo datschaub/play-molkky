@@ -3,14 +3,16 @@ import Head from "next/head";
 import { NewGame } from "../components/NewGame";
 import Modal from "../components/Modal";
 import { Rules } from "../components/Rules";
-import { useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { PlayIcon, DocumentTextIcon } from '@heroicons/react/solid'
 import { ModalButton } from "../components/ModalButton";
 //https://codesandbox.io/s/p828k6zom?fontsize=14&file=/src/components/Scenario/index.js:322-331
 
 const Home: NextPage = () => {
-  let [modalIsOpen, setModalIsOpen] = useState(false); //TODO: isOpen opens both modals
-  let [modalContent, setModalContent] = useState<JSX.Element>();
+
+  const [players, setPlayers] = useState<string[]>(["player-1"]);
+  const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [modalContent, setModalContent] = useState<JSX.Element>();
 
   const handleOpenModal = (modalContent: JSX.Element) => {
     setModalContent(modalContent)
@@ -20,6 +22,21 @@ const Home: NextPage = () => {
   const handleCloseModal = () => {
     setModalIsOpen(false)
   }
+
+  const handleAddPlayer = useCallback(() => {
+    setPlayers([...players, `player-${players.length + 1}`])
+  }, [players])
+
+  useEffect(() => {
+    setModalContent(
+      <NewGame
+        key={players.length}
+        players={players}
+        handleAddPlayers={handleAddPlayer}
+      />
+    )
+  }, [players, handleAddPlayer])
+
 
   return (
     <>
@@ -38,7 +55,13 @@ const Home: NextPage = () => {
             name="New game"
             closeModal={handleCloseModal}
             handleOpenModal={handleOpenModal}
-            modalContent={<NewGame />}
+            modalContent={
+              <NewGame
+                key={players.length}
+                players={players}
+                handleAddPlayers={handleAddPlayer}
+              />
+            }
             icon={<PlayIcon />}
           />
           <ModalButton
