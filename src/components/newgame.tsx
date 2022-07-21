@@ -7,9 +7,11 @@ import { PlusCircleIcon } from "@heroicons/react/solid";
 type NewGameProps = {
     players: string[];
     handleAddPlayers: () => void;
+    closeModal: () => void;
+    handleSubmit: () => void;
 }
 
-export function NewGame({players, handleAddPlayers}: NewGameProps) {
+export function NewGame({ players, handleAddPlayers, closeModal, handleSubmit }: NewGameProps) {
 
     return (
         <>
@@ -27,9 +29,7 @@ export function NewGame({players, handleAddPlayers}: NewGameProps) {
                         initialValues={{
                             player: '',
                         }}
-                        onSubmit={(values) => {
-                            alert(JSON.stringify(values, null, 2))
-                        }}
+                        onSubmit={handleSubmit}
                     >
                         <Form className="mt-2 space-y-2 ">
                             {
@@ -51,6 +51,28 @@ export function NewGame({players, handleAddPlayers}: NewGameProps) {
                     onClick={() => handleAddPlayers()}>
                     <PlusCircleIcon />
                 </button>
+                <div className="flex justify-between">
+                    <div className="mt-4">
+                        <button
+                            type="button"
+                            className="inline-flex justify-center px-4 py-2 text-sm font-medium text-blue-900 bg-blue-100 border border-transparent rounded-md hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+                            onClick={() => closeModal()}
+                        >
+                            Cancel
+                        </button>
+                    </div>
+                    <div className="mt-4">
+                        <button
+                            type="button"
+                            className="inline-flex justify-center px-4 py-2 text-sm font-medium text-white transition-colors bg-purple-600 border border-purple-600 rounded-md group hover:bg-transparent focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+                            onClick={() => handleSubmit()}
+                        >
+                            <span className="font-medium text-white transition-colors group-active:text-purple-500 group-hover:text-purple-600">
+                                Submit
+                            </span>
+                        </button>
+                    </div>
+                </div>
             </div>
         </>
     )

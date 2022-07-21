@@ -19,9 +19,13 @@ const Home: NextPage = () => {
     setModalIsOpen(true)
   }
 
-  const handleCloseModal = () => {
+  const handleSubmit = useCallback(() => {
+    alert(JSON.stringify(players))
+  }, [players])
+
+  const handleCloseModal = useCallback(() => {
     setModalIsOpen(false)
-  }
+  }, [])
 
   const handleAddPlayer = useCallback(() => {
     setPlayers([...players, `player-${players.length + 1}`])
@@ -30,12 +34,13 @@ const Home: NextPage = () => {
   useEffect(() => {
     setModalContent(
       <NewGame
-        key={players.length}
         players={players}
         handleAddPlayers={handleAddPlayer}
+        closeModal={handleCloseModal}
+        handleSubmit={handleSubmit}
       />
     )
-  }, [players, handleAddPlayer])
+  }, [players, handleAddPlayer, handleCloseModal, handleSubmit])
 
 
   return (
@@ -57,9 +62,10 @@ const Home: NextPage = () => {
             handleOpenModal={handleOpenModal}
             modalContent={
               <NewGame
-                key={players.length}
                 players={players}
                 handleAddPlayers={handleAddPlayer}
+                closeModal={handleCloseModal}
+                handleSubmit={handleSubmit}
               />
             }
             icon={<PlayIcon />}
