@@ -1,6 +1,5 @@
 import { Dialog } from "@headlessui/react";
 import { Formik, Field, Form, ErrorMessage, FormikProps } from 'formik'
-import { useState } from "react";
 import { NewPlayerForm } from "./NewPlayerForm";
 import { PlusCircleIcon } from "@heroicons/react/solid";
 
@@ -13,7 +12,6 @@ type NewGameProps = {
 
 export function NewGame({ players, handleAddPlayers, closeModal, handleSubmit }: NewGameProps) {
 
-    
     return (
         <>
             <Dialog.Title
@@ -27,9 +25,7 @@ export function NewGame({ players, handleAddPlayers, closeModal, handleSubmit }:
                 <p className="flex flex-col text-sm text-gray-500">
 
                     <Formik
-                        initialValues={{
-                            players: [],
-                        }}
+                        initialValues={{}}
                         onSubmit={(values, actions) => {
                             console.log(values)
                             const entries = Object.entries(values)
@@ -38,14 +34,19 @@ export function NewGame({ players, handleAddPlayers, closeModal, handleSubmit }:
                     >
                         <Form className="mt-2 space-y-2">
                             {
-                                players.map((player) => {
-                                    return (
-                                        <NewPlayerForm
-                                            key={players.indexOf(player) + 1}
-                                            playerPlaceholder={players.indexOf(player) + 1}
-                                        />
-                                    )
-                                })
+                                players.length <= 0 ?
+                                    <NewPlayerForm
+                                        key={1}
+                                        playerPlaceholder={1}
+                                    />
+                                    : players.map((player) => {
+                                        return (
+                                            <NewPlayerForm
+                                                key={players.indexOf(player) + 1}
+                                                playerPlaceholder={players.indexOf(player) + 1}
+                                            />
+                                        )
+                                    })
                             }
                             <button
                                 className="w-10 h-10 mt-4 text-purple-600 rounded-full"

@@ -20,7 +20,9 @@ const Home: NextPage = () => {
   }
 
   const handleSubmit = useCallback((newPlayers: any) => {
-    setPlayers(newPlayers.map((p: any) => p[1]))
+    setPlayers(newPlayers.map((p: any) => {
+      return { 'id': p[0], 'value': p[1] }
+    }))
   }, [])
 
   const handleCloseModal = useCallback(() => {
