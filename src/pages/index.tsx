@@ -19,9 +19,9 @@ const Home: NextPage = () => {
     setModalIsOpen(true)
   }
 
-  const handleSubmit = useCallback(() => {
-    alert(JSON.stringify(players))
-  }, [players])
+  const handleSubmit = useCallback((newPlayers: any) => {
+    setPlayers(newPlayers.map((p: any) => p[1]))
+  }, [])
 
   const handleCloseModal = useCallback(() => {
     setModalIsOpen(false)
@@ -41,7 +41,6 @@ const Home: NextPage = () => {
       />
     )
   }, [players, handleAddPlayer, handleCloseModal, handleSubmit])
-
 
   return (
     <>
@@ -78,6 +77,7 @@ const Home: NextPage = () => {
             icon={<DocumentTextIcon />}
           />
         </div>
+        {JSON.stringify(players)}
         <Modal isOpen={modalIsOpen} closeModal={handleCloseModal}>
           {modalContent}
         </Modal>
