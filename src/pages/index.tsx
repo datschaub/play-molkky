@@ -11,22 +11,28 @@ import { Player } from "../types/types";
 import { nanoid } from 'nanoid'
 import { FieldValues, UseFormUnregister } from "react-hook-form";
 
-// Set initial ID on build time because of hydration
+// Set initial IDs on build time because of hydration
 export const getStaticProps: GetStaticProps = () => {
   return {
     props: {
-      nanoId: nanoid(5)
+      player1_id: nanoid(5),
+      player2_id: nanoid(5)
     },
   }
 }
 
+// Need at least 2 players
 type HomeProps = {
-  nanoId: string;
+  player1_id: string;
+  player2_id: string;
 }
 
-const Home: NextPage<HomeProps> = ({ nanoId }) => {
+const Home: NextPage<HomeProps> = ({ player1_id, player2_id }) => {
 
-  const [players, setPlayers] = useState<Player[]>([{ id: nanoId, name: '', order: 1 }])
+  const [players, setPlayers] = useState<Player[]>([
+    { id: player1_id, name: '', order: 1 },
+    { id: player2_id, name: '', order: 2 }
+  ])
   const [modalIsOpen, setModalIsOpen] = useState(false)
   const [modalContent, setModalContent] = useState<JSX.Element>()
 

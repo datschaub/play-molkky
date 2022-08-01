@@ -6,11 +6,18 @@ type NewGameFormProps = {
     playerName?: string;
     playerId: string;
     registerInputFunc: UseFormRegister<FieldValues>;
-    unregisterInputFunc: any;
+    unregisterInputFunc: UseFormUnregister<FieldValues>;
     handleRemovePlayer: (playerId: string, unregisterInputFunc: UseFormUnregister<FieldValues>) => void;
 }
 
-export function NewPlayerForm({ playerPlaceholder, playerName, playerId, registerInputFunc: register, unregisterInputFunc, handleRemovePlayer }: NewGameFormProps) {
+export function NewPlayerForm({
+    playerPlaceholder,
+    playerName,
+    playerId,
+    registerInputFunc: register,
+    unregisterInputFunc,
+    handleRemovePlayer
+}: NewGameFormProps) {
 
     return (
         <div className="flex items-center justify-center">
