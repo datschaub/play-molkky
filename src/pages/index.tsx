@@ -11,28 +11,31 @@ import { Player } from "../types/types";
 
 const Home: NextPage = () => {
 
-  const [players, setPlayers] = useState<Player[]>([{ id: '"player-1"' }]); //TODO: initialize as empty
-  const [modalIsOpen, setModalIsOpen] = useState(false);
-  const [modalContent, setModalContent] = useState<JSX.Element>();
+  const [players, setPlayers] = useState<Player[]>([{ id: 'player-1', name: '' }])
+  const [modalIsOpen, setModalIsOpen] = useState(false)
+  const [modalContent, setModalContent] = useState<JSX.Element>()
 
   const handleOpenModal = (modalContent: JSX.Element) => {
     setModalContent(modalContent)
     setModalIsOpen(true)
   }
 
-  const handleSubmit = useCallback((newPlayers: any) => {
-    setPlayers(newPlayers.map((p: any) => {
-      return { 'id': p[0], 'name': p[1] } //TODO: use Player type
-    }))
-  }, [])
-
   const handleCloseModal = useCallback(() => {
-    //TODO: persist players state when closing
     setModalIsOpen(false)
   }, [])
+  
+  const handleSubmit = useCallback((newPlayers: any) => {
+    const playersArray = Object.entries(newPlayers)
+    setPlayers(playersArray.map((p: any) => {
+      return { 'id': p[0], 'name': p[1] } as Player //TODO: use Player type
+    }))
+    handleCloseModal()
+  }, [handleCloseModal])
 
   const handleAddPlayer = useCallback(() => {
-    setPlayers([...players, { id: `player-${players.length + 1}` }])
+    setPlayers(
+      [...players, { id: `player-${players.length + 1}`, name: '' }]
+    )
   }, [players])
 
   useEffect(() => {
@@ -41,7 +44,7 @@ const Home: NextPage = () => {
         players={players}
         handleAddPlayers={handleAddPlayer}
         closeModal={handleCloseModal}
-        handleSubmit={handleSubmit}
+        onHandleSubmit={handleSubmit}
       />
     )
   }, [players, handleAddPlayer, handleCloseModal, handleSubmit])
@@ -68,7 +71,7 @@ const Home: NextPage = () => {
                 players={players}
                 handleAddPlayers={handleAddPlayer}
                 closeModal={handleCloseModal}
-                handleSubmit={handleSubmit}
+                onHandleSubmit={handleSubmit}
               />
             }
             icon={<PlayIcon />}

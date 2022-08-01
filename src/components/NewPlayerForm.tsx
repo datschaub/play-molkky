@@ -1,21 +1,24 @@
-import { Field } from "formik"
+import { FieldValues, useForm, UseFormRegister } from "react-hook-form";
 
 type NewGameFormProps = {
     playerPlaceholder: number;
     playerName?: string;
+    registerInputFunc: UseFormRegister<FieldValues>;
 }
 
-export function NewPlayerForm({ playerPlaceholder, playerName }: NewGameFormProps) {
+export function NewPlayerForm({ playerPlaceholder, playerName, registerInputFunc: register }: NewGameFormProps) {
+
+    const playerId = `player-${playerPlaceholder}`;
 
     return (
         <div className="relative">
-            <label className="sr-only" htmlFor={`player-${playerPlaceholder}`}>{` Player `}</label>
-            <Field
-                className="w-full py-4 pl-3 pr-16 text-sm border-2 border-gray-200 rounded-lg"
-                id={`player-${playerPlaceholder}`}
-                name={`player-${playerPlaceholder}`}
+            <label className="sr-only" htmlFor={playerId}>{` Player `}</label>
+            {/* register your input into the hook by invoking the "register" function */}
+            <input className="w-full py-4 pl-3 pr-16 text-sm border-2 border-gray-200 rounded-lg"
+                id={playerId}
                 placeholder={`Player ${playerPlaceholder}`}
-                value={playerName}
+                defaultValue={playerName}
+                {...register(playerId)}
             />
         </div>
     )
