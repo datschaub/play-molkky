@@ -1,5 +1,6 @@
 import { Dialog, Transition } from '@headlessui/react'
 import { Fragment } from 'react'
+import { motion } from 'framer-motion'
 
 type ModalProps = {
     isOpen: boolean;
@@ -12,7 +13,7 @@ export default function Modal({ isOpen, closeModal, children }: ModalProps) {
     return (
         <>
             <Transition appear show={isOpen} as={Fragment}>
-                <Dialog as="div" className="relative z-10" onClose={() => {}}>
+                <Dialog as="div" className="relative z-10" onClose={() => { }}>
                     <Transition.Child
                         as={Fragment}
                         enter="ease-out duration-300"
@@ -38,7 +39,6 @@ export default function Modal({ isOpen, closeModal, children }: ModalProps) {
                             >
                                 <Dialog.Panel className="w-full max-w-md p-6 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl">
                                     {children}
-                                    
                                 </Dialog.Panel>
                             </Transition.Child>
                         </div>

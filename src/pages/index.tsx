@@ -54,7 +54,6 @@ const Home: NextPage<HomeProps> = ({ player1_id, player2_id }) => {
   }, [handleCloseModal])
 
   const handleClosePlayersModal = useCallback((getValuesFunc: UseFormGetValues<FieldValues>) => {
-    //TODO: persist state when closing modal
     const newPlayers = getValuesFunc();
     mapNewPlayers(newPlayers)
   }, [mapNewPlayers])

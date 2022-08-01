@@ -1,5 +1,6 @@
 import { MinusCircleIcon } from "@heroicons/react/solid";
 import { FieldValues, UseFormRegister, UseFormUnregister } from "react-hook-form";
+import { motion } from "framer-motion"
 
 type NewGameFormProps = {
     playerPlaceholder: number;
@@ -20,7 +21,8 @@ export function NewPlayerForm({
 }: NewGameFormProps) {
 
     return (
-        <div className="flex items-center justify-center">
+        <div
+            className="flex items-center justify-center">
             <label className="sr-only" htmlFor={playerId}>{` Player `}</label>
             {/* register your input into the hook by invoking the "register" function */}
             <input className="w-full px-4 py-4 mr-2 text-sm border-2 border-gray-200 rounded-lg"
