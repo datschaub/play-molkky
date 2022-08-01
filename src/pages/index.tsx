@@ -1,5 +1,6 @@
 import type { NextPage } from "next";
 import Head from "next/head";
+import { GetStaticProps } from "next";
 import { NewGame } from "../components/newgame";
 import Modal from "../components/modal";
 import { Rules } from "../components/rules";
@@ -7,11 +8,25 @@ import { useCallback, useEffect, useState } from "react";
 import { PlayIcon, DocumentTextIcon } from '@heroicons/react/solid'
 import { ModalButton } from "../components/ModalButton";
 import { Player } from "../types/types";
-//https://codesandbox.io/s/p828k6zom?fontsize=14&file=/src/components/Scenario/index.js:322-331
+import { nanoid } from 'nanoid'
+import { FieldValues, UseFormUnregister } from "react-hook-form";
 
-const Home: NextPage = () => {
+// Set initial ID on build time because of hydration
+export const getStaticProps: GetStaticProps = () => {
+  return {
+    props: {
+      nanoId: nanoid(5)
+    },
+  }
+}
 
-  const [players, setPlayers] = useState<Player[]>([{ id: 'player-1', name: '' }])
+type HomeProps = {
+  nanoId: string;
+}
+
+const Home: NextPage<HomeProps> = ({ nanoId }) => {
+
+  const [players, setPlayers] = useState<Player[]>([{ id: nanoId, name: '', order: 1 }])
   const [modalIsOpen, setModalIsOpen] = useState(false)
   const [modalContent, setModalContent] = useState<JSX.Element>()
 
@@ -21,21 +36,32 @@ const Home: NextPage = () => {
   }
 
   const handleCloseModal = useCallback(() => {
+    //TODO: persist state when closing modal
     setModalIsOpen(false)
   }, [])
-  
+
   const handleSubmit = useCallback((newPlayers: any) => {
     const playersArray = Object.entries(newPlayers)
-    setPlayers(playersArray.map((p: any) => {
-      return { 'id': p[0], 'name': p[1] } as Player //TODO: use Player type
+    setPlayers(playersArray.map((p: any, index) => {
+      return { 'id': p[0], 'name': p[1], 'order': index + 1 } as Player
     }))
     handleCloseModal()
   }, [handleCloseModal])
 
   const handleAddPlayer = useCallback(() => {
     setPlayers(
-      [...players, { id: `player-${players.length + 1}`, name: '' }]
+      [...players, { id: nanoid(5), name: '', order: players.length + 1 }]
     )
+  }, [players])
+
+  const handleRemovePlayer = useCallback((playerId: string, unregisterFunc: UseFormUnregister<FieldValues>) => {
+    //Unregister field from react forms
+    unregisterFunc(playerId)
+    const playerIndex = players.findIndex((p) => p.id === playerId)
+
+    let playerData = [...players];
+    playerData.splice(playerIndex, 1)
+    setPlayers(playerData)
   }, [players])
 
   useEffect(() => {
@@ -43,11 +69,12 @@ const Home: NextPage = () => {
       <NewGame
         players={players}
         handleAddPlayers={handleAddPlayer}
+        handleRemovePlayers={handleRemovePlayer}
         closeModal={handleCloseModal}
         onHandleSubmit={handleSubmit}
       />
     )
-  }, [players, handleAddPlayer, handleCloseModal, handleSubmit])
+  }, [players, handleAddPlayer, handleCloseModal, handleSubmit, handleRemovePlayer])
 
   return (
     <>
@@ -72,6 +99,7 @@ const Home: NextPage = () => {
                 handleAddPlayers={handleAddPlayer}
                 closeModal={handleCloseModal}
                 onHandleSubmit={handleSubmit}
+                handleRemovePlayers={handleRemovePlayer}
               />
             }
             icon={<PlayIcon />}

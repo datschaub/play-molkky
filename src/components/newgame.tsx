@@ -2,18 +2,21 @@ import { Dialog } from "@headlessui/react";
 import { NewPlayerForm } from "./NewPlayerForm";
 import { PlusCircleIcon } from "@heroicons/react/solid";
 import { Player } from "../types/types";
-import { useForm } from "react-hook-form";
+import { FieldValues, useForm, UseFormUnregister } from "react-hook-form";
 
 type NewGameProps = {
     players: Player[];
     handleAddPlayers: () => void;
+    handleRemovePlayers: (playerId: string, unregisterFunc: UseFormUnregister<FieldValues>) => void;
     closeModal: () => void;
     onHandleSubmit: (newPlayers: any) => void;
 }
 
-export function NewGame({ players, handleAddPlayers, closeModal, onHandleSubmit }: NewGameProps) {
+export function NewGame({ players, handleAddPlayers, handleRemovePlayers, closeModal, onHandleSubmit }: NewGameProps) {
 
-    const { register, handleSubmit, formState: { errors } } = useForm();
+    const { register, unregister, handleSubmit, formState: { errors } } = useForm({
+        shouldUnregister: true
+    })
 
     return (
         <>
@@ -34,7 +37,10 @@ export function NewGame({ players, handleAddPlayers, closeModal, onHandleSubmit 
                                         key={player.id}
                                         playerPlaceholder={players.indexOf(player) + 1}
                                         playerName={player.name}
+                                        playerId={player.id}
                                         registerInputFunc={register}
+                                        unregisterInputFunc={unregister}
+                                        handleRemovePlayer={handleRemovePlayers}
                                     />
                                 )
                             })
@@ -61,8 +67,6 @@ export function NewGame({ players, handleAddPlayers, closeModal, onHandleSubmit 
                                     Submit
                                 </span>
                             </button>
-                        </div>
-                        <div className="mt-4">
                         </div>
                     </form>
                 </div>
