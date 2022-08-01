@@ -1,7 +1,7 @@
 
 type ModalButtonProps = {
     name: string;
-    closeModal: () => void;
+    closeModal: (players: any) => void;
     handleOpenModal: (value: JSX.Element) => void;
     modalContent: JSX.Element;
     icon: JSX.Element;

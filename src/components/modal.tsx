@@ -1,10 +1,10 @@
 import { Dialog, Transition } from '@headlessui/react'
-import { Fragment, useState } from 'react'
+import { Fragment } from 'react'
 
 type ModalProps = {
     isOpen: boolean;
     children?: JSX.Element;
-    closeModal: () => void;
+    closeModal: (players: any) => void;
 }
 
 export default function Modal({ isOpen, closeModal, children }: ModalProps) {

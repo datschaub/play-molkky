@@ -9,7 +9,7 @@ import { PlayIcon, DocumentTextIcon } from '@heroicons/react/solid'
 import { ModalButton } from "../components/ModalButton";
 import { Player } from "../types/types";
 import { nanoid } from 'nanoid'
-import { FieldValues, UseFormUnregister } from "react-hook-form";
+import { FieldValues, UseFormGetValues, UseFormUnregister } from "react-hook-form";
 
 // Set initial IDs on build time because of hydration
 export const getStaticProps: GetStaticProps = () => {
@@ -42,17 +42,26 @@ const Home: NextPage<HomeProps> = ({ player1_id, player2_id }) => {
   }
 
   const handleCloseModal = useCallback(() => {
-    //TODO: persist state when closing modal
     setModalIsOpen(false)
   }, [])
 
-  const handleSubmit = useCallback((newPlayers: any) => {
+  const mapNewPlayers = useCallback((newPlayers: any) => {
     const playersArray = Object.entries(newPlayers)
-    setPlayers(playersArray.map((p: any, index) => {
+    setPlayers(playersArray.map((p: any, index: number) => {
       return { 'id': p[0], 'name': p[1], 'order': index + 1 } as Player
     }))
     handleCloseModal()
   }, [handleCloseModal])
+
+  const handleClosePlayersModal = useCallback((getValuesFunc: UseFormGetValues<FieldValues>) => {
+    //TODO: persist state when closing modal
+    const newPlayers = getValuesFunc();
+    mapNewPlayers(newPlayers)
+  }, [mapNewPlayers])
+
+  const handleSubmit = useCallback((newPlayers: any) => {
+    mapNewPlayers(newPlayers)
+  }, [mapNewPlayers])
 
   const handleAddPlayer = useCallback(() => {
     setPlayers(
@@ -76,11 +85,11 @@ const Home: NextPage<HomeProps> = ({ player1_id, player2_id }) => {
         players={players}
         handleAddPlayers={handleAddPlayer}
         handleRemovePlayers={handleRemovePlayer}
-        closeModal={handleCloseModal}
+        closeModal={handleClosePlayersModal}
         onHandleSubmit={handleSubmit}
       />
     )
-  }, [players, handleAddPlayer, handleCloseModal, handleSubmit, handleRemovePlayer])
+  }, [players, handleAddPlayer, handleCloseModal, handleSubmit, handleRemovePlayer, handleClosePlayersModal])
 
   return (
     <>
@@ -97,13 +106,13 @@ const Home: NextPage<HomeProps> = ({ player1_id, player2_id }) => {
         <div className="flex flex-col items-center w-full pt-3 mt-3 space-y-4 text-center lg:w-2/3">
           <ModalButton
             name="New game"
-            closeModal={handleCloseModal}
+            closeModal={handleClosePlayersModal}
             handleOpenModal={handleOpenModal}
             modalContent={
               <NewGame
                 players={players}
                 handleAddPlayers={handleAddPlayer}
-                closeModal={handleCloseModal}
+                closeModal={handleClosePlayersModal}
                 onHandleSubmit={handleSubmit}
                 handleRemovePlayers={handleRemovePlayer}
               />

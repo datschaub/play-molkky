@@ -8,13 +8,13 @@ type NewGameProps = {
     players: Player[];
     handleAddPlayers: () => void;
     handleRemovePlayers: (playerId: string, unregisterFunc: UseFormUnregister<FieldValues>) => void;
-    closeModal: () => void;
+    closeModal: (getValuesFunc: any) => void;
     onHandleSubmit: (newPlayers: any) => void;
 }
 
 export function NewGame({ players, handleAddPlayers, handleRemovePlayers, closeModal, onHandleSubmit }: NewGameProps) {
 
-    const { register, unregister, handleSubmit, formState: { errors } } = useForm({
+    const { register, unregister, handleSubmit, getValues, formState: { errors } } = useForm({
         shouldUnregister: true
     })
 
@@ -55,7 +55,7 @@ export function NewGame({ players, handleAddPlayers, handleRemovePlayers, closeM
                             <button
                                 type="button"
                                 className="inline-flex justify-center px-4 py-2 text-sm font-medium text-blue-900 bg-blue-100 border border-transparent rounded-md hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
-                                onClick={() => closeModal()}
+                                onClick={() => closeModal(getValues)}
                             >
                                 Cancel
                             </button>
