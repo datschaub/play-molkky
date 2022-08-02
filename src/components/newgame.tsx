@@ -79,6 +79,7 @@ export function NewGame({ players, handleAddPlayers, handleRemovePlayers, closeM
                                             registerInputFunc={register}
                                             unregisterInputFunc={unregister}
                                             handleRemovePlayer={handleRemovePlayers}
+                                            disableDelete={i < 2}
                                         />
                                     </motion.div>
                                 )

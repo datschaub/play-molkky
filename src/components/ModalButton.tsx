@@ -36,7 +36,7 @@ export const ModalButton = ({
                 type="button"
                 onClick={() => openModal()}
                 aria-label={`Hey ho`}
-                className="flex items-center justify-between w-2/3 px-5 py-3 transition-colors bg-purple-600 border border-purple-600 rounded-lg hover:bg-transparent group focus:outline-none focus:ring"
+                className="flex items-center justify-center w-2/3 px-5 py-3 transition-colors bg-purple-600 border border-purple-600 rounded-lg hover:bg-transparent group focus:outline-none focus:ring"
             >
                 <span className="font-medium text-white transition-colors group-active:text-purple-500 group-hover:text-purple-600">
                     {name}
