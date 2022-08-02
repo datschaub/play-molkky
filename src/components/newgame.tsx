@@ -1,19 +1,20 @@
 import { Dialog } from "@headlessui/react";
 import { NewPlayerForm } from "./NewPlayerForm";
-import { PlusCircleIcon } from "@heroicons/react/solid";
+import { PlusCircleIcon, LightningBoltIcon } from "@heroicons/react/solid";
 import { Player } from "../types/types";
 import { FieldValues, useForm, UseFormUnregister } from "react-hook-form";
-import { AnimatePresence, LayoutGroup, motion } from "framer-motion"
+import { AnimatePresence, motion } from "framer-motion"
 
 type NewGameProps = {
     players: Player[];
     handleAddPlayers: () => void;
     handleRemovePlayers: (playerId: string, unregisterFunc: UseFormUnregister<FieldValues>) => void;
+    handleRandomizeOrder: () => void;
     closeModal: (getValuesFunc: any) => void;
     onHandleSubmit: (newPlayers: any) => void;
 }
 
-export function NewGame({ players, handleAddPlayers, handleRemovePlayers, closeModal, onHandleSubmit }: NewGameProps) {
+export function NewGame({ players, handleAddPlayers, handleRemovePlayers, handleRandomizeOrder, closeModal, onHandleSubmit }: NewGameProps) {
 
     const { register, unregister, handleSubmit, getValues, formState: { errors } } = useForm({
         shouldUnregister: true,
@@ -80,11 +81,22 @@ export function NewGame({ players, handleAddPlayers, handleRemovePlayers, closeM
                         }
                     </AnimatePresence>
                     <button
-                        className="flex items-center justify-center w-full h-10 space-x-2 text-white bg-purple-500 rounded-md"
+                        className="w-full h-10 px-4 py-2 text-white transition-colors bg-purple-600 border border-purple-600 rounded-md group hover:bg-transparent focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 focus-visible:ring-offset-2"
                         type="button"
                         onClick={() => handleAddPlayers()}>
-                        <span className="font-bold">Add Player</span>
-                        <PlusCircleIcon className="w-6 text-white" />
+                        <div className="flex items-center justify-center space-x-2 text-white transition-colors group-active:text-purple-600 group-hover:text-purple-600">
+                            <span className="font-bold">Add Player</span>
+                            <PlusCircleIcon className="w-6" />
+                        </div>
+                    </button>
+                    <button
+                        className="w-1/2 h-10 px-4 py-2 text-white transition-colors bg-purple-500 border border-purple-500 rounded-md group hover:bg-transparent focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 focus-visible:ring-offset-2"
+                        type="button"
+                        onClick={() => handleRandomizeOrder()}>
+                        <div className="flex items-center justify-center space-x-2 text-white transition-colors group-active:text-purple-500 group-hover:text-purple-500">
+                            <span className="font-bold">Randomize Order</span>
+                            <LightningBoltIcon className="w-6" />
+                        </div>
                     </button>
                     <div
                         className="flex justify-between mt-4"
@@ -101,7 +113,7 @@ export function NewGame({ players, handleAddPlayers, handleRemovePlayers, closeM
                             className="inline-flex justify-center px-4 py-2 text-sm font-medium text-white transition-colors bg-purple-600 border border-purple-600 rounded-md group hover:bg-transparent focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
                         >
                             <span className="font-medium text-white transition-colors group-active:text-purple-500 group-hover:text-purple-600">
-                                Submit
+                                Play!
                             </span>
                         </button>
                     </div>

@@ -1,4 +1,4 @@
-import { MinusCircleIcon } from "@heroicons/react/solid";
+import { MinusCircleIcon, HandIcon, SelectorIcon, ArrowsExpandIcon } from "@heroicons/react/solid";
 import { FieldValues, UseFormRegister, UseFormUnregister } from "react-hook-form";
 import { AnimatePresence, motion } from "framer-motion"
 import { useState } from "react";
@@ -34,15 +34,13 @@ export function NewPlayerForm({
                     className="flex items-center justify-center"
                 >
                     <label className="sr-only" htmlFor={playerId}>{` Player `}</label>
-
-
-                    <input className="w-full px-4 py-4 text-sm border-2 border-gray-200 rounded-lg"
+                    <input className="w-full py-4 pl-10 text-sm border-2 border-gray-200 rounded-lg pr-14"
                         id={playerId}
                         placeholder={`Player ${playerPlaceholder}`}
                         defaultValue={playerName}
                         {...register(playerId)}
                     />
-
+                    <SelectorIcon className={`absolute w-6 h-6 text-gray-800 text-opacity-30 hover:cursor-move left-9`} />
                     {!disableDelete && (
                         <button
                             className="w-8 text-red-400 rounded-full"

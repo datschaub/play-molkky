@@ -78,6 +78,10 @@ const Home: NextPage<HomeProps> = ({ player1_id, player2_id }) => {
     setPlayers(playerData)
   }, [players])
 
+  const randomizeOrder = () => {
+    console.log(players)
+  }
+
   useEffect(() => {
     setModalContent(
       <NewGame
@@ -86,6 +90,7 @@ const Home: NextPage<HomeProps> = ({ player1_id, player2_id }) => {
         handleRemovePlayers={handleRemovePlayer}
         closeModal={handleClosePlayersModal}
         onHandleSubmit={handleSubmit}
+        handleRandomizeOrder={randomizeOrder}
       />
     )
   }, [players, handleAddPlayer, handleCloseModal, handleSubmit, handleRemovePlayer, handleClosePlayersModal])
@@ -114,6 +119,7 @@ const Home: NextPage<HomeProps> = ({ player1_id, player2_id }) => {
                 closeModal={handleClosePlayersModal}
                 onHandleSubmit={handleSubmit}
                 handleRemovePlayers={handleRemovePlayer}
+                handleRandomizeOrder={randomizeOrder}
               />
             }
             icon={<PlayIcon />}
