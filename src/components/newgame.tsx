@@ -16,16 +16,9 @@ type NewGameProps = {
 export function NewGame({ players, handleAddPlayers, handleRemovePlayers, closeModal, onHandleSubmit }: NewGameProps) {
 
     const { register, unregister, handleSubmit, getValues, formState: { errors } } = useForm({
-        shouldUnregister: true
+        shouldUnregister: true,
+        mode: "all"
     })
-
-    const itemVariants = {
-        initial: { opacity: 0 },
-        animate: { opacity: 1 },
-        exit: { opacity: 0 }
-    };
-
-    //https://www.youtube.com/watch?v=G3OyF-lRAWo&ab_channel=SamSelikoff
 
     return (
         <>

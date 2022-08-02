@@ -1,6 +1,7 @@
 import { MinusCircleIcon } from "@heroicons/react/solid";
 import { FieldValues, UseFormRegister, UseFormUnregister } from "react-hook-form";
-import { motion } from "framer-motion"
+import { AnimatePresence, motion } from "framer-motion"
+import { useState } from "react";
 
 type NewGameFormProps = {
     playerPlaceholder: number;
@@ -22,25 +23,39 @@ export function NewPlayerForm({
     disableDelete
 }: NewGameFormProps) {
 
+    //Need this state to properly unregister removed fields
+    const [show, setShow] = useState(true)
+
     return (
-        <div
-            className="flex items-center justify-center">
-            <label className="sr-only" htmlFor={playerId}>{` Player `}</label>
-            {/* register your input into the hook by invoking the "register" function */}
-            <input className="w-full px-4 py-4 text-sm border-2 border-gray-200 rounded-lg"
-                id={playerId}
-                placeholder={`Player ${playerPlaceholder}`}
-                defaultValue={playerName}
-                {...register(playerId)}
-            />
-            {!disableDelete && (
-                <button
-                    className="w-8 text-red-400 rounded-full"
-                    type="button"
-                    onClick={() => handleRemovePlayer(playerId, unregisterInputFunc)}>
-                    <MinusCircleIcon className="ml-2" />
-                </button>
+        <AnimatePresence>
+            {show && (
+                <motion.div
+                    exit={{ height: 0, opacity: 0 }}
+                    className="flex items-center justify-center"
+                >
+                    <label className="sr-only" htmlFor={playerId}>{` Player `}</label>
+
+
+                    <input className="w-full px-4 py-4 text-sm border-2 border-gray-200 rounded-lg"
+                        id={playerId}
+                        placeholder={`Player ${playerPlaceholder}`}
+                        defaultValue={playerName}
+                        {...register(playerId)}
+                    />
+
+                    {!disableDelete && (
+                        <button
+                            className="w-8 text-red-400 rounded-full"
+                            type="button"
+                            onClick={() => {
+                                setShow(false)
+                                handleRemovePlayer(playerId, unregisterInputFunc)
+                            }}>
+                            <MinusCircleIcon className="ml-2" />
+                        </button>
+                    )}
+                </motion.div>
             )}
-        </div>
+        </AnimatePresence>
     )
 }
