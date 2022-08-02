@@ -81,7 +81,7 @@ export function NewGame({ players, handleAddPlayers, handleRemovePlayers, handle
                         }
                     </AnimatePresence>
                     <button
-                        className="w-full h-10 px-4 py-2 text-white transition-colors bg-purple-600 border border-purple-600 rounded-md group hover:bg-transparent focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 focus-visible:ring-offset-2"
+                        className="w-full h-10 px-4 py-2 text-white transition-colors bg-purple-600 border border-purple-600 rounded-md group hover:bg-transparent focus:outline-none focus-visible:ring-2 focus-visible:ring-purple-400 focus-visible:ring-offset-2"
                         type="button"
                         onClick={() => handleAddPlayers()}>
                         <div className="flex items-center justify-center space-x-2 text-white transition-colors group-active:text-purple-600 group-hover:text-purple-600">
@@ -89,8 +89,16 @@ export function NewGame({ players, handleAddPlayers, handleRemovePlayers, handle
                             <PlusCircleIcon className="w-6" />
                         </div>
                     </button>
+                    <div className="flex flex-col items-center justify-center">
+                        <span className="mb-2 font-medium">Points</span>
+                        <div className="btn-group">
+                            <button className="text-white bg-purple-600 btn">25</button>
+                            <button className="bg-purple-600 btn btn-active active:bg-purple-800">50</button>
+                            <button className="bg-purple-600 btn">100</button>
+                        </div>
+                    </div>
                     <button
-                        className="w-1/2 h-10 px-4 py-2 text-white transition-colors bg-purple-500 border border-purple-500 rounded-md group hover:bg-transparent focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 focus-visible:ring-offset-2"
+                        className="w-1/2 h-10 px-4 py-2 text-white transition-colors bg-purple-500 border border-purple-500 rounded-md group hover:bg-transparent focus:outline-none focus-visible:ring-2 focus-visible:ring-purple-400 focus-visible:ring-offset-2"
                         type="button"
                         onClick={() => handleRandomizeOrder()}>
                         <div className="flex items-center justify-center space-x-2 text-white transition-colors group-active:text-purple-500 group-hover:text-purple-500">
@@ -103,14 +111,14 @@ export function NewGame({ players, handleAddPlayers, handleRemovePlayers, handle
                     >
                         <button
                             type="button"
-                            className="inline-flex justify-center px-4 py-2 text-sm font-medium text-blue-900 bg-blue-100 border border-transparent rounded-md hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+                            className="inline-flex justify-center px-4 py-2 text-sm font-medium text-purple-900 bg-purple-100 border border-transparent rounded-md hover:bg-purple-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-purple-500 focus-visible:ring-offset-2"
                             onClick={() => closeModal(getValues)}
                         >
                             Cancel
                         </button>
                         <button
                             type="submit"
-                            className="inline-flex justify-center px-4 py-2 text-sm font-medium text-white transition-colors bg-purple-600 border border-purple-600 rounded-md group hover:bg-transparent focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+                            className="inline-flex justify-center px-4 py-2 text-sm font-medium text-white transition-colors bg-purple-600 border border-purple-600 rounded-md group hover:bg-transparent focus:outline-none focus-visible:ring-2 focus-visible:ring-purple-500 focus-visible:ring-offset-2"
                         >
                             <span className="font-medium text-white transition-colors group-active:text-purple-500 group-hover:text-purple-600">
                                 Play!
