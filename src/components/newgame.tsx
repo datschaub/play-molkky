@@ -22,15 +22,13 @@ export function NewGame({ players, handleAddPlayers, handleRemovePlayers, closeM
     const itemVariants = {
         initial: { opacity: 0 },
         animate: { opacity: 1 },
-        exit: {
-            opacity: 0,
-        }
+        exit: { opacity: 0 }
     };
 
     //https://www.youtube.com/watch?v=G3OyF-lRAWo&ab_channel=SamSelikoff
 
     return (
-        <motion.div>
+        <>
             <Dialog.Title
                 as="h3"
                 className="text-lg font-medium leading-6 text-gray-900"
@@ -41,21 +39,37 @@ export function NewGame({ players, handleAddPlayers, handleRemovePlayers, closeM
             <div
                 className="flex flex-col text-sm text-gray-500"
             >
-                <form onSubmit={handleSubmit(onHandleSubmit)} className="flex flex-col mt-2 space-y-2">
+                <form onSubmit={handleSubmit(onHandleSubmit)} className="flex flex-col mt-2 space-y-3">
                     <AnimatePresence>
                         {
                             players.map((player: Player, i) => {
                                 return (
                                     <motion.div
-                                        layout="size"
                                         key={player.id}
-                                        variants={itemVariants}
+                                        variants={{
+                                            initial: (i) => ({
+                                                opacity: 0,
+                                                y: -60 * i
+                                            }),
+                                            animate: (i) => ({
+                                                opacity: 1,
+                                                y: 0,
+                                                transition: {
+                                                    delay: i * 0.1
+                                                }
+                                            }),
+                                            exit: {
+                                                opacity: 0,
+                                                height: 0,
+                                                transition: {
+                                                    duration: 0.3,
+                                                }
+                                            }
+                                        }}
+                                        custom={i}
                                         initial="initial"
                                         animate="animate"
                                         exit="exit"
-                                        transition={{
-                                            duration: 4.3,
-                                        }}
                                     >
                                         <NewPlayerForm
                                             key={player.id}
@@ -72,15 +86,14 @@ export function NewGame({ players, handleAddPlayers, handleRemovePlayers, closeM
                         }
                     </AnimatePresence>
                     <button
-                        // layout
-                        className="w-10 h-10 mt-4 text-purple-600 rounded-full"
+                        className="flex items-center justify-center w-full h-10 space-x-2 text-white bg-purple-500 rounded-md"
                         type="button"
                         onClick={() => handleAddPlayers()}>
-                        <PlusCircleIcon />
+                        <span className="font-bold">Add Player</span>
+                        <PlusCircleIcon className="w-6 text-white" />
                     </button>
                     <div
                         className="flex justify-between mt-4"
-                    // layout
                     >
                         <button
                             type="button"
@@ -100,6 +113,6 @@ export function NewGame({ players, handleAddPlayers, handleRemovePlayers, closeM
                     </div>
                 </form>
             </div>
-        </motion.div>
+        </>
     )
 }
