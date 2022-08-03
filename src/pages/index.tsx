@@ -47,11 +47,11 @@ const Home: NextPage<HomeProps> = ({ player1_id, player2_id }) => {
 
   const mapNewPlayers = useCallback((newPlayers: any) => {
     let p = [...players]
-    setPlayers(p.map((player) => {
+    setPlayers(p.map((player, i) => {
       return {
         'name': newPlayers[player.id],
         'id': player.id,
-        'order': player.order
+        'order': i + 1
       }
     }))
   }, [players])
