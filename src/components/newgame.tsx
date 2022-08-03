@@ -3,18 +3,20 @@ import { NewPlayerForm } from "./NewPlayerForm";
 import { PlusCircleIcon, LightningBoltIcon } from "@heroicons/react/solid";
 import { Player } from "../types/types";
 import { FieldValues, useForm, UseFormUnregister } from "react-hook-form";
-import { AnimatePresence, motion } from "framer-motion"
+import { AnimatePresence, motion, Reorder } from "framer-motion"
+import { Dispatch, SetStateAction } from "react";
 
 type NewGameProps = {
     players: Player[];
     handleAddPlayers: () => void;
     handleRemovePlayers: (playerId: string, unregisterFunc: UseFormUnregister<FieldValues>) => void;
     handleRandomizeOrder: () => void;
+    setPlayers: Dispatch<SetStateAction<Player[]>>;
     closeModal: (getValuesFunc: any) => void;
     onHandleSubmit: (newPlayers: any) => void;
 }
 
-export function NewGame({ players, handleAddPlayers, handleRemovePlayers, handleRandomizeOrder, closeModal, onHandleSubmit }: NewGameProps) {
+export function NewGame({ players, handleAddPlayers, handleRemovePlayers, handleRandomizeOrder, closeModal, onHandleSubmit, setPlayers }: NewGameProps) {
 
     const { register, unregister, handleSubmit, getValues, formState: { errors } } = useForm({
         shouldUnregister: true,
@@ -30,55 +32,54 @@ export function NewGame({ players, handleAddPlayers, handleRemovePlayers, handle
                 New game
             </Dialog.Title>
             <h4>Add players</h4>
-            <div
-                className="flex flex-col text-sm text-gray-500"
-            >
+            <div className="flex flex-col text-sm text-gray-500">
                 <form onSubmit={handleSubmit(onHandleSubmit)} className="flex flex-col mt-2 space-y-3">
                     <AnimatePresence>
-                        {
-                            players.map((player: Player, i) => {
-                                return (
-                                    <motion.div
-                                        key={player.id}
-                                        variants={{
-                                            initial: (i) => ({
-                                                opacity: 0,
-                                                y: -60 * i
-                                            }),
-                                            animate: (i) => ({
-                                                opacity: 1,
-                                                y: 0,
-                                                transition: {
-                                                    delay: i * 0.1
-                                                }
-                                            }),
-                                            exit: {
-                                                opacity: 0,
-                                                height: 0,
-                                                transition: {
-                                                    duration: 0.3,
-                                                }
-                                            }
-                                        }}
-                                        custom={i}
-                                        initial="initial"
-                                        animate="animate"
-                                        exit="exit"
-                                    >
-                                        <NewPlayerForm
+                        <Reorder.Group axis="y" values={players} onReorder={setPlayers} className="space-y-2">
+                            {
+                                players.map((player: Player, i) => {
+                                    return (
+                                        <motion.div
                                             key={player.id}
-                                            playerPlaceholder={players.indexOf(player) + 1}
-                                            playerName={player.name}
-                                            playerId={player.id}
-                                            registerInputFunc={register}
-                                            unregisterInputFunc={unregister}
-                                            handleRemovePlayer={handleRemovePlayers}
-                                            disableDelete={i < 2}
-                                        />
-                                    </motion.div>
-                                )
-                            })
-                        }
+                                            variants={{
+                                                initial: (i) => ({
+                                                    opacity: 0,
+                                                    y: -60 * i
+                                                }),
+                                                animate: (i) => ({
+                                                    opacity: 1,
+                                                    y: 0,
+                                                    transition: {
+                                                        delay: i * 0.1
+                                                    }
+                                                }),
+                                                exit: {
+                                                    opacity: 0,
+                                                    height: 0,
+                                                    transition: {
+                                                        duration: 0.3,
+                                                    }
+                                                }
+                                            }}
+                                            custom={i}
+                                            initial="initial"
+                                            animate="animate"
+                                            exit="exit"
+                                        >
+                                            <NewPlayerForm
+                                                player={player}
+                                                key={player.id}
+                                                playerPlaceholder={players.indexOf(player) + 1}
+                                                registerInputFunc={register}
+                                                unregisterInputFunc={unregister}
+                                                handleRemovePlayer={handleRemovePlayers}
+                                                disableDelete={i < 2}
+                                            />
+                                        </motion.div>
+                                    )
+                                })
+                            }
+                        </Reorder.Group>
                     </AnimatePresence>
                     <button
                         className="w-full h-10 px-4 py-2 text-white transition-colors bg-purple-600 border border-purple-600 rounded-md group hover:bg-transparent focus:outline-none focus-visible:ring-2 focus-visible:ring-purple-400 focus-visible:ring-offset-2"
@@ -89,14 +90,6 @@ export function NewGame({ players, handleAddPlayers, handleRemovePlayers, handle
                             <PlusCircleIcon className="w-6" />
                         </div>
                     </button>
-                    <div className="flex flex-col items-center justify-center">
-                        <span className="mb-2 font-medium">Points</span>
-                        <div className="btn-group">
-                            <button className="text-white bg-purple-600 btn">25</button>
-                            <button className="bg-purple-600 btn btn-active active:bg-purple-800">50</button>
-                            <button className="bg-purple-600 btn">100</button>
-                        </div>
-                    </div>
                     <button
                         className="w-1/2 h-10 px-4 py-2 text-white transition-colors bg-purple-500 border border-purple-500 rounded-md group hover:bg-transparent focus:outline-none focus-visible:ring-2 focus-visible:ring-purple-400 focus-visible:ring-offset-2"
                         type="button"

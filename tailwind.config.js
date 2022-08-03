@@ -6,4 +6,10 @@ module.exports = {
     extend: {},
   },
   plugins: [require("daisyui")],
+  // daisyUI config (optional)
+  daisyui: {
+    styled: false,
+    themes: false,
+    base: true,
+  },
 };
