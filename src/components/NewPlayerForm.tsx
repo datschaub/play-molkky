@@ -48,10 +48,6 @@ export function NewPlayerForm({
                             defaultValue={player.name}
                             {...register(player.id)}
                         />
-                        {/* <SelectorIcon
-                            className={`absolute w-6 h-6 text-gray-800 text-opacity-30 hover:cursor-grab left-9`}
-                        /> */}
-
                         {!disableDelete && (
                             <button
                                 className="w-8 text-red-400 rounded-full"

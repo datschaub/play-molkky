@@ -47,20 +47,26 @@ const Home: NextPage<HomeProps> = ({ player1_id, player2_id }) => {
 
   const mapNewPlayers = useCallback((newPlayers: any) => {
     const playersArray = Object.entries(newPlayers)
-    setPlayers(playersArray.map((p: any, index: number) => {
-      return { 'id': p[0], 'name': p[1], 'order': index + 1 } as Player
+    let p = [...players]
+    setPlayers(p.map((player) => {
+      return {
+        'name': newPlayers[player.id],
+        'id': player.id,
+        'order': player.order
+      }
     }))
-    handleCloseModal()
-  }, [handleCloseModal])
+  }, [players])
 
   const handleClosePlayersModal = useCallback((getValuesFunc: UseFormGetValues<FieldValues>) => {
     const newPlayers = getValuesFunc();
     mapNewPlayers(newPlayers)
-  }, [mapNewPlayers])
+    handleCloseModal()
+  }, [mapNewPlayers, handleCloseModal])
 
   const handleSubmit = useCallback((newPlayers: any) => {
     mapNewPlayers(newPlayers)
-  }, [mapNewPlayers])
+    handleCloseModal()
+  }, [mapNewPlayers, handleCloseModal])
 
   const handleAddPlayer = useCallback(() => {
     setPlayers(
@@ -82,6 +88,11 @@ const Home: NextPage<HomeProps> = ({ player1_id, player2_id }) => {
     console.log(players)
   }, [players])
 
+  const reorderPlayers = useCallback((getValuesFunc: UseFormGetValues<FieldValues>) => {
+    const newPlayers = getValuesFunc()
+    mapNewPlayers(newPlayers)
+  }, [mapNewPlayers])
+
   useEffect(() => {
     setModalContent(
       <NewGame
@@ -91,10 +102,10 @@ const Home: NextPage<HomeProps> = ({ player1_id, player2_id }) => {
         closeModal={handleClosePlayersModal}
         onHandleSubmit={handleSubmit}
         handleRandomizeOrder={randomizeOrder}
-        setPlayers={setPlayers}
+        handleOnReorder={setPlayers}
       />
     )
-  }, [players, handleAddPlayer, handleCloseModal, handleSubmit, handleRemovePlayer, handleClosePlayersModal, randomizeOrder, setPlayers])
+  }, [players, handleAddPlayer, handleCloseModal, handleSubmit, handleRemovePlayer, handleClosePlayersModal, randomizeOrder, setPlayers, reorderPlayers])
 
   return (
     <>
@@ -121,7 +132,7 @@ const Home: NextPage<HomeProps> = ({ player1_id, player2_id }) => {
                 onHandleSubmit={handleSubmit}
                 handleRemovePlayers={handleRemovePlayer}
                 handleRandomizeOrder={randomizeOrder}
-                setPlayers={setPlayers}
+                handleOnReorder={setPlayers}
               />
             }
             icon={<PlayIcon />}
@@ -134,7 +145,7 @@ const Home: NextPage<HomeProps> = ({ player1_id, player2_id }) => {
             icon={<DocumentTextIcon />}
           />
         </div>
-        {JSON.stringify(players)}
+        <div className="absolute bottom-0">{JSON.stringify(players)}</div>
         <Modal isOpen={modalIsOpen} closeModal={handleCloseModal}>
           {modalContent}
         </Modal>
