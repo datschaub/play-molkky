@@ -46,7 +46,6 @@ const Home: NextPage<HomeProps> = ({ player1_id, player2_id }) => {
   }, [])
 
   const mapNewPlayers = useCallback((newPlayers: any) => {
-    const playersArray = Object.entries(newPlayers)
     let p = [...players]
     setPlayers(p.map((player) => {
       return {

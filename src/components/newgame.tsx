@@ -11,13 +11,20 @@ type NewGameProps = {
     handleAddPlayers: () => void;
     handleRemovePlayers: (playerId: string, unregisterFunc: UseFormUnregister<FieldValues>) => void;
     handleRandomizeOrder: () => void;
-    handleOnReorder: any;
-    // handleOnReorder: (getValuesFunc: UseFormGetValues<FieldValues>) => void;
+    handleOnReorder: Dispatch<SetStateAction<Player[]>>;
     closeModal: (getValuesFunc: any) => void;
     onHandleSubmit: (newPlayers: any) => void;
 }
 
-export function NewGame({ players, handleAddPlayers, handleRemovePlayers, handleRandomizeOrder, closeModal, onHandleSubmit, handleOnReorder }: NewGameProps) {
+export function NewGame({
+    players,
+    handleAddPlayers,
+    handleRemovePlayers,
+    handleRandomizeOrder,
+    closeModal,
+    onHandleSubmit,
+    handleOnReorder
+}: NewGameProps) {
 
     const { register, unregister, handleSubmit, getValues, formState: { errors } } = useForm({
         shouldUnregister: true,
@@ -34,9 +41,17 @@ export function NewGame({ players, handleAddPlayers, handleRemovePlayers, handle
             </Dialog.Title>
             <h4>Add players</h4>
             <div className="flex flex-col text-sm text-gray-500">
-                <form onSubmit={handleSubmit(onHandleSubmit)} className="flex flex-col mt-2 space-y-3">
+                <form
+                    onSubmit={handleSubmit(onHandleSubmit)}
+                    className="flex flex-col mt-2 space-y-3"
+                >
                     <AnimatePresence>
-                        <Reorder.Group axis="y" values={players} onReorder={handleOnReorder} className="space-y-2">
+                        <Reorder.Group
+                            axis="y"
+                            values={players}
+                            onReorder={handleOnReorder}
+                            className="space-y-2"
+                        >
                             {
                                 players.map((player: Player, i) => {
                                     return (
