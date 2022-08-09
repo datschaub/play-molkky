@@ -45,58 +45,30 @@ export function NewGame({
                     onSubmit={handleSubmit(onHandleSubmit)}
                     className="flex flex-col mt-2 space-y-3"
                 >
-                    <AnimatePresence>
-                        <Reorder.Group
-                            axis="y"
-                            values={players}
-                            onReorder={handleOnReorder}
-                            className="space-y-2"
-                        >
+                    <Reorder.Group
+                        axis="y"
+                        values={players}
+                        onReorder={handleOnReorder}
+                        className="overflow-hidden"
+                    >
+                        <AnimatePresence initial={false}>
                             {
                                 players.map((player: Player, i) => {
                                     return (
-                                        <motion.div
+                                        <NewPlayerForm
+                                            player={player}
                                             key={player.id}
-                                            variants={{
-                                                initial: (i) => ({
-                                                    opacity: 0,
-                                                    y: -60 * i
-                                                }),
-                                                animate: (i) => ({
-                                                    opacity: 1,
-                                                    y: 0,
-                                                    transition: {
-                                                        delay: i * 0.1
-                                                    }
-                                                }),
-                                                exit: {
-                                                    opacity: 0,
-                                                    height: 0,
-                                                    transition: {
-                                                        duration: 0.3,
-                                                    }
-                                                }
-                                            }}
-                                            custom={i}
-                                            initial="initial"
-                                            animate="animate"
-                                            exit="exit"
-                                        >
-                                            <NewPlayerForm
-                                                player={player}
-                                                key={player.id}
-                                                playerPlaceholder={players.indexOf(player) + 1}
-                                                registerInputFunc={register}
-                                                unregisterInputFunc={unregister}
-                                                handleRemovePlayer={handleRemovePlayers}
-                                                disableDelete={i < 2}
-                                            />
-                                        </motion.div>
+                                            playerPlaceholder={players.indexOf(player) + 1}
+                                            registerInputFunc={register}
+                                            unregisterInputFunc={unregister}
+                                            handleRemovePlayer={handleRemovePlayers}
+                                            disableDelete={i < 2}
+                                        />
                                     )
                                 })
                             }
-                        </Reorder.Group>
-                    </AnimatePresence>
+                        </AnimatePresence>
+                    </Reorder.Group>
                     <button
                         className="w-full h-10 px-4 py-2 text-white transition-colors bg-purple-600 border border-purple-600 rounded-md group hover:bg-transparent focus:outline-none focus-visible:ring-2 focus-visible:ring-purple-400 focus-visible:ring-offset-2"
                         type="button"

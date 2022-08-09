@@ -10,6 +10,7 @@ import { ModalButton } from "../components/ModalButton";
 import { Player } from "../types/types";
 import { nanoid } from 'nanoid'
 import { FieldValues, UseFormGetValues, UseFormUnregister } from "react-hook-form";
+import { AnimatePresence } from "framer-motion";
 
 // Set initial IDs on build time because of hydration
 export const getStaticProps: GetStaticProps = () => {

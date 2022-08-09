@@ -24,22 +24,58 @@ export function NewPlayerForm({
 }: NewGameFormProps) {
 
     //Need this state to properly unregister removed fields
-    const [show, setShow] = useState(true)
     const dragControls = useDragControls()
 
+    const transitionDelay = playerPlaceholder - 1
+
     return (
-        <AnimatePresence>
-            {show && (
-                <Reorder.Item
-                    id={player.id}
-                    value={player}
-                    dragListener={false}
-                    dragControls={dragControls}
+        <>
+            <Reorder.Item
+                id={player.id}
+                value={player}
+                dragListener={false}
+                dragControls={dragControls}
+            >
+                <motion.div
+                    key={player.id}
+                    variants={{
+                        initial: (i) => ({
+                            opacity: 0,
+                            height: 0,
+                            // y: -30 * i
+                        }),
+                        animate: (i) => ({
+                            opacity: 1,
+                            height: 'auto',
+                            // y: 0,
+                            // transition: {
+                            //     y: {
+                            //         delay: i * 0.1  
+                            //     },
+                            //     opacity: {
+                            //         delay: i * 0.1
+                            //     }
+                            // }
+                        }),
+                        exit: {
+                            opacity: 0,
+                            height: 0,
+                            transition: {
+                                opacity: {
+                                    duration: 0.2
+                                },
+                                height: {
+                                    duration: 0.3
+                                }
+                            }
+                        }
+                    }}
+                    custom={transitionDelay}
+                    initial="initial"
+                    animate="animate"
+                    exit="exit"
                 >
-                    <motion.div
-                        exit={{ height: 0, opacity: 0 }}
-                        className="flex items-center justify-center p-2"
-                    >
+                    <div className="flex items-center justify-center py-2 space-y-2">
                         <ReorderIcon dragControls={dragControls} />
                         <label className="sr-only" htmlFor={player.id}>{` Player `}</label>
                         <input className="w-full px-4 py-4 ml-4 text-sm border-2 border-gray-200 rounded-lg"
@@ -53,15 +89,14 @@ export function NewPlayerForm({
                                 className="w-8 text-red-400 rounded-full"
                                 type="button"
                                 onClick={() => {
-                                    setShow(false)
                                     handleRemovePlayer(player.id, unregisterInputFunc)
                                 }}>
                                 <MinusCircleIcon className="ml-2" />
                             </button>
                         )}
-                    </motion.div>
-                </Reorder.Item>
-            )}
-        </AnimatePresence>
+                    </div>
+                </motion.div>
+            </Reorder.Item>
+        </>
     )
 }
