@@ -46,7 +46,7 @@ const Home: NextPage<HomeProps> = ({ player1_id, player2_id }) => {
     setModalIsOpen(false)
   }, [])
 
-  const mapNewPlayers = useCallback((newPlayers: any) => {
+  const mapNewPlayers = useCallback((newPlayers: FieldValues) => {
     let p = [...players]
     setPlayers(p.map((player, i) => {
       return {
@@ -84,8 +84,26 @@ const Home: NextPage<HomeProps> = ({ player1_id, player2_id }) => {
     setPlayers(playerData)
   }, [players])
 
-  const randomizeOrder = useCallback(() => {
-    console.log(players)
+  const shuffleArray = (array: Array<any>) => {
+    for (let i = array.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
+  }
+
+  const randomizeOrder = useCallback((getValuesFunc: UseFormGetValues<FieldValues>) => {
+    const newPlayers = getValuesFunc()
+    let p = [...players]
+    let playerOrder = p.map((player, i) => {
+      return {
+        'name': newPlayers[player.id],
+        'id': player.id,
+        'order': i + 1
+      }
+    })
+    playerOrder = shuffleArray(playerOrder)
+    setPlayers(playerOrder)
   }, [players])
 
   const reorderPlayers = useCallback((getValuesFunc: UseFormGetValues<FieldValues>) => {

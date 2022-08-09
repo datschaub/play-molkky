@@ -2,19 +2,18 @@ import { Dialog } from "@headlessui/react";
 import { NewPlayerForm } from "./NewPlayerForm";
 import { PlusCircleIcon, LightningBoltIcon, ChevronDownIcon } from "@heroicons/react/solid";
 import { Player } from "../types/types";
-import { FieldValues, useForm, UseFormUnregister } from "react-hook-form";
+import { FieldValues, useForm, UseFormGetValues, UseFormUnregister } from "react-hook-form";
 import { AnimatePresence, motion, Reorder } from "framer-motion"
 import { Dispatch, SetStateAction, useState } from "react";
-import * as Accordion from '@radix-ui/react-accordion';
 import { GameSettings } from "./GameSettings";
 
 type NewGameProps = {
     players: Player[];
     handleAddPlayers: () => void;
     handleRemovePlayers: (playerId: string, unregisterFunc: UseFormUnregister<FieldValues>) => void;
-    handleRandomizeOrder: () => void;
+    handleRandomizeOrder: (getValuesFunc: UseFormGetValues<FieldValues>) => void;
     handleOnReorder: Dispatch<SetStateAction<Player[]>>;
-    closeModal: (getValuesFunc: any) => void;
+    closeModal: (getValuesFunc: UseFormGetValues<FieldValues>) => void;
     onHandleSubmit: (newPlayers: any) => void;
 }
 
@@ -80,7 +79,10 @@ export function NewGame({
                             <PlusCircleIcon className="w-6" />
                         </div>
                     </button>
-                    <GameSettings handleRandomizeOrder={handleRandomizeOrder} />
+                    <GameSettings
+                        handleRandomizeOrder={handleRandomizeOrder}
+                        getFormValuesFunc={getValues}
+                    />
                     <div
                         className="flex justify-between mt-4"
                     >
