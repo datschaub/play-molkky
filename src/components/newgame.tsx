@@ -3,9 +3,10 @@ import { NewPlayerForm } from "./NewPlayerForm";
 import { PlusCircleIcon, LightningBoltIcon, ChevronDownIcon } from "@heroicons/react/solid";
 import { Player } from "../types/types";
 import { FieldValues, useForm, UseFormUnregister } from "react-hook-form";
-import { AnimatePresence, Reorder } from "framer-motion"
-import { Dispatch, SetStateAction } from "react";
+import { AnimatePresence, motion, Reorder } from "framer-motion"
+import { Dispatch, SetStateAction, useState } from "react";
 import * as Accordion from '@radix-ui/react-accordion';
+import { GameSettings } from "./GameSettings";
 
 type NewGameProps = {
     players: Player[];
@@ -79,28 +80,7 @@ export function NewGame({
                             <PlusCircleIcon className="w-6" />
                         </div>
                     </button>
-                    <Accordion.Root type="single" collapsible>
-                        <Accordion.Item value="item1">
-                            <Accordion.Header className="flex justify-around align-center">
-                            <div className="w-1/4 border border-gray-200 rounded-full"/>
-                                <Accordion.Trigger className="flex p-2 font-bold align-center">
-                                    Game settings <ChevronDownIcon className="w-6" />
-                                </Accordion.Trigger>
-                                <div className="w-1/4 border border-gray-200 rounded-full"/>
-                            </Accordion.Header>
-                            <Accordion.Content>
-                                <button
-                                    className="w-1/2 h-10 px-4 py-2 text-white transition-colors bg-purple-500 border border-purple-500 rounded-md group hover:bg-transparent focus:outline-none focus-visible:ring-2 focus-visible:ring-purple-400 focus-visible:ring-offset-2"
-                                    type="button"
-                                    onClick={() => handleRandomizeOrder()}>
-                                    <div className="flex items-center justify-center space-x-2 text-white transition-colors group-active:text-purple-500 group-hover:text-purple-500">
-                                        <span className="font-bold">Randomize Order</span>
-                                        <LightningBoltIcon className="w-6" />
-                                    </div>
-                                </button>
-                            </Accordion.Content>
-                        </Accordion.Item>
-                    </Accordion.Root>
+                    <GameSettings handleRandomizeOrder={handleRandomizeOrder} />
                     <div
                         className="flex justify-between mt-4"
                     >
