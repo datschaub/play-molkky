@@ -11,9 +11,17 @@ type PlayerScoreModalProps = {
     updatePlayerPoints: (player: Player, pointsToAdd: number) => void;
 }
 
+const addPointsBtnStyles = {
+    btnEnabled: `text-white transition-colors bg-purple-600 border border-purple-600 hover:bg-transparent focus:outline-none focus-visible:ring-2 focus-visible:ring-purple-500 focus-visible:ring-offset-2`,
+    btnDisabled: `bg-gray-400`,
+    btnTextEnabled: `group-active:text-purple-500 group-hover:text-purple-600`,
+    btnTextDisabled: `hover:cursor-not-allowed`
+}
+
 export function PlayerScoreModal({ player, closeModal, updatePlayerPoints }: PlayerScoreModalProps) {
 
     const [selectedNumber, setSelectedNumber] = useState<number>(0)
+    const addPointsDisabled = selectedNumber <= 0
 
     const handleOnSelectNumber = (number: number) => {
         setSelectedNumber(number)
@@ -52,10 +60,11 @@ export function PlayerScoreModal({ player, closeModal, updatePlayerPoints }: Pla
                 </button>
                 <button
                     type="button"
-                    className="inline-flex justify-center px-4 py-2 text-sm font-medium text-white transition-colors bg-purple-600 border border-purple-600 rounded-md group hover:bg-transparent focus:outline-none focus-visible:ring-2 focus-visible:ring-purple-500 focus-visible:ring-offset-2"
+                    disabled={addPointsDisabled}
+                    className={`inline-flex justify-center px-4 py-2 text-sm font-medium rounded-md group ${addPointsDisabled ? addPointsBtnStyles.btnDisabled : addPointsBtnStyles.btnEnabled}`}
                     onClick={() => addPlayerPoints()}
                 >
-                    <span className="font-medium text-white transition-colors group-active:text-purple-500 group-hover:text-purple-600">
+                    <span className={`font-medium text-white transition-colors ${addPointsDisabled ? addPointsBtnStyles.btnTextDisabled : addPointsBtnStyles.btnTextEnabled}`}>
                         Add points
                     </span>
                 </button>
