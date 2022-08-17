@@ -1,5 +1,4 @@
 import { motion } from "framer-motion";
-import { useState } from "react";
 
 type ScoreNumberBtnProps = {
     number: number;
@@ -7,15 +6,31 @@ type ScoreNumberBtnProps = {
     isSelected: boolean;
 }
 
+// Framer Motion needs real color codes to transition
+// https://tailwindcolor.com/
+const variants = {
+    isSelected: {
+        backgroundColor: '#4ADE80' // tailwind bg-green-400
+    },
+    notSelected: {
+        backgroundColor: '#FFF'
+    },
+}
+
 export function ScoreNumberBtn({ number, onSelectNumber, isSelected }: ScoreNumberBtnProps) {
 
     return (
         <motion.button
-            // whileHover={{
-            //     //scale: 1.1,
-            //     backgroundColor: 'rgb(134 239 172)'
-            // }}
-            className={`transition ease-in-out duration-200 flex justify-center p-2 border-2 border-green-400 rounded-md ${isSelected && `bg-green-400`} ${!isSelected && `hover:bg-green-300`}`}
+            animate={(isSelected) ? "isSelected" : "notSelected"}
+            variants={variants}
+            whileHover={
+                !isSelected
+                    ? {
+                        backgroundColor: '#86EFAC'  // tailwind bg-green-300
+                    }
+                    : ''
+            }
+            className={`flex justify-center p-2 border-2 rounded-md border-green-400 hover:bg-green-300`}
             onClick={() => onSelectNumber(number)}
         >
             {number}
