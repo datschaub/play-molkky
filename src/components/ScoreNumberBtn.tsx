@@ -1,3 +1,4 @@
+import { motion } from "framer-motion";
 import { useState } from "react";
 
 type ScoreNumberBtnProps = {
@@ -6,14 +7,18 @@ type ScoreNumberBtnProps = {
     isSelected: boolean;
 }
 
-export function ScoreNumberBtn({ number, onSelectNumber, isSelected}: ScoreNumberBtnProps) {
+export function ScoreNumberBtn({ number, onSelectNumber, isSelected }: ScoreNumberBtnProps) {
 
     return (
-        <button
-            className={`flex justify-center p-2 border-2 border-green-400 hover:bg-green-200 rounded-md ${isSelected && `bg-green-400`}`}
+        <motion.button
+            // whileHover={{
+            //     //scale: 1.1,
+            //     backgroundColor: 'rgb(134 239 172)'
+            // }}
+            className={`transition ease-in-out duration-200 flex justify-center p-2 border-2 border-green-400 rounded-md ${isSelected && `bg-green-400`} ${!isSelected && `hover:bg-green-300`}`}
             onClick={() => onSelectNumber(number)}
         >
             {number}
-        </button>
+        </motion.button>
     )
 }
