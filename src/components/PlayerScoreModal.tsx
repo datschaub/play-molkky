@@ -4,6 +4,7 @@ import Modal from "./modal"
 import { useCallback, useState } from "react"
 import { Dialog } from "@headlessui/react"
 import { ScoreNumberBtn } from "./ScoreNumberBtn"
+import { StarBtn } from "./StarBtn"
 
 type PlayerScoreModalProps = {
     player: Player;
@@ -21,10 +22,17 @@ const addPointsBtnStyles = {
 export function PlayerScoreModal({ player, closeModal, updatePlayerPoints }: PlayerScoreModalProps) {
 
     const [selectedNumber, setSelectedNumber] = useState<number>(0)
-    const addPointsDisabled = selectedNumber <= 0
+    const [starIsSelected, setStarIsSelected] = useState(false)
+    const addPointsDisabled = selectedNumber <= 0 && !starIsSelected
 
     const handleOnSelectNumber = (number: number) => {
         setSelectedNumber(number)
+        setStarIsSelected(false)
+    }
+
+    const handleOnSelectStar = () => {
+        setSelectedNumber(0)
+        setStarIsSelected(true)
     }
 
     const addPlayerPoints = () => {
@@ -40,11 +48,14 @@ export function PlayerScoreModal({ player, closeModal, updatePlayerPoints }: Pla
             >
                 {player.name}
             </Dialog.Title>
-            <div className="grid grid-cols-4 gap-2">
+            <div className="grid grid-cols-4 gap-2 mb-4">
                 {
-                    [...Array(12)].map((e, i) => <ScoreNumberBtn key={i} number={i + 1} isSelected={selectedNumber === (i + 1)} onSelectNumber={handleOnSelectNumber} />)
+                    [...Array(12)].map((e, i) => {
+                        return <ScoreNumberBtn key={i} number={i + 1} isSelected={selectedNumber === (i + 1)} onSelectNumber={handleOnSelectNumber} />
+                    })
                 }
             </div>
+            <StarBtn isSelected={starIsSelected} onSelect={handleOnSelectStar} />
             <div className="my-4">
                 Current score: {player.score}
             </div>
