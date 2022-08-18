@@ -6,31 +6,28 @@ import { FieldValues, useForm, UseFormGetValues, UseFormUnregister } from "react
 import { AnimatePresence, motion, Reorder } from "framer-motion"
 import { Dispatch, SetStateAction, useState } from "react";
 import { GameSettings } from "./GameSettings";
+import { usePlayerStore } from "../stores/playerStore";
 
 type NewGameProps = {
     players: Player[];
-    handleAddPlayers: () => void;
-    handleRemovePlayers: (playerId: string, unregisterFunc: UseFormUnregister<FieldValues>) => void;
     handleRandomizeOrder: (getValuesFunc: UseFormGetValues<FieldValues>) => void;
-    handleOnReorder: Dispatch<SetStateAction<Player[]>>;
     closeModal: (getValuesFunc: UseFormGetValues<FieldValues>) => void;
     onHandleSubmit: (newPlayers: any) => void;
 }
 
 export function NewGame({
     players,
-    handleAddPlayers,
-    handleRemovePlayers,
     handleRandomizeOrder,
     closeModal,
     onHandleSubmit,
-    handleOnReorder
 }: NewGameProps) {
 
     const { register, unregister, handleSubmit, getValues, formState: { errors } } = useForm({
         shouldUnregister: true,
         mode: "all"
     })
+
+    const addNewPlayer = usePlayerStore(state => state.addNewPlayer)
 
     return (
         <>
@@ -49,7 +46,7 @@ export function NewGame({
                     <Reorder.Group
                         axis="y"
                         values={players}
-                        onReorder={handleOnReorder}
+                        onReorder={() => {}}
                         className="overflow-hidden"
                     >
                         <AnimatePresence initial={false}>
@@ -62,7 +59,6 @@ export function NewGame({
                                             playerPlaceholder={players.indexOf(player) + 1}
                                             registerInputFunc={register}
                                             unregisterInputFunc={unregister}
-                                            handleRemovePlayer={handleRemovePlayers}
                                             disableDelete={i < 2}
                                         />
                                     )
@@ -73,7 +69,7 @@ export function NewGame({
                     <button
                         className="w-full h-10 px-4 py-2 text-white transition-colors bg-purple-600 border border-purple-600 rounded-md group hover:bg-transparent focus:outline-none focus-visible:ring-2 focus-visible:ring-purple-400 focus-visible:ring-offset-2"
                         type="button"
-                        onClick={() => handleAddPlayers()}>
+                        onClick={() => addNewPlayer()}>
                         <div className="flex items-center justify-center space-x-2 text-white transition-colors group-active:text-purple-600 group-hover:text-purple-600">
                             <span className="font-bold">Add Player</span>
                             <PlusCircleIcon className="w-6" />

@@ -4,13 +4,13 @@ import { AnimatePresence, motion, Reorder, useDragControls, useMotionValue } fro
 import { useState } from "react";
 import { Player } from "../types/types";
 import { ReorderIcon } from "./ReorderIcon";
+import { usePlayerStore } from "../stores/playerStore";
 
 type NewGameFormProps = {
     player: Player;
     playerPlaceholder: number;
     registerInputFunc: UseFormRegister<FieldValues>;
     unregisterInputFunc: UseFormUnregister<FieldValues>;
-    handleRemovePlayer: (playerId: string, unregisterInputFunc: UseFormUnregister<FieldValues>) => void;
     disableDelete: boolean;
 }
 
@@ -19,13 +19,13 @@ export function NewPlayerForm({
     playerPlaceholder,
     registerInputFunc: register,
     unregisterInputFunc,
-    handleRemovePlayer,
     disableDelete
 }: NewGameFormProps) {
 
+    const removePlayer = usePlayerStore(state => state.removePlayer)
+
     //Need this state to properly unregister removed fields
     const dragControls = useDragControls()
-
     const transitionDelay = playerPlaceholder - 1
 
     return (
@@ -89,7 +89,7 @@ export function NewPlayerForm({
                                 className="w-8 text-red-400 rounded-full"
                                 type="button"
                                 onClick={() => {
-                                    handleRemovePlayer(player.id, unregisterInputFunc)
+                                    removePlayer(player.id, unregisterInputFunc)
                                 }}>
                                 <MinusCircleIcon className="ml-2" />
                             </button>
