@@ -20,6 +20,9 @@ export function PlayerScoreCard({ player, openPlayerScoreModal }: PlayerScoreCar
                 <span className="font-bold">
                     {player.score}
                 </span>
+                <span className="font-bold">
+                    Stars: {player.stars}
+                </span>
             </div>
             <div className="ml-2">
                 <PlusCircleIcon onClick={() => openPlayerScoreModal(player)} className="w-6 h-6" />

@@ -5,6 +5,7 @@ import { useCallback, useState } from "react"
 import { Dialog } from "@headlessui/react"
 import { ScoreNumberBtn } from "./ScoreNumberBtn"
 import { StarBtn } from "./StarBtn"
+import { usePlayerStore } from "../stores/playerStore"
 
 type PlayerScoreModalProps = {
     player: Player;
@@ -21,6 +22,7 @@ const addPointsBtnStyles = {
 
 export function PlayerScoreModal({ player, closeModal, updatePlayerPoints }: PlayerScoreModalProps) {
 
+    const addPlayerPoints = usePlayerStore(state => state.addPlayerPoints)
     const [selectedNumber, setSelectedNumber] = useState<number>(0)
     const [starIsSelected, setStarIsSelected] = useState(false)
     const addPointsDisabled = selectedNumber <= 0 && !starIsSelected
@@ -35,8 +37,8 @@ export function PlayerScoreModal({ player, closeModal, updatePlayerPoints }: Pla
         setStarIsSelected(true)
     }
 
-    const addPlayerPoints = () => {
-        updatePlayerPoints(player, selectedNumber)
+    const handleAddPlayerPoints = () => {
+        addPlayerPoints(player, selectedNumber)
         closeModal()
     }
 
@@ -73,7 +75,7 @@ export function PlayerScoreModal({ player, closeModal, updatePlayerPoints }: Pla
                     type="button"
                     disabled={addPointsDisabled}
                     className={`inline-flex justify-center px-4 py-2 text-sm font-medium rounded-md group ${addPointsDisabled ? addPointsBtnStyles.btnDisabled : addPointsBtnStyles.btnEnabled}`}
-                    onClick={() => addPlayerPoints()}
+                    onClick={() => handleAddPlayerPoints()}
                 >
                     <span className={`font-medium text-white transition-colors ${addPointsDisabled ? addPointsBtnStyles.btnTextDisabled : addPointsBtnStyles.btnTextEnabled}`}>
                         Add points
