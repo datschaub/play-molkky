@@ -13,6 +13,7 @@ import { FieldValues, UseFormGetValues, UseFormUnregister } from "react-hook-for
 import { AnimatePresence } from "framer-motion";
 import { ScoreBoard } from "../components/ScoreBoard";
 import { usePlayerStore } from "../stores/playerStore";
+import { mapPlayers } from "../utils/utils";
 
 // // Set initial IDs on build time because of hydration
 // export const getStaticProps: GetStaticProps = () => {
@@ -65,24 +66,16 @@ const Home: NextPage<{}> = () => {
   }, [players])
 
   const handleClosePlayersModal = useCallback((getValuesFunc: UseFormGetValues<FieldValues>) => {
-    const newPlayers = getValuesFunc();
-    setPlayerOrder(newPlayers)
+    const mappedPlayerOrder = mapPlayers(players, getValuesFunc)
+    setPlayerOrder(mappedPlayerOrder)
     handleCloseModal()
-  }, [setPlayerOrder, handleCloseModal])
+  }, [setPlayerOrder, handleCloseModal, players])
 
   const handleSubmit = useCallback((newPlayers: any) => {
     setPlayerOrder(newPlayers)
     handleCloseModal()
     setGameHasStarted(true)
   }, [setPlayerOrder, handleCloseModal])
-
-  const shuffleArray = (array: Array<any>) => {
-    for (let i = array.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [array[i], array[j]] = [array[j], array[i]];
-    }
-    return array;
-  }
 
   // const randomizeOrder = useCallback((getValuesFunc: UseFormGetValues<FieldValues>) => {
   //   const newPlayers = getValuesFunc()

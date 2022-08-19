@@ -7,7 +7,7 @@ import { AnimatePresence, motion, Reorder } from "framer-motion"
 import { Dispatch, SetStateAction, useCallback, useState } from "react";
 import { GameSettings } from "./GameSettings";
 import { usePlayerStore } from "../stores/playerStore";
-import { shuffleArray } from "../utils/utils";
+import { mapPlayers, shuffleArray } from "../utils/utils";
 
 type NewGameProps = {
     //players: Player[];
@@ -30,10 +30,10 @@ export function NewGame({
     const setPlayerOrder = usePlayerStore(state => state.setPlayerOrder)
     const players = usePlayerStore(state => state.players)
 
-    const reorderPlayers = useCallback((getValuesFunc: UseFormGetValues<FieldValues>) => {
-        const newPlayers = getValuesFunc()
-        setPlayerOrder(newPlayers)
-    }, [setPlayerOrder])
+    const reorderPlayers = useCallback((newPlayerOrder: Player[]) => {
+        const mappedPlayerOrder = mapPlayers(newPlayerOrder, getValues)
+        setPlayerOrder(mappedPlayerOrder)
+    }, [setPlayerOrder, getValues])
 
     return (
         <>
@@ -52,7 +52,7 @@ export function NewGame({
                     <Reorder.Group
                         axis="y"
                         values={players}
-                        onReorder={setPlayerOrder}
+                        onReorder={(newOrder) => reorderPlayers(newOrder)}
                         className="overflow-hidden"
                     >
                         <AnimatePresence initial={false}>

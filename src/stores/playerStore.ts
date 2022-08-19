@@ -33,16 +33,18 @@ export const usePlayerStore = create<IPlayerStoreState>((set) => ({
             players: state.players.filter((p) => p.id !== playerId)
         }))
     },
-    setPlayerOrder: (newPlayers: any) => {
+    setPlayerOrder: (newPlayers: Player[]) => {
         set((state) => ({
-            players: state.players.map((player: Player, i: number) => {
-                  return {
-                    'name': newPlayers[player.id],
-                    'id': player.id,
-                    'order': i + 1,
-                    'score': player.score
-                  }
-                })
+            // players: newPlayers.map((player: Player, i: number) => {
+            //     return {
+            //         'name': player.name,
+            //         'id': player.id,
+            //         'order': i + 1,
+            //         'score': player.score,
+            //         'stars': player.stars
+            //     }
+            // })
+            players: newPlayers
         }))
     }
 }))
