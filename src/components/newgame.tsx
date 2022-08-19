@@ -4,14 +4,12 @@ import { PlusCircleIcon } from "@heroicons/react/solid";
 import { Player } from "../types/types";
 import { FieldValues, useForm, UseFormGetValues } from "react-hook-form";
 import { AnimatePresence, Reorder } from "framer-motion"
-import { useCallback } from "react";
 import { GameSettings } from "./GameSettings";
 import { usePlayerStore } from "../stores/playerStore";
-import { mapPlayers } from "../utils/utils";
 
 type NewGameProps = {
     closeModal: (getValuesFunc: UseFormGetValues<FieldValues>) => void;
-    onHandleSubmit: (newPlayers: any) => void;
+    onHandleSubmit: (getValuesFunc: UseFormGetValues<FieldValues>) => void;
 }
 
 export function NewGame({
@@ -25,13 +23,8 @@ export function NewGame({
     })
 
     const addNewPlayer = usePlayerStore(state => state.addNewPlayer)
-    const setPlayerOrder = usePlayerStore(state => state.setPlayerOrder)
+    const reOrderPlayers = usePlayerStore(state => state.reOrderPlayers)
     const players = usePlayerStore(state => state.players)
-
-    const reorderPlayers = useCallback((newPlayerOrder: Player[]) => {
-        const mappedPlayerOrder = mapPlayers(newPlayerOrder, getValues)
-        setPlayerOrder(mappedPlayerOrder)
-    }, [setPlayerOrder, getValues])
 
     return (
         <>
@@ -39,7 +32,7 @@ export function NewGame({
                 as="h3"
                 className="text-lg font-medium leading-6 text-gray-900"
             >
-                New game
+                New game 🙌
             </Dialog.Title>
             <h4>Add players</h4>
             <div className="flex flex-col text-sm text-gray-500">
@@ -50,7 +43,7 @@ export function NewGame({
                     <Reorder.Group
                         axis="y"
                         values={players}
-                        onReorder={(newOrder) => reorderPlayers(newOrder)}
+                        onReorder={(newOrder) => reOrderPlayers(newOrder, getValues)}
                         className="overflow-hidden"
                     >
                         <AnimatePresence initial={false}>

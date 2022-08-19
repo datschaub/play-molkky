@@ -37,11 +37,9 @@ const Home: NextPage<{}> = () => {
   }, [setPlayerOrder, handleCloseModal, players])
 
   const handleSubmit = useCallback((getValuesFunc: UseFormGetValues<FieldValues>) => {
-    const mappedPlayerOrder = mapPlayers(players, getValuesFunc)
-    setPlayerOrder(mappedPlayerOrder)
-    handleCloseModal()
+    handleClosePlayersModal(getValuesFunc)
     setGameHasStarted(true)
-  }, [setPlayerOrder, handleCloseModal, players])
+  }, [handleClosePlayersModal])
 
   const handleUpdatePlayerPoints = (player: Player, pointsToAdd: number) => {
     let playerToUpdate = players.filter(p => p.id === player.id).at(0)
