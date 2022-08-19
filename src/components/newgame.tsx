@@ -4,20 +4,19 @@ import { PlusCircleIcon, LightningBoltIcon, ChevronDownIcon } from "@heroicons/r
 import { Player } from "../types/types";
 import { FieldValues, useForm, UseFormGetValues, UseFormUnregister } from "react-hook-form";
 import { AnimatePresence, motion, Reorder } from "framer-motion"
-import { Dispatch, SetStateAction, useState } from "react";
+import { Dispatch, SetStateAction, useCallback, useState } from "react";
 import { GameSettings } from "./GameSettings";
 import { usePlayerStore } from "../stores/playerStore";
+import { shuffleArray } from "../utils/utils";
 
 type NewGameProps = {
-    players: Player[];
-    handleRandomizeOrder: (getValuesFunc: UseFormGetValues<FieldValues>) => void;
+    //players: Player[];
     closeModal: (getValuesFunc: UseFormGetValues<FieldValues>) => void;
     onHandleSubmit: (newPlayers: any) => void;
 }
 
 export function NewGame({
-    players,
-    handleRandomizeOrder,
+    //players,
     closeModal,
     onHandleSubmit,
 }: NewGameProps) {
@@ -28,6 +27,13 @@ export function NewGame({
     })
 
     const addNewPlayer = usePlayerStore(state => state.addNewPlayer)
+    const setPlayerOrder = usePlayerStore(state => state.setPlayerOrder)
+    const players = usePlayerStore(state => state.players)
+
+    const reorderPlayers = useCallback((getValuesFunc: UseFormGetValues<FieldValues>) => {
+        const newPlayers = getValuesFunc()
+        setPlayerOrder(newPlayers)
+    }, [setPlayerOrder])
 
     return (
         <>
@@ -46,7 +52,7 @@ export function NewGame({
                     <Reorder.Group
                         axis="y"
                         values={players}
-                        onReorder={() => {}}
+                        onReorder={setPlayerOrder}
                         className="overflow-hidden"
                     >
                         <AnimatePresence initial={false}>
@@ -76,7 +82,6 @@ export function NewGame({
                         </div>
                     </button>
                     <GameSettings
-                        handleRandomizeOrder={handleRandomizeOrder}
                         getFormValuesFunc={getValues}
                     />
                     <div

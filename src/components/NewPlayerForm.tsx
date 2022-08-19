@@ -32,6 +32,7 @@ export function NewPlayerForm({
         <>
             <Reorder.Item
                 id={player.id}
+                key={player.id}
                 value={player}
                 dragListener={false}
                 dragControls={dragControls}

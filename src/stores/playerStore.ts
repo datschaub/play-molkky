@@ -7,10 +7,9 @@ interface IPlayerStoreState {
     players: Player[];
     addNewPlayer: () => void;
     removePlayer: (playerId: string, unregisterFunc: UseFormUnregister<FieldValues>) => void;
+    setPlayerOrder: (newPlayers: any) => void;
     // handleRandomizeOrder: (getValuesFunc: UseFormGetValues<FieldValues>) => void;
     // handleOnReorder: Dispatch<SetStateAction<Player[]>>;
-    // closeModal: (getValuesFunc: UseFormGetValues<FieldValues>) => void;
-    // onHandleSubmit: (newPlayers: any) => void;
 }
 
 export const usePlayerStore = create<IPlayerStoreState>((set) => ({
@@ -32,6 +31,18 @@ export const usePlayerStore = create<IPlayerStoreState>((set) => ({
         unregisterFunc(playerId)
         set((state) => ({
             players: state.players.filter((p) => p.id !== playerId)
+        }))
+    },
+    setPlayerOrder: (newPlayers: any) => {
+        set((state) => ({
+            players: state.players.map((player: Player, i: number) => {
+                  return {
+                    'name': newPlayers[player.id],
+                    'id': player.id,
+                    'order': i + 1,
+                    'score': player.score
+                  }
+                })
         }))
     }
 }))

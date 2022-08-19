@@ -37,6 +37,7 @@ const Home: NextPage<{}> = () => {
   //   { id: player2_id, name: '', order: 2, score: 0 }
   // ])
   const players = usePlayerStore(state => state.players)
+  const setPlayerOrder = usePlayerStore(state => state.setPlayerOrder)
 
   const [modalIsOpen, setModalIsOpen] = useState(false)
   const [modalContent, setModalContent] = useState<JSX.Element>()
@@ -65,15 +66,15 @@ const Home: NextPage<{}> = () => {
 
   const handleClosePlayersModal = useCallback((getValuesFunc: UseFormGetValues<FieldValues>) => {
     const newPlayers = getValuesFunc();
-    mapNewPlayers(newPlayers)
+    setPlayerOrder(newPlayers)
     handleCloseModal()
-  }, [mapNewPlayers, handleCloseModal])
+  }, [setPlayerOrder, handleCloseModal])
 
   const handleSubmit = useCallback((newPlayers: any) => {
-    mapNewPlayers(newPlayers)
+    setPlayerOrder(newPlayers)
     handleCloseModal()
     setGameHasStarted(true)
-  }, [mapNewPlayers, handleCloseModal])
+  }, [setPlayerOrder, handleCloseModal])
 
   const shuffleArray = (array: Array<any>) => {
     for (let i = array.length - 1; i > 0; i--) {
@@ -83,25 +84,26 @@ const Home: NextPage<{}> = () => {
     return array;
   }
 
-  const randomizeOrder = useCallback((getValuesFunc: UseFormGetValues<FieldValues>) => {
-    const newPlayers = getValuesFunc()
-    let p = [...players]
-    let playerOrder = p.map((player, i) => {
-      return {
-        'name': newPlayers[player.id],
-        'id': player.id,
-        'order': i + 1,
-        'score': player.score
-      }
-    })
-    playerOrder = shuffleArray(playerOrder)
-    //setPlayers(playerOrder)
-  }, [players])
+  // const randomizeOrder = useCallback((getValuesFunc: UseFormGetValues<FieldValues>) => {
+  //   const newPlayers = getValuesFunc()
+  //   // let p = [...players]
+  //   // let playerOrder = p.map((player, i) => {
+  //   //   return {
+  //   //     'name': newPlayers[player.id],
+  //   //     'id': player.id,
+  //   //     'order': i + 1,
+  //   //     'score': player.score
+  //   //   }
+  //   // })
+  //   setPlayerOrder(newPlayers)
+  //   let randPlayerOrder = shuffleArray(players)
+  //   setPlayerOrder(randPlayerOrder)
+  // }, [setPlayerOrder, players])
 
   const reorderPlayers = useCallback((getValuesFunc: UseFormGetValues<FieldValues>) => {
     const newPlayers = getValuesFunc()
-    mapNewPlayers(newPlayers)
-  }, [mapNewPlayers])
+    setPlayerOrder(newPlayers)
+  }, [setPlayerOrder])
 
   const handleUpdatePlayerPoints = (player: Player, pointsToAdd: number) => {
     let playerToUpdate = players.filter(p => p.id === player.id).at(0)
@@ -119,13 +121,12 @@ const Home: NextPage<{}> = () => {
   useEffect(() => {
     setModalContent(
       <NewGame
-        players={players}
+        //players={players}
         closeModal={handleClosePlayersModal}
         onHandleSubmit={handleSubmit}
-        handleRandomizeOrder={randomizeOrder}
       />
     )
-  }, [players, handleCloseModal, handleSubmit, handleClosePlayersModal, randomizeOrder, reorderPlayers])
+  }, [players, handleCloseModal, handleSubmit, handleClosePlayersModal, reorderPlayers])
 
   return (
     <>
@@ -149,10 +150,9 @@ const Home: NextPage<{}> = () => {
                 handleOpenModal={handleOpenModal}
                 modalContent={
                   <NewGame
-                    players={players}
+                    //players={players}
                     closeModal={handleClosePlayersModal}
                     onHandleSubmit={handleSubmit}
-                    handleRandomizeOrder={randomizeOrder}
                   />
                 }
                 icon={<PlayIcon />}

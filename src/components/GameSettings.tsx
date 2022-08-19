@@ -1,17 +1,20 @@
 import { ChevronDownIcon, LightningBoltIcon } from "@heroicons/react/solid";
 import { Separator } from "@radix-ui/react-separator";
 import { AnimatePresence, motion, MotionConfig } from "framer-motion";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { FieldValues, UseFormGetValues } from "react-hook-form";
+import { usePlayerStore } from "../stores/playerStore";
+import { shuffleArray } from "../utils/utils";
 
 type GameSettingsProps = {
-    handleRandomizeOrder: (getValuesFunc: UseFormGetValues<FieldValues>) => void;
     getFormValuesFunc: UseFormGetValues<FieldValues>;
 }
 
-export function GameSettings({ handleRandomizeOrder, getFormValuesFunc }: GameSettingsProps) {
+export function GameSettings({ getFormValuesFunc }: GameSettingsProps) {
 
     const [gameSettingsOpen, setGameSettingsOpen] = useState(false);
+    const setPlayerOrder = usePlayerStore(state => state.setPlayerOrder)
+    const players = usePlayerStore(state => state.players)
 
     const toggleAccordion = () => {
         setGameSettingsOpen((prev) => !prev)
@@ -21,6 +24,22 @@ export function GameSettings({ handleRandomizeOrder, getFormValuesFunc }: GameSe
         rotate: { rotate: [0, -180] },
         stop: { rotate: 0 }
     }
+
+    const randomizeOrder = useCallback((getValuesFunc: UseFormGetValues<FieldValues>) => {
+        const newPlayers = getValuesFunc()
+        // let p = [...players]
+        // let playerOrder = p.map((player, i) => {
+        //   return {
+        //     'name': newPlayers[player.id],
+        //     'id': player.id,
+        //     'order': i + 1,
+        //     'score': player.score
+        //   }
+        // })
+        setPlayerOrder(newPlayers)
+        let randPlayerOrder = shuffleArray(players)
+        setPlayerOrder(randPlayerOrder)
+      }, [setPlayerOrder, players])
 
     return (
         <div className="overflow-hidden">
@@ -51,7 +70,7 @@ export function GameSettings({ handleRandomizeOrder, getFormValuesFunc }: GameSe
                         <button
                             className="w-full h-10 px-4 py-2 text-white transition-colors bg-purple-500 border border-purple-500 rounded-md group hover:bg-transparent focus:outline-none focus-visible:ring-2 focus-visible:ring-purple-400 focus-visible:ring-offset-2"
                             type="button"
-                            onClick={() => handleRandomizeOrder(getFormValuesFunc)}>
+                            onClick={() => randomizeOrder(getFormValuesFunc)}>
                             <div className="flex items-center justify-center space-x-2 text-white transition-colors group-active:text-purple-500 group-hover:text-purple-500">
                                 <span className="font-bold">Randomize Order</span>
                                 <LightningBoltIcon className="w-6" />
