@@ -35,15 +35,6 @@ export const usePlayerStore = create<IPlayerStoreState>((set) => ({
     },
     setPlayerOrder: (newPlayers: Player[]) => {
         set((state) => ({
-            // players: newPlayers.map((player: Player, i: number) => {
-            //     return {
-            //         'name': player.name,
-            //         'id': player.id,
-            //         'order': i + 1,
-            //         'score': player.score,
-            //         'stars': player.stars
-            //     }
-            // })
             players: newPlayers
         }))
     }

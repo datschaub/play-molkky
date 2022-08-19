@@ -4,7 +4,7 @@ import { AnimatePresence, motion, MotionConfig } from "framer-motion";
 import { useCallback, useState } from "react";
 import { FieldValues, UseFormGetValues } from "react-hook-form";
 import { usePlayerStore } from "../stores/playerStore";
-import { shuffleArray } from "../utils/utils";
+import { mapPlayers, shuffleArray } from "../utils/utils";
 
 type GameSettingsProps = {
     getFormValuesFunc: UseFormGetValues<FieldValues>;
@@ -26,18 +26,8 @@ export function GameSettings({ getFormValuesFunc }: GameSettingsProps) {
     }
 
     const randomizeOrder = useCallback((getValuesFunc: UseFormGetValues<FieldValues>) => {
-        const newPlayers = getValuesFunc()
-        // let p = [...players]
-        // let playerOrder = p.map((player, i) => {
-        //   return {
-        //     'name': newPlayers[player.id],
-        //     'id': player.id,
-        //     'order': i + 1,
-        //     'score': player.score
-        //   }
-        // })
-        setPlayerOrder(newPlayers)
-        let randPlayerOrder = shuffleArray(players)
+        const mappedPlayers = mapPlayers(players, getValuesFunc)
+        const randPlayerOrder = shuffleArray(mappedPlayers)
         setPlayerOrder(randPlayerOrder)
       }, [setPlayerOrder, players])
 

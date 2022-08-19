@@ -1,22 +1,20 @@
 import { Dialog } from "@headlessui/react";
 import { NewPlayerForm } from "./NewPlayerForm";
-import { PlusCircleIcon, LightningBoltIcon, ChevronDownIcon } from "@heroicons/react/solid";
+import { PlusCircleIcon } from "@heroicons/react/solid";
 import { Player } from "../types/types";
-import { FieldValues, useForm, UseFormGetValues, UseFormUnregister } from "react-hook-form";
-import { AnimatePresence, motion, Reorder } from "framer-motion"
-import { Dispatch, SetStateAction, useCallback, useState } from "react";
+import { FieldValues, useForm, UseFormGetValues } from "react-hook-form";
+import { AnimatePresence, Reorder } from "framer-motion"
+import { useCallback } from "react";
 import { GameSettings } from "./GameSettings";
 import { usePlayerStore } from "../stores/playerStore";
-import { mapPlayers, shuffleArray } from "../utils/utils";
+import { mapPlayers } from "../utils/utils";
 
 type NewGameProps = {
-    //players: Player[];
     closeModal: (getValuesFunc: UseFormGetValues<FieldValues>) => void;
     onHandleSubmit: (newPlayers: any) => void;
 }
 
 export function NewGame({
-    //players,
     closeModal,
     onHandleSubmit,
 }: NewGameProps) {
@@ -46,7 +44,7 @@ export function NewGame({
             <h4>Add players</h4>
             <div className="flex flex-col text-sm text-gray-500">
                 <form
-                    onSubmit={handleSubmit(onHandleSubmit)}
+                    onSubmit={handleSubmit(() => onHandleSubmit(getValues))}
                     className="flex flex-col mt-2 space-y-3"
                 >
                     <Reorder.Group

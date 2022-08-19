@@ -1,6 +1,5 @@
 import type { NextPage } from "next";
 import Head from "next/head";
-import { GetStaticProps } from "next";
 import { NewGame } from "../components/newgame";
 import Modal from "../components/modal";
 import { Rules } from "../components/rules";
@@ -8,35 +7,13 @@ import { useCallback, useEffect, useState } from "react";
 import { PlayIcon, DocumentTextIcon } from '@heroicons/react/solid'
 import { ModalButton } from "../components/ModalButton";
 import { Player } from "../types/types";
-import { nanoid } from 'nanoid'
-import { FieldValues, UseFormGetValues, UseFormUnregister } from "react-hook-form";
-import { AnimatePresence } from "framer-motion";
+import { FieldValues, UseFormGetValues } from "react-hook-form";
 import { ScoreBoard } from "../components/ScoreBoard";
 import { usePlayerStore } from "../stores/playerStore";
 import { mapPlayers } from "../utils/utils";
 
-// // Set initial IDs on build time because of hydration
-// export const getStaticProps: GetStaticProps = () => {
-//   return {
-//     props: {
-//       player1_id: nanoid(5),
-//       player2_id: nanoid(5)
-//     },
-//   }
-// }
-
-// // Need at least 2 players
-// type HomeProps = {
-//   player1_id: string;
-//   player2_id: string;
-// }
-
 const Home: NextPage<{}> = () => {
 
-  // const [players, setPlayers] = useState<Player[]>([
-  //   { id: player1_id, name: '', order: 1, score: 0 },
-  //   { id: player2_id, name: '', order: 2, score: 0 }
-  // ])
   const players = usePlayerStore(state => state.players)
   const setPlayerOrder = usePlayerStore(state => state.setPlayerOrder)
 
@@ -53,50 +30,18 @@ const Home: NextPage<{}> = () => {
     setModalIsOpen(false)
   }, [])
 
-  const mapNewPlayers = useCallback((newPlayers: FieldValues) => {
-    let p = [...players]
-    // setPlayers(p.map((player, i) => {
-    //   return {
-    //     'name': newPlayers[player.id],
-    //     'id': player.id,
-    //     'order': i + 1,
-    //     'score': player.score
-    //   }
-    // }))
-  }, [players])
-
   const handleClosePlayersModal = useCallback((getValuesFunc: UseFormGetValues<FieldValues>) => {
     const mappedPlayerOrder = mapPlayers(players, getValuesFunc)
     setPlayerOrder(mappedPlayerOrder)
     handleCloseModal()
   }, [setPlayerOrder, handleCloseModal, players])
 
-  const handleSubmit = useCallback((newPlayers: any) => {
-    setPlayerOrder(newPlayers)
+  const handleSubmit = useCallback((getValuesFunc: UseFormGetValues<FieldValues>) => {
+    const mappedPlayerOrder = mapPlayers(players, getValuesFunc)
+    setPlayerOrder(mappedPlayerOrder)
     handleCloseModal()
     setGameHasStarted(true)
-  }, [setPlayerOrder, handleCloseModal])
-
-  // const randomizeOrder = useCallback((getValuesFunc: UseFormGetValues<FieldValues>) => {
-  //   const newPlayers = getValuesFunc()
-  //   // let p = [...players]
-  //   // let playerOrder = p.map((player, i) => {
-  //   //   return {
-  //   //     'name': newPlayers[player.id],
-  //   //     'id': player.id,
-  //   //     'order': i + 1,
-  //   //     'score': player.score
-  //   //   }
-  //   // })
-  //   setPlayerOrder(newPlayers)
-  //   let randPlayerOrder = shuffleArray(players)
-  //   setPlayerOrder(randPlayerOrder)
-  // }, [setPlayerOrder, players])
-
-  const reorderPlayers = useCallback((getValuesFunc: UseFormGetValues<FieldValues>) => {
-    const newPlayers = getValuesFunc()
-    setPlayerOrder(newPlayers)
-  }, [setPlayerOrder])
+  }, [setPlayerOrder, handleCloseModal, players])
 
   const handleUpdatePlayerPoints = (player: Player, pointsToAdd: number) => {
     let playerToUpdate = players.filter(p => p.id === player.id).at(0)
@@ -114,12 +59,11 @@ const Home: NextPage<{}> = () => {
   useEffect(() => {
     setModalContent(
       <NewGame
-        //players={players}
         closeModal={handleClosePlayersModal}
         onHandleSubmit={handleSubmit}
       />
     )
-  }, [players, handleCloseModal, handleSubmit, handleClosePlayersModal, reorderPlayers])
+  }, [players, handleCloseModal, handleSubmit, handleClosePlayersModal])
 
   return (
     <>
@@ -143,7 +87,6 @@ const Home: NextPage<{}> = () => {
                 handleOpenModal={handleOpenModal}
                 modalContent={
                   <NewGame
-                    //players={players}
                     closeModal={handleClosePlayersModal}
                     onHandleSubmit={handleSubmit}
                   />
@@ -158,11 +101,7 @@ const Home: NextPage<{}> = () => {
                 icon={<DocumentTextIcon />}
               />
             </>
-
-            :
-            <>
-              <ScoreBoard players={players} updatePlayerPoints={handleUpdatePlayerPoints} />
-            </>
+            : <ScoreBoard players={players} updatePlayerPoints={handleUpdatePlayerPoints} />
           }
         </div>
         <Modal isOpen={modalIsOpen} closeModal={handleCloseModal}>
