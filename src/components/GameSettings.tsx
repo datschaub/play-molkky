@@ -1,10 +1,9 @@
 import { ChevronDownIcon, LightningBoltIcon } from "@heroicons/react/solid";
 import { Separator } from "@radix-ui/react-separator";
 import { AnimatePresence, motion, MotionConfig } from "framer-motion";
-import { useCallback, useState } from "react";
+import { useState } from "react";
 import { FieldValues, UseFormGetValues } from "react-hook-form";
 import { usePlayerStore } from "../stores/playerStore";
-import { mapPlayers, shuffleArray } from "../utils/utils";
 
 type GameSettingsProps = {
     getFormValuesFunc: UseFormGetValues<FieldValues>;
@@ -13,8 +12,6 @@ type GameSettingsProps = {
 export function GameSettings({ getFormValuesFunc }: GameSettingsProps) {
 
     const [gameSettingsOpen, setGameSettingsOpen] = useState(false);
-    //const setPlayerOrder = usePlayerStore(state => state.setPlayerOrder)
-    //const players = usePlayerStore(state => state.players)
     const randomizePlayerOrder = usePlayerStore(state => state.randomizePlayerOrder)
 
     const toggleAccordion = () => {
@@ -25,12 +22,6 @@ export function GameSettings({ getFormValuesFunc }: GameSettingsProps) {
         rotate: { rotate: [0, -180] },
         stop: { rotate: 0 }
     }
-
-    // const randomizeOrder = useCallback((getValuesFunc: UseFormGetValues<FieldValues>) => {
-    //     const mappedPlayers = mapPlayers(players, getValuesFunc)
-    //     const randPlayerOrder = shuffleArray(mappedPlayers)
-    //     setPlayerOrder(randPlayerOrder)
-    // }, [setPlayerOrder, players])
 
     return (
         <div className="overflow-hidden">
