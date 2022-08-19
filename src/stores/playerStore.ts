@@ -23,12 +23,20 @@ const randomizeOrder = (players: Player[], getValuesFunc: UseFormGetValues<Field
 const addPlayerPoints = (players: Player[], player: Player, pointsToAdd: number) => {
     let playerToUpdate = players.filter(p => p.id === player.id).at(0)
     return players.map((p, i) => {
+
+        const addStarForCurrentUser = p === playerToUpdate && (pointsToAdd === 0)
+        const starsShouldResetForCurrentPlayer = p === playerToUpdate && (pointsToAdd > 0)
+        
         return {
             'name': p.name,
             'id': p.id,
             'order': p.order,
             'score': p === playerToUpdate ? (p.score + pointsToAdd) : p.score,
-            'stars': p === playerToUpdate && pointsToAdd === 0 ? (p.stars + 1) : p.stars
+            'stars': addStarForCurrentUser
+                ? (p.stars + 1)
+                : starsShouldResetForCurrentPlayer
+                    ? 0
+                    : p.stars
         }
     })
 }
