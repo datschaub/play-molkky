@@ -1,7 +1,5 @@
 import { Player } from "../types/types"
-import { PlayerScoreCard } from "../components/PlayerScoreCard"
-import Modal from "./modal"
-import { useCallback, useState } from "react"
+import { useState } from "react"
 import { Dialog } from "@headlessui/react"
 import { ScoreNumberBtn } from "./ScoreNumberBtn"
 import { StarBtn } from "./StarBtn"
@@ -61,9 +59,18 @@ export function PlayerScoreModal({ player, closeModal, updatePlayerPoints }: Pla
             </div>
             <StarBtn isSelected={starIsSelected} onSelect={handleOnSelectStar} />
             <div className="my-4 font-bold">
-                Current score: {player.score}
-            </div><div className="my-4 font-bold">
-                Current stars: {generateEmojis(player.stars, '⭐')}
+                Current score: {
+                    selectedNumber > 0
+                        ? `${player.score} (${player.score + selectedNumber})`
+                        : player.score
+                }
+            </div>
+            <div className="my-4 font-bold">
+                Current stars: {
+                    starIsSelected
+                    ? `${generateEmojis(player.stars, '⭐')} (⭐)`
+                    : `${generateEmojis(player.stars, '⭐')}`
+                }
             </div>
             <div
                 className="flex justify-between mt-4"
