@@ -21,3 +21,7 @@ export const mapPlayers = (newPlayerOrder: Player[], getValuesFunc: UseFormGetVa
     }
   })
 } 
+
+export const generateEmojis = (count: number, emoji: string) => {
+  return emoji.repeat(count);
+};

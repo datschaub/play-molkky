@@ -1,5 +1,6 @@
 import { PlusCircleIcon } from "@heroicons/react/solid"
 import { Player } from "../types/types"
+import { generateEmojis } from "../utils/utils"
 
 type PlayerScoreCardProps = {
     player: Player
@@ -21,7 +22,7 @@ export function PlayerScoreCard({ player, openPlayerScoreModal }: PlayerScoreCar
                     {player.score}
                 </span>
                 <span className="font-bold">
-                    Stars: {player.stars}
+                    Stars: {generateEmojis(player.stars, '⭐')}
                 </span>
             </div>
             <div className="ml-2">

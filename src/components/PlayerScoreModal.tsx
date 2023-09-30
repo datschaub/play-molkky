@@ -6,6 +6,7 @@ import { Dialog } from "@headlessui/react"
 import { ScoreNumberBtn } from "./ScoreNumberBtn"
 import { StarBtn } from "./StarBtn"
 import { usePlayerStore } from "../stores/playerStore"
+import { generateEmojis } from "../utils/utils"
 
 type PlayerScoreModalProps = {
     player: Player;
@@ -48,8 +49,9 @@ export function PlayerScoreModal({ player, closeModal, updatePlayerPoints }: Pla
                 as="h3"
                 className="mb-2 text-lg font-medium leading-6 text-gray-900"
             >
-                {player.name}
+                Player {player.name}
             </Dialog.Title>
+            <div className="pb-4">Add points 👇</div>
             <div className="grid grid-cols-4 gap-2 mb-4">
                 {
                     [...Array(12)].map((e, i) => {
@@ -58,8 +60,10 @@ export function PlayerScoreModal({ player, closeModal, updatePlayerPoints }: Pla
                 }
             </div>
             <StarBtn isSelected={starIsSelected} onSelect={handleOnSelectStar} />
-            <div className="my-4">
+            <div className="my-4 font-bold">
                 Current score: {player.score}
+            </div><div className="my-4 font-bold">
+                Current stars: {generateEmojis(player.stars, '⭐')}
             </div>
             <div
                 className="flex justify-between mt-4"
