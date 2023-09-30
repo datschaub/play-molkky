@@ -17,9 +17,17 @@ export function NewGame({
     onHandleSubmit,
 }: NewGameProps) {
 
-    const { register, unregister, handleSubmit, getValues, formState: { errors } } = useForm({
+    const {
+        register,
+        unregister,
+        handleSubmit,
+        getValues,
+        formState: { errors },
+        trigger
+    } = useForm({
         shouldUnregister: true,
-        mode: "all"
+        mode: "onSubmit",
+        criteriaMode: "all"
     })
 
     const addNewPlayer = usePlayerStore(state => state.addNewPlayer)
@@ -37,7 +45,9 @@ export function NewGame({
             <h4>Add players</h4>
             <div className="flex flex-col text-sm text-gray-500">
                 <form
-                    onSubmit={handleSubmit(() => onHandleSubmit(getValues))}
+                    onSubmit={handleSubmit(() => {
+                        onHandleSubmit(getValues);
+                    })}
                     className="flex flex-col mt-2 space-y-3"
                 >
                     <Reorder.Group
@@ -57,6 +67,7 @@ export function NewGame({
                                             registerInputFunc={register}
                                             unregisterInputFunc={unregister}
                                             disableDelete={i < 2}
+                                            errorMessage={errors[player.id]?.message?.toString()}
                                         />
                                     )
                                 })
@@ -96,6 +107,7 @@ export function NewGame({
                     </div>
 
                 </form>
+
             </div>
         </>
     )

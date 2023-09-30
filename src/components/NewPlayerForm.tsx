@@ -1,7 +1,6 @@
 import { MinusCircleIcon, HandIcon, SelectorIcon, ArrowsExpandIcon } from "@heroicons/react/solid";
 import { FieldValues, UseFormRegister, UseFormUnregister } from "react-hook-form";
 import { AnimatePresence, motion, Reorder, useDragControls, useMotionValue } from "framer-motion"
-import { useState } from "react";
 import { Player } from "../types/types";
 import { ReorderIcon } from "./ReorderIcon";
 import { usePlayerStore } from "../stores/playerStore";
@@ -12,6 +11,7 @@ type NewGameFormProps = {
     registerInputFunc: UseFormRegister<FieldValues>;
     unregisterInputFunc: UseFormUnregister<FieldValues>;
     disableDelete: boolean;
+    errorMessage: string | undefined;
 }
 
 export function NewPlayerForm({
@@ -19,7 +19,8 @@ export function NewPlayerForm({
     playerPlaceholder,
     registerInputFunc: register,
     unregisterInputFunc,
-    disableDelete
+    disableDelete,
+    errorMessage
 }: NewGameFormProps) {
 
     const removePlayer = usePlayerStore(state => state.removePlayer)
@@ -80,7 +81,9 @@ export function NewPlayerForm({
                         id={player.id}
                         placeholder={`Player ${playerPlaceholder}`}
                         defaultValue={player.name}
-                        {...register(player.id)}
+                        {...register(player.id, {
+                            required: `Player can't be empty 👀`
+                        })}
                     />
                     {!disableDelete && (
                         <button
@@ -94,6 +97,11 @@ export function NewPlayerForm({
                     )}
                 </div>
             </Reorder.Item>
+            {errorMessage && (
+                <div className="mt-2 text-red-500">
+                    {errorMessage}
+                </div>
+            )}
         </>
     )
 }
