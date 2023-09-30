@@ -7,11 +7,30 @@ type PlayerScoreCardProps = {
     openPlayerScoreModal: (player: Player) => void
 }
 
-export function PlayerScoreCard({ player, openPlayerScoreModal }: PlayerScoreCardProps) {
+const generateStars = (count: number) => {
+    const stars = [];
+    for (let i = 0; i < count; i++) {
+        stars.push(
+            <span key={i} className="p-0.5 opacity-100">⭐️</span>
+        );
+    }
+    for (let i = count; i < 3; i++) {
+        stars.push(
+            <span key={i} className="p-0.5 opacity-30">⭐️</span>
+        );
+    }
+    return stars;
+};
+
+export function PlayerScoreCard({
+    player,
+    openPlayerScoreModal
+}: PlayerScoreCardProps) {
+    
     return (
         <div className="flex items-center">
             <div
-                className="flex justify-between w-full p-4 border-2 border-purple-300 rounded-lg"
+                className="flex items-center justify-between w-full p-4 text-lg border-2 border-purple-300 rounded-lg"
                 key={player.id}
             >
                 <span>
@@ -19,10 +38,10 @@ export function PlayerScoreCard({ player, openPlayerScoreModal }: PlayerScoreCar
                 </span>
 
                 <span className="font-bold">
-                    {player.score}
+                    {player.score} pts
                 </span>
-                <span className="font-bold">
-                    Stars: {generateEmojis(player.stars, '⭐')}
+                <span className="flex items-center gap-x-1">
+                    {generateStars(player.stars)}
                 </span>
             </div>
             <div className="ml-2">

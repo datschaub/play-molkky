@@ -19,7 +19,11 @@ const addPointsBtnStyles = {
     btnTextDisabled: `hover:cursor-not-allowed`
 }
 
-export function PlayerScoreModal({ player, closeModal, updatePlayerPoints }: PlayerScoreModalProps) {
+export function PlayerScoreModal({
+    player,
+    closeModal,
+    updatePlayerPoints
+}: PlayerScoreModalProps) {
 
     const addPlayerPoints = usePlayerStore(state => state.addPlayerPoints)
     const [selectedNumber, setSelectedNumber] = useState<number>(0)
@@ -68,8 +72,8 @@ export function PlayerScoreModal({ player, closeModal, updatePlayerPoints }: Pla
             <div className="my-4 font-bold">
                 Current stars: {
                     starIsSelected
-                    ? `${generateEmojis(player.stars, '⭐')} (⭐)`
-                    : `${generateEmojis(player.stars, '⭐')}`
+                        ? `${generateEmojis(player.stars, '⭐')} (+ ⭐)`
+                        : `${generateEmojis(player.stars, '⭐')}`
                 }
             </div>
             <div
