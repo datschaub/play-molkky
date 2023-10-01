@@ -23,33 +23,43 @@ const generateStars = (count: number, totalGameStars: number) => {
     return stars;
 };
 
+const getTextSizeClass = (gameStars: number) => {
+    switch (gameStars) {
+        case 1:
+            return 'text-3xl';
+        case 2:
+            return 'text-2xl';
+        case 3:
+            return 'text-xl';
+        default:
+            return 'text-lg';
+    }
+};
+
 export function PlayerScoreCard({
     player,
     openPlayerScoreModal
 }: PlayerScoreCardProps) {
 
     const gameStars = usePlayerStore(state => state.gameStars)
-    
-    return (
-        <div className="flex items-center">
-            <div
-                className="flex items-center justify-between w-full p-4 text-lg border-2 border-purple-300 rounded-lg"
-                key={player.id}
-            >
-                <span>
-                    {player.name}
-                </span>
 
-                <span className="font-bold">
-                    {player.score} pts
-                </span>
-                <span className="flex items-center gap-x-1">
-                    {generateStars(player.stars, gameStars)}
-                </span>
+    return (
+        <>
+            <div className="shadow lg:max-w-none card bg-primary text-primary-content">
+                <div className="p-6 card-body">
+                    <h2 className="w-full card-title">{player.name}</h2>
+                    <div className="flex flex-row justify-between py-2">
+                        <div className="text-2xl font-bold">{player.score}</div>
+                        <div className={`text-2xl lg:text-3xl stat-value`}>{generateStars(player.stars, gameStars)}</div>
+                    </div>
+                    <div className="justify-between card-actions">
+                        <button className="btn btn-sm btn-secondary">Edit</button>
+                        <button className="btn btn-sm" onClick={() => openPlayerScoreModal(player)}>
+                            Add points <PlusCircleIcon className="w-6 h-6" />
+                        </button>
+                    </div>
+                </div>
             </div>
-            <div className="ml-2">
-                <PlusCircleIcon onClick={() => openPlayerScoreModal(player)} className="w-6 h-6" />
-            </div>
-        </div>
+        </>
     )
 }

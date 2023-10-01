@@ -13,9 +13,9 @@ type PlayerScoreModalProps = {
 }
 
 const addPointsBtnStyles = {
-    btnEnabled: `text-white transition-colors bg-purple-600 border border-purple-600 hover:bg-transparent focus:outline-none focus-visible:ring-2 focus-visible:ring-purple-500 focus-visible:ring-offset-2`,
-    btnDisabled: `bg-gray-400`,
-    btnTextEnabled: `group-active:text-purple-500 group-hover:text-purple-600`,
+    btnEnabled: `btn-primary`,
+    btnDisabled: `btn-ghost`,
+    btnTextEnabled: ``,
     btnTextDisabled: `hover:cursor-not-allowed`
 }
 
@@ -81,7 +81,7 @@ export function PlayerScoreModal({
             >
                 <button
                     type="button"
-                    className="inline-flex justify-center px-4 py-2 text-sm font-medium text-purple-900 bg-purple-100 border border-transparent rounded-md hover:bg-purple-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-purple-500 focus-visible:ring-offset-2"
+                    className="btn btn-secondary"
                     onClick={() => closeModal()}
                 >
                     Close
@@ -89,7 +89,7 @@ export function PlayerScoreModal({
                 <button
                     type="button"
                     disabled={addPointsDisabled}
-                    className={`inline-flex justify-center px-4 py-2 text-sm font-medium rounded-md group ${addPointsDisabled ? addPointsBtnStyles.btnDisabled : addPointsBtnStyles.btnEnabled}`}
+                    className={`btn ${addPointsDisabled ? addPointsBtnStyles.btnDisabled : addPointsBtnStyles.btnEnabled}`}
                     onClick={() => handleAddPlayerPoints()}
                 >
                     <span className={`font-medium text-white transition-colors ${addPointsDisabled ? addPointsBtnStyles.btnTextDisabled : addPointsBtnStyles.btnTextEnabled}`}>

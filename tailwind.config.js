@@ -11,5 +11,8 @@ module.exports = {
     styled: true,
     themes: false,
     base: true,
+    themes: [
+      "retro"
+    ]
   },
 };

@@ -71,11 +71,13 @@ const Home: NextPage<{}> = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main className="container flex flex-col items-center justify-center h-screen p-4 mx-auto">
-        <h1 className="text-5xl md:text-[5rem] leading-normal font-extrabold text-gray-700">
-          Play <span className="text-purple-300">MÖLKKY</span>
-        </h1>
-        <div className="flex flex-col items-center w-full pt-3 mt-3 space-y-4 text-center lg:w-2/3">
+      <main className="flex flex-col items-center justify-center">
+        {!gameHasStarted && (
+          <h1 className="text-5xl md:text-[5rem] leading-normal font-extrabold">
+            <span className="text-primary">Play</span> <span className="text-secondary">MÖLKKY</span>
+          </h1>
+        )}
+        <div className="flex flex-col items-center justify-center w-full gap-4 p-4 text-center lg:w-2/3">
           {!gameHasStarted
             ?
             <>
@@ -105,7 +107,7 @@ const Home: NextPage<{}> = () => {
         <Modal isOpen={modalIsOpen} closeModal={handleCloseModal}>
           {modalContent}
         </Modal>
-      </main>
+      </main >
     </>
   );
 };

@@ -87,7 +87,7 @@ export function NewPlayerForm({
                     />
                     {!disableDelete && (
                         <button
-                            className="w-8 text-red-400 rounded-full"
+                            className="w-8 rounded-full text-accent"
                             type="button"
                             onClick={() => {
                                 removePlayer(player.id, unregisterInputFunc)

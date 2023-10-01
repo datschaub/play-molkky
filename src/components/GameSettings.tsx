@@ -82,7 +82,7 @@ export function GameSettings({ getFormValuesFunc }: GameSettingsProps) {
                                 </div>
                             </div>
                             <button
-                                className="w-full h-10 px-4 py-2 text-white transition-colors bg-purple-500 border border-purple-500 rounded-md group hover:bg-transparent focus:outline-none focus-visible:ring-2 focus-visible:ring-purple-400 focus-visible:ring-offset-2"
+                                className="btn"
                                 type="button"
                                 onClick={() => randomizePlayerOrder(getFormValuesFunc)}>
                                 <div className="flex items-center justify-center space-x-2 text-white transition-colors group-active:text-purple-500 group-hover:text-purple-500">
