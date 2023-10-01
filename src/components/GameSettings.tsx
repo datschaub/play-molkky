@@ -46,7 +46,7 @@ export function GameSettings({ getFormValuesFunc }: GameSettingsProps) {
                     onClick={toggleAccordion}
                 >
                     <div className="divider">
-                        Game settings
+                        <span className="font-bold">Game settings</span>
                         <motion.div
                             variants={variants}
                             animate={gameSettingsOpen ? 'rotate' : 'stop'}
@@ -64,32 +64,33 @@ export function GameSettings({ getFormValuesFunc }: GameSettingsProps) {
                         animate={{ height: 'auto' }}
                         exit={{ height: 0 }}
                     >
-                        <div className="flex flex-col gap-y-5">
-                            <div className="flex flex-col gap-y-2">
-                                Amount of stars
+                        <div className="flex flex-col px-1 gap-y-5">
+                            <div className="flex flex-col items-center p-2 rounded-lg shadow shadow-slate-500 gap-y-2 bg-secondary">
+                                <span className="font-bold">Amount of stars</span>
                                 <input
                                     type="range"
                                     min={1}
                                     max="5"
                                     value={gameStars}
-                                    className="range"
+                                    className="range range-primary"
                                     step="1"
                                     onChange={handleStarsChange}
                                 />
-                                <div className="flex justify-between w-full px-2 text-lg">
+                                <div className="flex justify-between w-full px-2 text-lg rounded-lg">
                                     {rangeStarIcons}
                                 </div>
                             </div>
                             <button
-                                className="btn"
+                                className="shadow btn btn-accent shadow-slate-500"
                                 type="button"
                                 onClick={() => randomizePlayerOrder(getFormValuesFunc)}>
-                                <div className="flex items-center justify-center space-x-2 text-white transition-colors group-active:text-purple-500 group-hover:text-purple-500">
+                                <div className="flex items-center justify-center space-x-2 text-white">
                                     <span className="font-bold">Randomize Order</span>
                                     <LightningBoltIcon className="w-6" />
                                 </div>
                             </button>
                         </div>
+                        <div className="divider"></div>
                     </motion.div>
                 )}
             </AnimatePresence>
