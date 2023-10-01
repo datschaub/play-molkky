@@ -10,10 +10,10 @@ type ScoreNumberBtnProps = {
 // https://tailwindcolor.com/
 const variants = {
     isSelected: {
-        backgroundColor: '#4ADE80', // tailwind bg-green-400
+        backgroundColor: '#DC8951', // daisyUI retro accent
     },
     notSelected: {
-        backgroundColor: '#FFF'
+        backgroundColor: '#E4D8B4' // daisyUI base-100
     },
 }
 
@@ -26,12 +26,12 @@ export function ScoreNumberBtn({ number, onSelectNumber, isSelected }: ScoreNumb
             whileHover={
                 !isSelected
                     ? {
-                        backgroundColor: '#86EFAC'  // tailwind bg-green-300
+                        backgroundColor: '#DAC89A'  // daisyUI base-200
                     }
                     : ''
             }
             onHoverEnd={e => {}} // reset hover        
-            className={`flex justify-center p-2 border-2 rounded-md border-green-400 hover:bg-green-300 font-bold`}
+            className={`flex justify-center p-2 border-2 rounded-md border-[#D5BE87] hover:bg-[#DAC89A] font-bold`}
             onClick={() => onSelectNumber(number)}
         >
             {number}

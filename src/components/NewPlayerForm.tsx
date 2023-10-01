@@ -74,10 +74,10 @@ export function NewPlayerForm({
                 animate="animate"
                 exit="exit"
             >
-                <div className="flex items-center justify-center py-2 space-y-2">
+                <div className="flex items-center py-2 space-x-2">
                     <ReorderIcon dragControls={dragControls} />
                     <label className="sr-only" htmlFor={player.id}>{` Player `}</label>
-                    <input className="w-full px-4 py-4 ml-4 text-sm border-2 border-gray-200 rounded-lg"
+                    <input className="input input-bordered"
                         id={player.id}
                         placeholder={`Player ${playerPlaceholder}`}
                         defaultValue={player.name}
