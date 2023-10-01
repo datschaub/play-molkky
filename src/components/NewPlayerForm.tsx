@@ -77,7 +77,7 @@ export function NewPlayerForm({
                 <div className="flex items-center py-2 pr-1 space-x-2">
                     <ReorderIcon dragControls={dragControls} />
                     <label className="sr-only" htmlFor={player.id}>{` Player `}</label>
-                    <input className="w-full input input-bordered"
+                    <input className="w-full input input-bordered bg-slate-50"
                         id={player.id}
                         placeholder={`Player ${playerPlaceholder}`}
                         defaultValue={player.name}
