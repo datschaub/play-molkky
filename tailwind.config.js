@@ -8,8 +8,11 @@ module.exports = {
   plugins: [require("daisyui")],
   // daisyUI config (optional)
   daisyui: {
-    styled: false,
+    styled: true,
     themes: false,
     base: true,
+    themes: [
+      "retro"
+    ]
   },
 };

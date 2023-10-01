@@ -9,10 +9,10 @@ type StarBtnProps = {
 // https://tailwindcolor.com/
 const variants = {
     isSelected: {
-        backgroundColor: '#FB7185', // tailwind bg-rose-400
+        backgroundColor: '#FB7185', // daisyUI primary
     },
     notSelected: {
-        backgroundColor: '#FFF'
+        backgroundColor: '#EE9895' // daisyUI base-100
     },
 }
 
@@ -25,15 +25,15 @@ export function StarBtn({ isSelected, onSelect }: StarBtnProps) {
             whileHover={
                 !isSelected
                     ? {
-                        backgroundColor: '#FDA4AF'  // tailwind bg-rose-300
+                        backgroundColor: '#EA7A74'  // daisyUI primary focus
                     }
                     : ''
             }
             onHoverEnd={e => {}} // reset hover        
-            className={`flex justify-center w-full p-2 border-2 rounded-md border-rose-400`}
+            className={`font-bold shadow flex justify-center w-full p-2 border-2 rounded-md border-rose-400`}
             onClick={() => onSelect()}
         >
-            ⭐
+            Add star ⭐
         </motion.button>
     )
 }

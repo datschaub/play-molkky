@@ -3,4 +3,5 @@ export type Player = {
     name?: string;
     order: number;
     score: number;
+    stars: number;
 }

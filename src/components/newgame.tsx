@@ -1,55 +1,59 @@
 import { Dialog } from "@headlessui/react";
 import { NewPlayerForm } from "./NewPlayerForm";
-import { PlusCircleIcon, LightningBoltIcon, ChevronDownIcon } from "@heroicons/react/solid";
+import { PlusCircleIcon } from "@heroicons/react/solid";
 import { Player } from "../types/types";
-import { FieldValues, useForm, UseFormGetValues, UseFormUnregister } from "react-hook-form";
-import { AnimatePresence, motion, Reorder } from "framer-motion"
-import { Dispatch, SetStateAction, useState } from "react";
+import { FieldValues, useForm, UseFormGetValues } from "react-hook-form";
+import { AnimatePresence, Reorder } from "framer-motion"
 import { GameSettings } from "./GameSettings";
+import { usePlayerStore } from "../stores/playerStore";
 
 type NewGameProps = {
-    players: Player[];
-    handleAddPlayers: () => void;
-    handleRemovePlayers: (playerId: string, unregisterFunc: UseFormUnregister<FieldValues>) => void;
-    handleRandomizeOrder: (getValuesFunc: UseFormGetValues<FieldValues>) => void;
-    handleOnReorder: Dispatch<SetStateAction<Player[]>>;
     closeModal: (getValuesFunc: UseFormGetValues<FieldValues>) => void;
-    onHandleSubmit: (newPlayers: any) => void;
+    onHandleSubmit: (getValuesFunc: UseFormGetValues<FieldValues>) => void;
 }
 
 export function NewGame({
-    players,
-    handleAddPlayers,
-    handleRemovePlayers,
-    handleRandomizeOrder,
     closeModal,
     onHandleSubmit,
-    handleOnReorder
 }: NewGameProps) {
 
-    const { register, unregister, handleSubmit, getValues, formState: { errors } } = useForm({
+    const {
+        register,
+        unregister,
+        handleSubmit,
+        getValues,
+        formState: { errors },
+        trigger
+    } = useForm({
         shouldUnregister: true,
-        mode: "all"
+        mode: "onSubmit",
+        criteriaMode: "all"
     })
+
+    const addNewPlayer = usePlayerStore(state => state.addNewPlayer)
+    const reOrderPlayers = usePlayerStore(state => state.reOrderPlayers)
+    const players = usePlayerStore(state => state.players)
 
     return (
         <>
             <Dialog.Title
                 as="h3"
-                className="text-lg font-medium leading-6 text-gray-900"
+                className="text-lg font-medium"
             >
-                New game
+                New game 🙌
             </Dialog.Title>
             <h4>Add players</h4>
             <div className="flex flex-col text-sm text-gray-500">
                 <form
-                    onSubmit={handleSubmit(onHandleSubmit)}
+                    onSubmit={handleSubmit(() => {
+                        onHandleSubmit(getValues);
+                    })}
                     className="flex flex-col mt-2 space-y-3"
                 >
                     <Reorder.Group
                         axis="y"
                         values={players}
-                        onReorder={handleOnReorder}
+                        onReorder={(newOrder) => reOrderPlayers(newOrder, getValues)}
                         className="overflow-hidden"
                     >
                         <AnimatePresence initial={false}>
@@ -62,8 +66,8 @@ export function NewGame({
                                             playerPlaceholder={players.indexOf(player) + 1}
                                             registerInputFunc={register}
                                             unregisterInputFunc={unregister}
-                                            handleRemovePlayer={handleRemovePlayers}
                                             disableDelete={i < 2}
+                                            errorMessage={errors[player.id]?.message?.toString()}
                                         />
                                     )
                                 })
@@ -71,16 +75,15 @@ export function NewGame({
                         </AnimatePresence>
                     </Reorder.Group>
                     <button
-                        className="w-full h-10 px-4 py-2 text-white transition-colors bg-purple-600 border border-purple-600 rounded-md group hover:bg-transparent focus:outline-none focus-visible:ring-2 focus-visible:ring-purple-400 focus-visible:ring-offset-2"
+                        className="w-full btn btn-primary"
                         type="button"
-                        onClick={() => handleAddPlayers()}>
-                        <div className="flex items-center justify-center space-x-2 text-white transition-colors group-active:text-purple-600 group-hover:text-purple-600">
+                        onClick={() => addNewPlayer()}>
+                        <div className="flex items-center justify-center space-x-2 text-white transition-all">
                             <span className="font-bold">Add Player</span>
                             <PlusCircleIcon className="w-6" />
                         </div>
                     </button>
                     <GameSettings
-                        handleRandomizeOrder={handleRandomizeOrder}
                         getFormValuesFunc={getValues}
                     />
                     <div
@@ -88,14 +91,14 @@ export function NewGame({
                     >
                         <button
                             type="button"
-                            className="inline-flex justify-center px-4 py-2 text-sm font-medium text-purple-900 bg-purple-100 border border-transparent rounded-md hover:bg-purple-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-purple-500 focus-visible:ring-offset-2"
+                            className="btn btn-secondary"
                             onClick={() => closeModal(getValues)}
                         >
                             Cancel
                         </button>
                         <button
                             type="submit"
-                            className="inline-flex justify-center px-4 py-2 text-sm font-medium text-white transition-colors bg-purple-600 border border-purple-600 rounded-md group hover:bg-transparent focus:outline-none focus-visible:ring-2 focus-visible:ring-purple-500 focus-visible:ring-offset-2"
+                            className="btn btn-primary"
                         >
                             <span className="font-medium text-white transition-colors group-active:text-purple-500 group-hover:text-purple-600">
                                 Play!
@@ -104,6 +107,7 @@ export function NewGame({
                     </div>
 
                 </form>
+
             </div>
         </>
     )

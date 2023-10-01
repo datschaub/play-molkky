@@ -1,10 +1,10 @@
 import { Player } from "../types/types"
-import { PlayerScoreCard } from "../components/PlayerScoreCard"
-import Modal from "./modal"
-import { useCallback, useState } from "react"
+import { useState } from "react"
 import { Dialog } from "@headlessui/react"
 import { ScoreNumberBtn } from "./ScoreNumberBtn"
 import { StarBtn } from "./StarBtn"
+import { usePlayerStore } from "../stores/playerStore"
+import { generateEmojis } from "../utils/utils"
 
 type PlayerScoreModalProps = {
     player: Player;
@@ -13,32 +13,76 @@ type PlayerScoreModalProps = {
 }
 
 const addPointsBtnStyles = {
-    btnEnabled: `text-white transition-colors bg-purple-600 border border-purple-600 hover:bg-transparent focus:outline-none focus-visible:ring-2 focus-visible:ring-purple-500 focus-visible:ring-offset-2`,
-    btnDisabled: `bg-gray-400`,
-    btnTextEnabled: `group-active:text-purple-500 group-hover:text-purple-600`,
+    btnEnabled: `btn-primary`,
+    btnDisabled: `btn-ghost`,
+    btnTextEnabled: ``,
     btnTextDisabled: `hover:cursor-not-allowed`
 }
 
-export function PlayerScoreModal({ player, closeModal, updatePlayerPoints }: PlayerScoreModalProps) {
+export function PlayerScoreModal({
+    player,
+    closeModal,
+    updatePlayerPoints
+}: PlayerScoreModalProps) {
 
-    const [selectedNumber, setSelectedNumber] = useState<number>(0)
+    const addPlayerPoints = usePlayerStore(state => state.addPlayerPoints)
+    const [selectedNumber, setSelectedNumber] = useState<number | undefined>(undefined)
     const [starIsSelected, setStarIsSelected] = useState(false)
-    const addPointsDisabled = selectedNumber <= 0 && !starIsSelected
+    const addPointsDisabled = selectedNumber == undefined && !starIsSelected
+    const gameStars = usePlayerStore(state => state.gameStars)
 
     const handleOnSelectNumber = (number: number) => {
-        setSelectedNumber(number)
+        if (number == selectedNumber) {
+            setSelectedNumber(undefined)
+        } else {
+            setSelectedNumber(number)
+        }
         setStarIsSelected(false)
     }
 
     const handleOnSelectStar = () => {
-        setSelectedNumber(0)
-        setStarIsSelected(true)
+        if (starIsSelected) {
+            setSelectedNumber(undefined)
+        } else {
+            setSelectedNumber(0)
+        }
+        setStarIsSelected(prev => !prev)
     }
 
-    const addPlayerPoints = () => {
-        updatePlayerPoints(player, selectedNumber)
-        closeModal()
+    const handleAddPlayerPoints = () => {
+        if (selectedNumber !== undefined) {
+            addPlayerPoints(player, selectedNumber)
+            closeModal()
+        }
     }
+
+    /**
+     * Generates star icons based on the game stars and the player's star count,
+     * reflecting the selection with opacity 100 when a star is selected.
+     * @returns {Array} An array of React elements representing star icons.
+     */
+    const handleCurrentStars = (): Array<any> => Array.from({ length: gameStars }, (_, index) => {
+        let opacityClass = 'opacity-30 transition transition-all';
+
+        if (starIsSelected) {
+            if (index < player.stars) {
+                opacityClass = 'opacity-100';
+            } else if (index === player.stars) {
+                opacityClass = 'transition transition-all opacity-70 border-b-4 border-b-primary border-dotted';
+            }
+        } else if (index < player.stars) {
+            opacityClass = 'opacity-100';
+        }
+
+        return (
+            <span
+                key={index}
+                className={`text-lg ${opacityClass}`}
+            >
+                ⭐
+            </span>
+        );
+    });
 
     return (
         <>
@@ -48,23 +92,48 @@ export function PlayerScoreModal({ player, closeModal, updatePlayerPoints }: Pla
             >
                 {player.name}
             </Dialog.Title>
-            <div className="grid grid-cols-4 gap-2 mb-4">
-                {
-                    [...Array(12)].map((e, i) => {
-                        return <ScoreNumberBtn key={i} number={i + 1} isSelected={selectedNumber === (i + 1)} onSelectNumber={handleOnSelectNumber} />
-                    })
-                }
+            <div className="pb-4">
+                Add points 👇
             </div>
-            <StarBtn isSelected={starIsSelected} onSelect={handleOnSelectStar} />
-            <div className="my-4">
-                Current score: {player.score}
+            <div className="p-2 rounded-lg shadow bg-secondary shadow-slate-500">
+                <div className="grid grid-cols-4 gap-2 mb-4">
+                    {
+                        [...Array(12)].map((e, i) => {
+                            return <ScoreNumberBtn key={i} number={i + 1} isSelected={selectedNumber === (i + 1)} onSelectNumber={handleOnSelectNumber} />
+                        })
+                    }
+                </div>
+                <div className="m-0 divider" />
+                <label className="flex flex-row items-center justify-center gap-2 cursor-pointer label">
+                    <span className="text-xl font-bold label-text">
+                        Add star
+                    </span>
+                    <input
+                        type="checkbox"
+                        checked={starIsSelected}
+                        className="w-8 h-8 border-4 shadow checkbox checkbox-primary"
+                        onChange={handleOnSelectStar}
+                    />
+                </label>
+            </div>
+            <div className="px-3 py-1 mt-4 text-xl rounded-lg shadow shadow-slate-500 gap-y-2 bg-accent">
+                <div className="my-4 font-bold">
+                    Current score: {
+                        selectedNumber !== undefined && selectedNumber > 0
+                            ? `${player.score} (${player.score + selectedNumber})`
+                            : player.score
+                    }
+                </div>
+                <div className="my-4 font-bold">
+                    Current stars: {handleCurrentStars()}
+                </div>
             </div>
             <div
                 className="flex justify-between mt-4"
             >
                 <button
                     type="button"
-                    className="inline-flex justify-center px-4 py-2 text-sm font-medium text-purple-900 bg-purple-100 border border-transparent rounded-md hover:bg-purple-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-purple-500 focus-visible:ring-offset-2"
+                    className="btn btn-secondary"
                     onClick={() => closeModal()}
                 >
                     Close
@@ -72,8 +141,8 @@ export function PlayerScoreModal({ player, closeModal, updatePlayerPoints }: Pla
                 <button
                     type="button"
                     disabled={addPointsDisabled}
-                    className={`inline-flex justify-center px-4 py-2 text-sm font-medium rounded-md group ${addPointsDisabled ? addPointsBtnStyles.btnDisabled : addPointsBtnStyles.btnEnabled}`}
-                    onClick={() => addPlayerPoints()}
+                    className={`btn ${addPointsDisabled ? addPointsBtnStyles.btnDisabled : addPointsBtnStyles.btnEnabled}`}
+                    onClick={() => handleAddPlayerPoints()}
                 >
                     <span className={`font-medium text-white transition-colors ${addPointsDisabled ? addPointsBtnStyles.btnTextDisabled : addPointsBtnStyles.btnTextEnabled}`}>
                         Add points

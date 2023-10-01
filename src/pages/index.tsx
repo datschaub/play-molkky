@@ -1,6 +1,5 @@
 import type { NextPage } from "next";
 import Head from "next/head";
-import { GetStaticProps } from "next";
 import { NewGame } from "../components/newgame";
 import Modal from "../components/modal";
 import { Rules } from "../components/rules";
@@ -8,33 +7,16 @@ import { useCallback, useEffect, useState } from "react";
 import { PlayIcon, DocumentTextIcon } from '@heroicons/react/solid'
 import { ModalButton } from "../components/ModalButton";
 import { Player } from "../types/types";
-import { nanoid } from 'nanoid'
-import { FieldValues, UseFormGetValues, UseFormUnregister } from "react-hook-form";
-import { AnimatePresence } from "framer-motion";
+import { FieldValues, UseFormGetValues } from "react-hook-form";
 import { ScoreBoard } from "../components/ScoreBoard";
+import { usePlayerStore } from "../stores/playerStore";
+import { mapPlayers } from "../utils/utils";
 
-// Set initial IDs on build time because of hydration
-export const getStaticProps: GetStaticProps = () => {
-  return {
-    props: {
-      player1_id: nanoid(5),
-      player2_id: nanoid(5)
-    },
-  }
-}
+const Home: NextPage<{}> = () => {
 
-// Need at least 2 players
-type HomeProps = {
-  player1_id: string;
-  player2_id: string;
-}
+  const players = usePlayerStore(state => state.players)
+  const setPlayerOrder = usePlayerStore(state => state.setPlayerOrder)
 
-const Home: NextPage<HomeProps> = ({ player1_id, player2_id }) => {
-
-  const [players, setPlayers] = useState<Player[]>([
-    { id: player1_id, name: '', order: 1, score: 0 },
-    { id: player2_id, name: '', order: 2, score: 0 }
-  ])
   const [modalIsOpen, setModalIsOpen] = useState(false)
   const [modalContent, setModalContent] = useState<JSX.Element>()
   const [gameHasStarted, setGameHasStarted] = useState(false)
@@ -48,100 +30,38 @@ const Home: NextPage<HomeProps> = ({ player1_id, player2_id }) => {
     setModalIsOpen(false)
   }, [])
 
-  const mapNewPlayers = useCallback((newPlayers: FieldValues) => {
-    let p = [...players]
-    setPlayers(p.map((player, i) => {
-      return {
-        'name': newPlayers[player.id],
-        'id': player.id,
-        'order': i + 1,
-        'score': player.score
-      }
-    }))
-  }, [players])
-
   const handleClosePlayersModal = useCallback((getValuesFunc: UseFormGetValues<FieldValues>) => {
-    const newPlayers = getValuesFunc();
-    mapNewPlayers(newPlayers)
+    const mappedPlayerOrder = mapPlayers(players, getValuesFunc)
+    setPlayerOrder(mappedPlayerOrder)
     handleCloseModal()
-  }, [mapNewPlayers, handleCloseModal])
+  }, [setPlayerOrder, handleCloseModal, players])
 
-  const handleSubmit = useCallback((newPlayers: any) => {
-    mapNewPlayers(newPlayers)
-    handleCloseModal()
+  const handleSubmit = useCallback((getValuesFunc: UseFormGetValues<FieldValues>) => {
+    handleClosePlayersModal(getValuesFunc)
     setGameHasStarted(true)
-  }, [mapNewPlayers, handleCloseModal])
-
-  const handleAddPlayer = useCallback(() => {
-    setPlayers(
-      [...players, { id: nanoid(5), name: '', order: players.length + 1, score: 0 }]
-    )
-  }, [players])
-
-  const handleRemovePlayer = useCallback((playerId: string, unregisterFunc: UseFormUnregister<FieldValues>) => {
-    //Unregister field from react forms
-    unregisterFunc(playerId)
-    const playerIndex = players.findIndex((p) => p.id === playerId)
-
-    let playerData = [...players];
-    playerData.splice(playerIndex, 1)
-    setPlayers(playerData)
-  }, [players])
-
-  const shuffleArray = (array: Array<any>) => {
-    for (let i = array.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [array[i], array[j]] = [array[j], array[i]];
-    }
-    return array;
-  }
-
-  const randomizeOrder = useCallback((getValuesFunc: UseFormGetValues<FieldValues>) => {
-    const newPlayers = getValuesFunc()
-    let p = [...players]
-    let playerOrder = p.map((player, i) => {
-      return {
-        'name': newPlayers[player.id],
-        'id': player.id,
-        'order': i + 1,
-        'score': player.score
-      }
-    })
-    playerOrder = shuffleArray(playerOrder)
-    setPlayers(playerOrder)
-  }, [players])
-
-  const reorderPlayers = useCallback((getValuesFunc: UseFormGetValues<FieldValues>) => {
-    const newPlayers = getValuesFunc()
-    mapNewPlayers(newPlayers)
-  }, [mapNewPlayers])
+  }, [handleClosePlayersModal])
 
   const handleUpdatePlayerPoints = (player: Player, pointsToAdd: number) => {
     let playerToUpdate = players.filter(p => p.id === player.id).at(0)
 
-    setPlayers([...players].map((p, i) => {
-      return {
-        'name': p.name,
-        'id': p.id,
-        'order': p.order,
-        'score': p === playerToUpdate ? (player.score + pointsToAdd) : p.score
-      }
-    }))
+    // setPlayers([...players].map((p, i) => {
+    //   return {
+    //     'name': p.name,
+    //     'id': p.id,
+    //     'order': p.order,
+    //     'score': p === playerToUpdate ? (player.score + pointsToAdd) : p.score
+    //   }
+    // }))
   }
 
   useEffect(() => {
     setModalContent(
       <NewGame
-        players={players}
-        handleAddPlayers={handleAddPlayer}
-        handleRemovePlayers={handleRemovePlayer}
         closeModal={handleClosePlayersModal}
         onHandleSubmit={handleSubmit}
-        handleRandomizeOrder={randomizeOrder}
-        handleOnReorder={setPlayers}
       />
     )
-  }, [players, handleAddPlayer, handleCloseModal, handleSubmit, handleRemovePlayer, handleClosePlayersModal, randomizeOrder, setPlayers, reorderPlayers])
+  }, [players, handleCloseModal, handleSubmit, handleClosePlayersModal])
 
   return (
     <>
@@ -151,11 +71,13 @@ const Home: NextPage<HomeProps> = ({ player1_id, player2_id }) => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main className="container flex flex-col items-center justify-center h-screen p-4 mx-auto">
-        <h1 className="text-5xl md:text-[5rem] leading-normal font-extrabold text-gray-700">
-          Play <span className="text-purple-300">MÖLKKY</span>
-        </h1>
-        <div className="flex flex-col items-center w-full pt-3 mt-3 space-y-4 text-center lg:w-2/3">
+      <main className="flex flex-col items-center justify-center">
+        {!gameHasStarted && (
+          <h1 className="text-5xl md:text-[5rem] leading-normal font-extrabold">
+            <span className="text-primary">Play</span> <span className="text-secondary">MÖLKKY</span>
+          </h1>
+        )}
+        <div className="flex flex-col items-center justify-center w-full gap-4 p-4 text-center lg:w-2/3">
           {!gameHasStarted
             ?
             <>
@@ -165,13 +87,8 @@ const Home: NextPage<HomeProps> = ({ player1_id, player2_id }) => {
                 handleOpenModal={handleOpenModal}
                 modalContent={
                   <NewGame
-                    players={players}
-                    handleAddPlayers={handleAddPlayer}
                     closeModal={handleClosePlayersModal}
                     onHandleSubmit={handleSubmit}
-                    handleRemovePlayers={handleRemovePlayer}
-                    handleRandomizeOrder={randomizeOrder}
-                    handleOnReorder={setPlayers}
                   />
                 }
                 icon={<PlayIcon />}
@@ -184,18 +101,13 @@ const Home: NextPage<HomeProps> = ({ player1_id, player2_id }) => {
                 icon={<DocumentTextIcon />}
               />
             </>
-
-            :
-            <>
-              <ScoreBoard players={players} updatePlayerPoints={handleUpdatePlayerPoints} />
-            </>
+            : <ScoreBoard players={players} updatePlayerPoints={handleUpdatePlayerPoints} />
           }
         </div>
-        <div className="absolute bottom-0">{JSON.stringify(players)}</div>
         <Modal isOpen={modalIsOpen} closeModal={handleCloseModal}>
           {modalContent}
         </Modal>
-      </main>
+      </main >
     </>
   );
 };
