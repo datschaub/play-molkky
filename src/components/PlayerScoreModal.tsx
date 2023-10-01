@@ -26,24 +26,34 @@ export function PlayerScoreModal({
 }: PlayerScoreModalProps) {
 
     const addPlayerPoints = usePlayerStore(state => state.addPlayerPoints)
-    const [selectedNumber, setSelectedNumber] = useState<number>(0)
+    const [selectedNumber, setSelectedNumber] = useState<number | undefined>(undefined)
     const [starIsSelected, setStarIsSelected] = useState(false)
-    const addPointsDisabled = selectedNumber <= 0 && !starIsSelected
+    const addPointsDisabled = selectedNumber == undefined && !starIsSelected
     const gameStars = usePlayerStore(state => state.gameStars)
 
     const handleOnSelectNumber = (number: number) => {
-        setSelectedNumber(number)
+        if (number == selectedNumber) {
+            setSelectedNumber(undefined)
+        } else {
+            setSelectedNumber(number)
+        }
         setStarIsSelected(false)
     }
 
     const handleOnSelectStar = () => {
-        setSelectedNumber(0)
-        setStarIsSelected(true)
+        if (starIsSelected) {
+            setSelectedNumber(undefined)
+        } else {
+            setSelectedNumber(0)
+        }
+        setStarIsSelected(prev => !prev)
     }
 
     const handleAddPlayerPoints = () => {
-        addPlayerPoints(player, selectedNumber)
-        closeModal()
+        if (selectedNumber !== undefined) {
+            addPlayerPoints(player, selectedNumber)
+            closeModal()
+        }
     }
 
     /**
@@ -80,24 +90,36 @@ export function PlayerScoreModal({
                 as="h3"
                 className="mb-2 text-lg font-medium leading-6 text-gray-900"
             >
-                Player {player.name}
+                {player.name}
             </Dialog.Title>
-            <div className="pb-4">Add points 👇</div>
-            <div className="grid grid-cols-4 gap-2 mb-4">
-                {
-                    [...Array(12)].map((e, i) => {
-                        return <ScoreNumberBtn key={i} number={i + 1} isSelected={selectedNumber === (i + 1)} onSelectNumber={handleOnSelectNumber} />
-                    })
-                }
+            <div className="pb-4">
+                Add points 👇
             </div>
-            <StarBtn
-                isSelected={starIsSelected}
-                onSelect={handleOnSelectStar}
-            />
-            <div className="p-2 mt-4 text-xl rounded-lg shadow shadow-slate-500 gap-y-2 bg-secondary">
+            <div className="p-2 rounded-lg shadow bg-secondary shadow-slate-500">
+                <div className="grid grid-cols-4 gap-2 mb-4">
+                    {
+                        [...Array(12)].map((e, i) => {
+                            return <ScoreNumberBtn key={i} number={i + 1} isSelected={selectedNumber === (i + 1)} onSelectNumber={handleOnSelectNumber} />
+                        })
+                    }
+                </div>
+                <div className="m-0 divider" />
+                <label className="flex flex-row items-center justify-center gap-2 cursor-pointer label">
+                    <span className="text-xl font-bold label-text">
+                        Add star
+                    </span>
+                    <input
+                        type="checkbox"
+                        checked={starIsSelected}
+                        className="w-8 h-8 border-4 shadow checkbox checkbox-primary"
+                        onChange={handleOnSelectStar}
+                    />
+                </label>
+            </div>
+            <div className="px-3 py-1 mt-4 text-xl rounded-lg shadow shadow-slate-500 gap-y-2 bg-accent">
                 <div className="my-4 font-bold">
                     Current score: {
-                        selectedNumber > 0
+                        selectedNumber !== undefined && selectedNumber > 0
                             ? `${player.score} (${player.score + selectedNumber})`
                             : player.score
                     }

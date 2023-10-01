@@ -65,8 +65,8 @@ export function GameSettings({ getFormValuesFunc }: GameSettingsProps) {
                         exit={{ height: 0 }}
                     >
                         <div className="flex flex-col px-1 gap-y-5">
-                            <div className="flex flex-col items-center p-2 rounded-lg shadow shadow-slate-500 gap-y-2 bg-secondary">
-                                <span className="font-bold">Amount of stars</span>
+                            <div className="flex flex-col items-center p-2 rounded-lg shadow shadow-slate-500 gap-y-2 bg-accent">
+                                <span className="font-bold text-white">Amount of stars</span>
                                 <input
                                     type="range"
                                     min={1}
@@ -90,7 +90,7 @@ export function GameSettings({ getFormValuesFunc }: GameSettingsProps) {
                                 </div>
                             </button>
                         </div>
-                        <div className="divider"></div>
+                        <div className="divider" />
                     </motion.div>
                 )}
             </AnimatePresence>

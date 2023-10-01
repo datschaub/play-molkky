@@ -75,10 +75,10 @@ export function NewGame({
                         </AnimatePresence>
                     </Reorder.Group>
                     <button
-                        className="w-full btn btn-accent"
+                        className="w-full btn btn-primary"
                         type="button"
                         onClick={() => addNewPlayer()}>
-                        <div className="flex items-center justify-center space-x-2 text-white transition-colors group-active:text-purple-600 group-hover:text-purple-600">
+                        <div className="flex items-center justify-center space-x-2 text-white transition-all">
                             <span className="font-bold">Add Player</span>
                             <PlusCircleIcon className="w-6" />
                         </div>

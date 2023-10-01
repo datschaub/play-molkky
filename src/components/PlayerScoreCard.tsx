@@ -23,19 +23,6 @@ const generateStars = (count: number, totalGameStars: number) => {
     return stars;
 };
 
-const getTextSizeClass = (gameStars: number) => {
-    switch (gameStars) {
-        case 1:
-            return 'text-3xl';
-        case 2:
-            return 'text-2xl';
-        case 3:
-            return 'text-xl';
-        default:
-            return 'text-lg';
-    }
-};
-
 export function PlayerScoreCard({
     player,
     openPlayerScoreModal
@@ -47,14 +34,23 @@ export function PlayerScoreCard({
         <>
             <div className="shadow lg:max-w-none card bg-primary text-primary-content">
                 <div className="p-6 card-body">
-                    <h2 className="w-full card-title">{player.name}</h2>
+                    <h2 className="w-full card-title">
+                        {player.name}
+                    </h2>
                     <div className="flex flex-row justify-between py-2">
-                        <div className="text-2xl font-bold">{player.score}</div>
-                        <div className={`text-2xl lg:text-3xl stat-value`}>{generateStars(player.stars, gameStars)}</div>
+                        <div className="p-2 text-2xl font-bold shadow shadow-slate-700 btn-circle bg-secondary-focus">
+                            {player.score}
+                        </div>
+                        <div className={`text-2xl lg:text-3xl bg-accent rounded-lg p-2 shadow`}>
+                            {generateStars(player.stars, gameStars)}
+                        </div>
                     </div>
+                    <div className="m-0 divider" />
                     <div className="justify-between card-actions">
-                        <button className="btn btn-sm btn-secondary">Edit</button>
-                        <button className="btn btn-sm" onClick={() => openPlayerScoreModal(player)}>
+                        <button className="shadow btn btn-sm btn-secondary">
+                            Edit
+                        </button>
+                        <button className="shadow btn btn-sm" onClick={() => openPlayerScoreModal(player)}>
                             Add points <PlusCircleIcon className="w-6 h-6" />
                         </button>
                     </div>

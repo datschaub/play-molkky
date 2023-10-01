@@ -30,7 +30,7 @@ export function StarBtn({ isSelected, onSelect }: StarBtnProps) {
                     : ''
             }
             onHoverEnd={e => {}} // reset hover        
-            className={`font-bold flex justify-center w-full p-2 border-2 rounded-md border-rose-400`}
+            className={`font-bold shadow flex justify-center w-full p-2 border-2 rounded-md border-rose-400`}
             onClick={() => onSelect()}
         >
             Add star ⭐

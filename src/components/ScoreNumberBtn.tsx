@@ -31,7 +31,7 @@ export function ScoreNumberBtn({ number, onSelectNumber, isSelected }: ScoreNumb
                     : ''
             }
             onHoverEnd={e => {}} // reset hover        
-            className={`flex justify-center p-2 border-2 rounded-md border-[#D5BE87] hover:bg-[#DAC89A] font-bold`}
+            className={`flex shadow justify-center p-2 border-2 rounded-lg border-[#D5BE87] hover:bg-[#DAC89A] font-bold`}
             onClick={() => onSelectNumber(number)}
         >
             {number}
