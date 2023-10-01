@@ -1,5 +1,4 @@
 import { ChevronDownIcon, LightningBoltIcon } from "@heroicons/react/solid";
-import { Separator } from "@radix-ui/react-separator";
 import { AnimatePresence, motion, MotionConfig } from "framer-motion";
 import { useState } from "react";
 import { FieldValues, UseFormGetValues } from "react-hook-form";
@@ -42,21 +41,21 @@ export function GameSettings({ getFormValuesFunc }: GameSettingsProps) {
     return (
         <div className="overflow-hidden">
             <div className="flex items-center justify-between align-center">
-                <Separator className="w-1/4 h-1 bg-purple-300 rounded-full" />
                 <div
-                    className="flex p-2 font-bold align-center hover:cursor-pointer"
+                    className="flex flex-col w-full border-opacity-50"
                     onClick={toggleAccordion}
                 >
-                    Game settings
-                    <motion.div
-                        variants={variants}
-                        animate={gameSettingsOpen ? 'rotate' : 'stop'}
-                        transition={{ duration: 0.2, type: "spring" }}
-                    >
-                        <ChevronDownIcon className="w-6" />
-                    </motion.div>
+                    <div className="divider">
+                        Game settings
+                        <motion.div
+                            variants={variants}
+                            animate={gameSettingsOpen ? 'rotate' : 'stop'}
+                            transition={{ duration: 0.2, type: "spring" }}
+                        >
+                            <ChevronDownIcon className="w-6" />
+                        </motion.div>
+                    </div>
                 </div>
-                <Separator className="w-1/4 h-1 bg-purple-300 rounded-full" />
             </div>
             <AnimatePresence>
                 {gameSettingsOpen && (
