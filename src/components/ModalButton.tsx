@@ -36,9 +36,9 @@ export const ModalButton = ({
                 type="button"
                 onClick={() => openModal()}
                 aria-label={`Hey ho`}
-                className="flex items-center justify-center btn btn-accent"
+                className="flex items-center justify-center shadow btn btn-accent"
             >
-                <span className="font-medium text-white transition-colors group-active:text-purple-500 group-hover:text-purple-600">
+                <span className="font-medium text-white transition-colors">
                     {name}
                 </span>
                 <ActionButtonIcon icon={icon} />

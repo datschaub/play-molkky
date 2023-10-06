@@ -33,7 +33,7 @@ export function PlayerScoreCard({
     return (
         <>
             <div className="shadow lg:max-w-none card bg-primary text-primary-content">
-                <div className="p-6 card-body">
+                <div className="p-4 card-body">
                     <h2 className="w-full card-title">
                         {player.name}
                     </h2>

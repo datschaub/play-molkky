@@ -2,9 +2,7 @@ import { Player } from "../types/types"
 import { useState } from "react"
 import { Dialog } from "@headlessui/react"
 import { ScoreNumberBtn } from "./ScoreNumberBtn"
-import { StarBtn } from "./StarBtn"
 import { usePlayerStore } from "../stores/playerStore"
-import { generateEmojis } from "../utils/utils"
 
 type PlayerScoreModalProps = {
     player: Player;

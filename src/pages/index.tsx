@@ -11,6 +11,7 @@ import { FieldValues, UseFormGetValues } from "react-hook-form";
 import { ScoreBoard } from "../components/ScoreBoard";
 import { usePlayerStore } from "../stores/playerStore";
 import { mapPlayers } from "../utils/utils";
+import { NavBar } from "../components/NavBar";
 
 const Home: NextPage<{}> = () => {
 
@@ -72,11 +73,7 @@ const Home: NextPage<{}> = () => {
       </Head>
 
       <main className="flex flex-col items-center justify-center">
-        {!gameHasStarted && (
-          <h1 className="text-5xl md:text-[5rem] leading-normal font-extrabold">
-            <span className="text-primary">Play</span> <span className="text-secondary">MÖLKKY</span>
-          </h1>
-        )}
+        <NavBar />
         <div className="flex flex-col items-center justify-center w-full gap-4 p-4 text-center lg:w-2/3">
           {!gameHasStarted
             ?
@@ -107,7 +104,7 @@ const Home: NextPage<{}> = () => {
         <Modal isOpen={modalIsOpen} closeModal={handleCloseModal}>
           {modalContent}
         </Modal>
-      </main >
+      </main>
     </>
   );
 };

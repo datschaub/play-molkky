@@ -32,7 +32,7 @@ export function GameSettings({ getFormValuesFunc }: GameSettingsProps) {
     const rangeStarIcons = Array.from({ length: 5 }, (_, index) => (
         <span
             key={index}
-            className={`text-lg ${index < gameStars ? 'opacity-100' : 'opacity-30'}`}
+            className={`text-lg transition-opacity ${index < gameStars ? 'opacity-100' : 'opacity-30'}`}
         >
             ⭐
         </span>
