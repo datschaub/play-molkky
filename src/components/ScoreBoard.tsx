@@ -2,7 +2,7 @@ import { Player } from "../types/types"
 import { PlayerScoreCard } from "../components/PlayerScoreCard"
 import Modal from "./modal"
 import { useCallback, useState } from "react"
-import { PlayerScoreModal } from "./PlayerScoreModal"
+import { PlayerScoreModal } from "./modals/PlayerScoreModal"
 
 type ScoreBoardProps = {
     players: Player[];

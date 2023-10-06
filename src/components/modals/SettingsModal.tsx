@@ -1,6 +1,6 @@
 import { Dialog } from "@headlessui/react";
-import { AmountOfStarsSettings } from "./AmountOfStarsSettings";
-import Modal from "./modal";
+import { AmountOfStarsSettings } from "../AmountOfStarsSettings";
+import Modal from "../modal";
 import { useCallback, useState } from "react";
 import { ResetScoreModal } from "./ResetScoreModal";
 import { QuitGameModal } from "./QuitGameModal";

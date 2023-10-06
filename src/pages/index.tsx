@@ -11,7 +11,7 @@ import { FieldValues, UseFormGetValues } from "react-hook-form";
 import { ScoreBoard } from "../components/ScoreBoard";
 import { usePlayerStore } from "../stores/playerStore";
 import { mapPlayers } from "../utils/utils";
-import { NavBar } from "../components/NavBar";
+import { NavBar } from "../components/NavBar/NavBar";
 
 const Home: NextPage<{}> = () => {
 

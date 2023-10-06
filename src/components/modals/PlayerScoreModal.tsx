@@ -1,8 +1,8 @@
-import { Player } from "../types/types"
+import { Player } from "../../types/types"
 import { useState } from "react"
 import { Dialog } from "@headlessui/react"
-import { ScoreNumberBtn } from "./ScoreNumberBtn"
-import { usePlayerStore } from "../stores/playerStore"
+import { ScoreNumberBtn } from "../ScoreNumberBtn"
+import { usePlayerStore } from "../../stores/playerStore"
 
 type PlayerScoreModalProps = {
     player: Player;
