@@ -1,6 +1,6 @@
 import { Dialog } from "@headlessui/react";
 import { NewPlayerForm } from "./NewPlayerForm";
-import { PlusCircleIcon } from "@heroicons/react/solid";
+import { PlusCircleIcon } from "@heroicons/react/20/solid";
 import { Player } from "../types/types";
 import { FieldValues, useForm, UseFormGetValues } from "react-hook-form";
 import { AnimatePresence, Reorder } from "framer-motion"

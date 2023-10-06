@@ -1,4 +1,4 @@
-import { ChevronDownIcon, LightningBoltIcon } from "@heroicons/react/solid";
+import { ChevronDownIcon, BoltIcon } from "@heroicons/react/20/solid";
 import { AnimatePresence, motion, MotionConfig } from "framer-motion";
 import { useState } from "react";
 import { FieldValues, UseFormGetValues } from "react-hook-form";
@@ -86,7 +86,7 @@ export function GameSettings({ getFormValuesFunc }: GameSettingsProps) {
                                 onClick={() => randomizePlayerOrder(getFormValuesFunc)}>
                                 <div className="flex items-center justify-center space-x-2 text-white">
                                     <span className="font-bold">Randomize Order</span>
-                                    <LightningBoltIcon className="w-6" />
+                                    <BoltIcon className="w-6" />
                                 </div>
                             </button>
                         </div>

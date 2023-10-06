@@ -4,7 +4,7 @@ import { NewGame } from "../components/newgame";
 import Modal from "../components/modal";
 import { Rules } from "../components/rules";
 import { useCallback, useEffect, useState } from "react";
-import { PlayIcon, DocumentTextIcon } from '@heroicons/react/solid'
+import { PlayIcon, DocumentTextIcon } from '@heroicons/react/20/solid'
 import { ModalButton } from "../components/ModalButton";
 import { Player } from "../types/types";
 import { FieldValues, UseFormGetValues } from "react-hook-form";

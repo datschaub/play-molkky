@@ -1,4 +1,4 @@
-import { MinusCircleIcon, HandIcon, SelectorIcon, ArrowsExpandIcon } from "@heroicons/react/solid";
+import { MinusCircleIcon, HandRaisedIcon, ChevronDoubleUpIcon, ArrowsPointingOutIcon } from "@heroicons/react/20/solid";
 import { FieldValues, UseFormRegister, UseFormUnregister } from "react-hook-form";
 import { AnimatePresence, motion, Reorder, useDragControls, useMotionValue } from "framer-motion"
 import { Player } from "../types/types";

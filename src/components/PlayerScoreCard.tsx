@@ -1,4 +1,4 @@
-import { PlusCircleIcon } from "@heroicons/react/solid"
+import { PlusCircleIcon } from "@heroicons/react/20/solid"
 import { Player } from "../types/types"
 import { generateEmojis } from "../utils/utils"
 import { usePlayerStore } from "../stores/playerStore"

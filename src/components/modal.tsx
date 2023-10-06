@@ -1,6 +1,6 @@
 import { Dialog, Transition } from '@headlessui/react'
 import { Fragment } from 'react'
-import { motion } from 'framer-motion'
+//import { motion } from 'framer-motion'
 
 type ModalProps = {
     isOpen: boolean;
