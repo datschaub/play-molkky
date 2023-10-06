@@ -20,6 +20,24 @@ export function SettingsModal({ closeModal }: SettingsModalProps) {
             <div className="flex flex-col gap-y-5">
                 <AmountOfStarsSettings />
             </div>
+            <div className="divider" />
+            <div className="flex flex-row justify-around">
+                <button
+                    type="button"
+                    className="shadow btn btn-warning"
+                    onClick={() => closeModal()}
+                >
+                    Reset Score
+                </button>
+                <button
+                    type="button"
+                    className="shadow btn btn-error"
+                    onClick={() => closeModal()}
+                >
+                    Quit Game
+                </button>
+            </div>
+            <div className="divider" />
             <div
                 className="flex justify-between mt-4"
             >
