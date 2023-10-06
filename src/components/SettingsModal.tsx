@@ -1,4 +1,5 @@
 import { Dialog } from "@headlessui/react";
+import { AmountOfStarsSettings } from "./AmountOfStarsSettings";
 
 type SettingsModalProps = {
     closeModal: () => void;
@@ -15,6 +16,9 @@ export function SettingsModal({ closeModal }: SettingsModalProps) {
             </Dialog.Title>
             <div className="pb-4">
                 Update settings 👇
+            </div>
+            <div className="flex flex-col gap-y-5">
+                <AmountOfStarsSettings />
             </div>
             <div
                 className="flex justify-between mt-4"
