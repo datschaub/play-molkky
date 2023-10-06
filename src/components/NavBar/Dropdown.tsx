@@ -15,7 +15,7 @@ export const Dropdown = () => {
             opacity: 0,
             transition: {
                 duration: 0.2,
-            }
+            },
         },
         visible: {
             y: 0,

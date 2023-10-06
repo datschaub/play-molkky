@@ -1,9 +1,9 @@
-import { usePlayerStore } from "../stores/playerStore";
+import { useGameSettingsStore } from "../stores/gameSettingsStore";
 
 export function AmountOfStarsSettings() {
 
-    const gameStars = usePlayerStore(state => state.gameStars)
-    const setAmountOfGameStars = usePlayerStore((state) => state.setAmountOfGameStars);
+    const gameStars = useGameSettingsStore(state => state.gameStars)
+    const setAmountOfGameStars = useGameSettingsStore((state) => state.setAmountOfGameStars);
 
     const handleStarsChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const newValue = parseInt(event?.target?.value, 10);

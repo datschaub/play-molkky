@@ -1,6 +1,6 @@
 import { Player } from "../types/types"
 import { PlayerScoreCard } from "../components/PlayerScoreCard"
-import Modal from "./modal"
+import Modal from "./modals/modal"
 import { useCallback, useState } from "react"
 import { PlayerScoreModal } from "./modals/PlayerScoreModal"
 
@@ -32,7 +32,7 @@ export function ScoreBoard({ players, updatePlayerPoints }: ScoreBoardProps) {
                     })
                 }
             </div>
-            <Modal isOpen={modalIsOpen} closeModal={handleCloseModal}>
+            <Modal isOpen={modalIsOpen}>
                 {selectedPlayer && <PlayerScoreModal player={selectedPlayer} closeModal={handleCloseModal} updatePlayerPoints={updatePlayerPoints} />}
             </Modal>
         </>

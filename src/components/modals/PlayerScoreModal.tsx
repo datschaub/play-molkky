@@ -3,6 +3,7 @@ import { useState } from "react"
 import { Dialog } from "@headlessui/react"
 import { ScoreNumberBtn } from "../ScoreNumberBtn"
 import { usePlayerStore } from "../../stores/playerStore"
+import { useGameSettingsStore } from "../../stores/gameSettingsStore"
 
 type PlayerScoreModalProps = {
     player: Player;
@@ -24,10 +25,13 @@ export function PlayerScoreModal({
 }: PlayerScoreModalProps) {
 
     const addPlayerPoints = usePlayerStore(state => state.addPlayerPoints)
+    const players = usePlayerStore(state => state.players)
+    const setCurrentPlayerId = useGameSettingsStore(state => state.setCurrentPlayerId)
+    const currentPlayerId = useGameSettingsStore(state => state.currentPlayerId)
     const [selectedNumber, setSelectedNumber] = useState<number | undefined>(undefined)
     const [starIsSelected, setStarIsSelected] = useState(false)
     const addPointsDisabled = selectedNumber == undefined && !starIsSelected
-    const gameStars = usePlayerStore(state => state.gameStars)
+    const gameStars = useGameSettingsStore(state => state.gameStars)
 
     const handleOnSelectNumber = (number: number) => {
         if (number == selectedNumber) {
@@ -50,6 +54,16 @@ export function PlayerScoreModal({
     const handleAddPlayerPoints = () => {
         if (selectedNumber !== undefined) {
             addPlayerPoints(player, selectedNumber)
+
+            // Find the index of the current player
+            const currentPlayerIndex = players.findIndex(player => player.id === currentPlayerId);
+
+            // Calculate the index of the next player
+            const nextPlayerIndex = (currentPlayerIndex + 1) % players.length;
+
+            // Set the state to the next player's id
+            setCurrentPlayerId(players[nextPlayerIndex]?.id);
+
             closeModal()
         }
     }

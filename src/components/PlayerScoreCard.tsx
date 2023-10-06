@@ -1,7 +1,6 @@
 import { PlusCircleIcon } from "@heroicons/react/20/solid"
 import { Player } from "../types/types"
-import { generateEmojis } from "../utils/utils"
-import { usePlayerStore } from "../stores/playerStore"
+import { useGameSettingsStore } from "../stores/gameSettingsStore"
 
 type PlayerScoreCardProps = {
     player: Player
@@ -28,13 +27,17 @@ export function PlayerScoreCard({
     openPlayerScoreModal
 }: PlayerScoreCardProps) {
 
-    const gameStars = usePlayerStore(state => state.gameStars)
+    const gameStars = useGameSettingsStore(state => state.gameStars)
+    const currentPlayerId = useGameSettingsStore(state => state.currentPlayerId)
 
     return (
         <>
             <div className="shadow lg:max-w-none card bg-primary text-primary-content">
                 <div className="p-4 card-body">
                     <h2 className="w-full card-title">
+                        {player.id === currentPlayerId && (
+                            <span>➡️</span>
+                        )}
                         {player.name}
                     </h2>
                     <div className="flex flex-row justify-between py-2">

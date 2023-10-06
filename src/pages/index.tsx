@@ -1,7 +1,7 @@
 import type { NextPage } from "next";
 import Head from "next/head";
-import { NewGame } from "../components/newgame";
-import Modal from "../components/modal";
+import { NewGame } from "../components/NewGame";
+import Modal from "../components/modals/modal";
 import { Rules } from "../components/rules";
 import { useCallback, useEffect, useState } from "react";
 import { PlayIcon, DocumentTextIcon } from '@heroicons/react/20/solid'
@@ -12,6 +12,7 @@ import { ScoreBoard } from "../components/ScoreBoard";
 import { usePlayerStore } from "../stores/playerStore";
 import { mapPlayers } from "../utils/utils";
 import { NavBar } from "../components/NavBar/NavBar";
+import { useGameSettingsStore } from "../stores/gameSettingsStore";
 
 const Home: NextPage<{}> = () => {
 
@@ -20,7 +21,9 @@ const Home: NextPage<{}> = () => {
 
   const [modalIsOpen, setModalIsOpen] = useState(false)
   const [modalContent, setModalContent] = useState<JSX.Element>()
-  const [gameHasStarted, setGameHasStarted] = useState(false)
+  const gameIsStarted = useGameSettingsStore(gameSettings => gameSettings.gameIsStarted)
+  const setGameIsStarted = useGameSettingsStore(gameSettings => gameSettings.setGameIsStarted)
+  const setCurrentPlayerId = useGameSettingsStore(gameSettings => gameSettings.setCurrentPlayerId)
 
   const handleOpenModal = (modalContent: JSX.Element) => {
     setModalContent(modalContent)
@@ -39,8 +42,9 @@ const Home: NextPage<{}> = () => {
 
   const handleSubmit = useCallback((getValuesFunc: UseFormGetValues<FieldValues>) => {
     handleClosePlayersModal(getValuesFunc)
-    setGameHasStarted(true)
-  }, [handleClosePlayersModal])
+    setCurrentPlayerId(players[0]?.id)
+    setGameIsStarted(true)
+  }, [handleClosePlayersModal, setGameIsStarted, players, setCurrentPlayerId])
 
   const handleUpdatePlayerPoints = (player: Player, pointsToAdd: number) => {
     let playerToUpdate = players.filter(p => p.id === player.id).at(0)
@@ -75,7 +79,7 @@ const Home: NextPage<{}> = () => {
       <main className="flex flex-col items-center justify-center">
         <NavBar />
         <div className="flex flex-col items-center justify-center w-full gap-4 p-4 text-center lg:w-2/3">
-          {!gameHasStarted
+          {!gameIsStarted
             ?
             <>
               <ModalButton

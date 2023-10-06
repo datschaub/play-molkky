@@ -100,7 +100,7 @@ export function NewGame({
                             type="submit"
                             className="btn btn-primary"
                         >
-                            <span className="font-medium text-white transition-colors group-active:text-purple-500 group-hover:text-purple-600">
+                            <span className="font-medium text-white transition-colors">
                                 Play!
                             </span>
                         </button>
