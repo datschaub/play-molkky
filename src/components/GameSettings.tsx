@@ -38,6 +38,8 @@ export function GameSettings({ getFormValuesFunc }: GameSettingsProps) {
         </span>
     ))
 
+    const getContentHeight = (gameSettingsOpen: boolean) => (gameSettingsOpen ? 'auto' : 0);
+
     return (
         <div className="overflow-hidden">
             <div className="flex items-center justify-between align-center">
@@ -50,7 +52,7 @@ export function GameSettings({ getFormValuesFunc }: GameSettingsProps) {
                         <motion.div
                             variants={variants}
                             animate={gameSettingsOpen ? 'rotate' : 'stop'}
-                            transition={{ duration: 0.2, type: "spring" }}
+                            transition={{ duration: 1.0, type: "spring" }}
                         >
                             <ChevronDownIcon className="w-6" />
                         </motion.div>
@@ -60,9 +62,10 @@ export function GameSettings({ getFormValuesFunc }: GameSettingsProps) {
             <AnimatePresence>
                 {gameSettingsOpen && (
                     <motion.div
-                        initial={{ height: 0 }}
-                        animate={{ height: 'auto' }}
-                        exit={{ height: 0 }}
+                        initial={{ height: 0, overflow: 'hidden', margin: 0, padding: 0 }}
+                        animate={{ height: getContentHeight(gameSettingsOpen) }}
+                        exit={{ height: 0, overflow: 'hidden', margin: 0, padding: 0 }}
+                        transition={{ duration: 1.0, type: "spring" }}
                     >
                         <div className="flex flex-col px-1 gap-y-5">
                             <div className="flex flex-col items-center p-2 rounded-lg shadow shadow-slate-500 gap-y-2 bg-accent">
