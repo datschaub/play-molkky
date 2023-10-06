@@ -101,7 +101,7 @@ const Home: NextPage<{}> = () => {
             : <ScoreBoard players={players} updatePlayerPoints={handleUpdatePlayerPoints} />
           }
         </div>
-        <Modal isOpen={modalIsOpen} closeModal={handleCloseModal}>
+        <Modal isOpen={modalIsOpen}>
           {modalContent}
         </Modal>
       </main>

@@ -5,10 +5,9 @@ import { Fragment } from 'react'
 type ModalProps = {
     isOpen: boolean;
     children?: JSX.Element;
-    closeModal: (players: any) => void;
 }
 
-export default function Modal({ isOpen, closeModal, children }: ModalProps) {
+export default function Modal({ isOpen, children }: ModalProps) {
 
     return (
         <>

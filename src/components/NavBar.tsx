@@ -45,7 +45,7 @@ export function NavBar() {
                     </button>
                 </div>
             </div>
-            <Modal isOpen={modalIsOpen} closeModal={handleCloseModal}>
+            <Modal isOpen={modalIsOpen}>
                 <SettingsModal closeModal={handleCloseModal} />
             </Modal>
         </>

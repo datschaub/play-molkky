@@ -1,11 +1,33 @@
 import { Dialog } from "@headlessui/react";
 import { AmountOfStarsSettings } from "./AmountOfStarsSettings";
+import Modal from "./modal";
+import { useCallback, useState } from "react";
+import { ResetScoreModal } from "./ResetScoreModal";
+import { QuitGameModal } from "./QuitGameModal";
 
 type SettingsModalProps = {
     closeModal: () => void;
 }
 
 export function SettingsModal({ closeModal }: SettingsModalProps) {
+
+    const [confirmModalIsOpen, setConfirmModalIsOpen] = useState(false)
+    const [confirmModalContent, setConfirmModalContent] = useState<JSX.Element>()
+
+    const handleResetScore = () => {
+        setConfirmModalContent(<ResetScoreModal closeModal={handleCloseConfirmModal} />)
+        setConfirmModalIsOpen(true)
+    }
+
+    const handleQuitGame = () => {
+        setConfirmModalContent(<QuitGameModal closeModal={handleCloseConfirmModal} />)
+        setConfirmModalIsOpen(true)
+    }
+
+    const handleCloseConfirmModal = useCallback(() => {
+        setConfirmModalIsOpen(false)
+    }, [])
+
     return (
         <>
             <Dialog.Title
@@ -25,14 +47,14 @@ export function SettingsModal({ closeModal }: SettingsModalProps) {
                 <button
                     type="button"
                     className="shadow btn btn-warning"
-                    onClick={() => closeModal()}
+                    onClick={() => handleResetScore()}
                 >
                     Reset Score
                 </button>
                 <button
                     type="button"
                     className="shadow btn btn-error"
-                    onClick={() => closeModal()}
+                    onClick={() => handleQuitGame()}
                 >
                     Quit Game
                 </button>
@@ -49,6 +71,9 @@ export function SettingsModal({ closeModal }: SettingsModalProps) {
                     Close
                 </button>
             </div>
+            <Modal isOpen={confirmModalIsOpen}>
+                {confirmModalContent}
+            </Modal>
         </>
     )
 }
