@@ -19,9 +19,9 @@ export function ScoreBoard({ players, updatePlayerPoints }: ScoreBoardProps) {
         setModalIsOpen(true)
     }
 
-    const handleCloseModal = useCallback(() => {
+    const handleCloseModal = () => {
         setModalIsOpen(false)
-    }, [])
+    }
 
     return (
         <>

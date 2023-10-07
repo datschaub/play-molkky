@@ -2,6 +2,9 @@ import { PlusCircleIcon } from "@heroicons/react/20/solid"
 import { Player } from "../types/types"
 import { useGameSettingsStore } from "../stores/gameSettingsStore"
 import { motion } from "framer-motion"
+import Modal from "./modals/modal"
+import { EditPlayerModal } from "./modals/EditPlayerModal"
+import { useState } from "react"
 
 type PlayerScoreCardProps = {
     player: Player
@@ -30,9 +33,18 @@ export function PlayerScoreCard({
     openPlayerScoreModal
 }: PlayerScoreCardProps) {
 
+    const [modalIsOpen, setModalIsOpen] = useState(false)
     const gameStars = useGameSettingsStore(state => state.gameStars)
     const currentPlayerId = useGameSettingsStore(state => state.currentPlayerId)
     const isCurrentPlayer = player.id === currentPlayerId
+
+    const handleCloseModal = () => {
+        setModalIsOpen(false)
+    }
+
+    const handleOpenEditPlayerModal = () => {
+        setModalIsOpen(true)
+    }
 
     return (
         <>
@@ -44,10 +56,10 @@ export function PlayerScoreCard({
                                 initial={{ scale: 0 }}
                                 animate={{ scale: 1 }}
                                 exit={{ scale: 0 }}
-                                transition={{ 
-                                    duration: 0.7, 
-                                    type: 'spring', 
-                                    bounce: 0.5, 
+                                transition={{
+                                    duration: 0.7,
+                                    type: 'spring',
+                                    bounce: 0.5,
                                     delay: 0.3 //delay this so it's visible after the modal is closed
                                 }}
                             >
@@ -66,7 +78,10 @@ export function PlayerScoreCard({
                     </div>
                     <div className="m-0 divider" />
                     <div className="justify-between card-actions">
-                        <button className="shadow btn btn-sm btn-secondary">
+                        <button
+                            className="shadow btn btn-sm btn-secondary"
+                            onClick={handleOpenEditPlayerModal}
+                        >
                             Edit
                         </button>
                         <button
@@ -79,6 +94,12 @@ export function PlayerScoreCard({
                     </div>
                 </div>
             </div>
+            <Modal isOpen={modalIsOpen}>
+                <EditPlayerModal
+                    closeModal={handleCloseModal}
+                    player={player}
+                />
+            </Modal>
         </>
     )
 }
