@@ -22,6 +22,8 @@ const generateStars = (count: number, totalGameStars: number) => {
     return stars;
 };
 
+const currentPlayerStyles = 'shadow-accent shadow-lg bg-primary-focus';
+
 export function PlayerScoreCard({
     player,
     openPlayerScoreModal
@@ -32,7 +34,7 @@ export function PlayerScoreCard({
 
     return (
         <>
-            <div className="shadow lg:max-w-none card bg-primary text-primary-content">
+            <div className={`shadow transition-all lg:max-w-none card bg-primary text-primary-content ${player.id === currentPlayerId && currentPlayerStyles}`}>
                 <div className="p-4 card-body">
                     <h2 className="w-full card-title">
                         {player.id === currentPlayerId && (

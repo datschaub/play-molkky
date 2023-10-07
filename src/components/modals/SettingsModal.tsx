@@ -15,7 +15,7 @@ export function SettingsModal({ closeModal }: SettingsModalProps) {
     const [confirmModalContent, setConfirmModalContent] = useState<JSX.Element>()
 
     const handleResetScore = () => {
-        setConfirmModalContent(<ResetScoreModal closeModal={handleCloseConfirmModal} />)
+        setConfirmModalContent(<ResetScoreModal closeModal={handleCloseConfirmModal} closeParentModal={closeModal} />)
         setConfirmModalIsOpen(true)
     }
 

@@ -12,19 +12,19 @@ type GameSettingsStore = {
 export const useGameSettingsStore = create<GameSettingsStore>((set) => ({
     gameStars: 3,
     setAmountOfGameStars(stars) {
-        set((state) => ({
+        set(() => ({
             gameStars: stars
         }))
     },
     gameIsStarted: false,
     setGameIsStarted(isStarted) {
-        set((state) => ({
+        set(() => ({
             gameIsStarted: isStarted
         }))
     },
     currentPlayerId: undefined,
     setCurrentPlayerId(playerId) {
-        set((state) => ({
+        set(() => ({
             currentPlayerId: playerId
         }))
     },

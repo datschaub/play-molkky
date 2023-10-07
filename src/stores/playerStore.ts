@@ -12,6 +12,7 @@ interface IPlayerStoreState {
     randomizePlayerOrder: (getValuesFunc: UseFormGetValues<FieldValues>) => void;
     reOrderPlayers: (newPlayers: Player[], getValuesFunc: UseFormGetValues<FieldValues>) => void;
     addPlayerPoints: (player: Player, pointsToAdd: number) => void;
+    resetAllPlayerPoints: () => void;
 }
 
 const randomizeOrder = (players: Player[], getValuesFunc: UseFormGetValues<FieldValues>) => {
@@ -56,31 +57,40 @@ export const usePlayerStore = create<IPlayerStoreState>((set) => ({
             ]
         }))
     },
-    removePlayer: (playerId: string, unregisterFunc: UseFormUnregister<FieldValues>) => {
+    removePlayer: (playerId, unregisterFunc) => {
         unregisterFunc(playerId)
         set((state) => ({
             players: state.players.filter((p) => p.id !== playerId)
         }))
     },
-    setPlayerOrder: (newPlayers: Player[]) => {
+    setPlayerOrder: (newPlayers) => {
         set(() => ({
             players: newPlayers
         }))
     },
-    reOrderPlayers: (newPlayers: Player[], getValuesFunc: UseFormGetValues<FieldValues>) => {
+    reOrderPlayers: (newPlayers, getValuesFunc) => {
         const mappedPlayers = mapPlayers(newPlayers, getValuesFunc)
         set(() => ({
             players: mappedPlayers
         }))
     },
-    randomizePlayerOrder: (getValuesFunc: UseFormGetValues<FieldValues>) => {
+    randomizePlayerOrder: (getValuesFunc) => {
         set((state) => ({
             players: randomizeOrder(state.players, getValuesFunc)
         }))
     },
-    addPlayerPoints: (player: Player, pointsToAdd: number) => {
+    addPlayerPoints: (player, pointsToAdd) => {
         set((state) => ({
             players: addPlayerPoints(state.players, player, pointsToAdd)
+        }))
+    },
+    resetAllPlayerPoints: () => {
+        set((state) => ({
+            players: state.players.map((player) => ({
+                ...player,
+                score: 0,
+                stars: 0
+            }))
         }))
     }
 }))

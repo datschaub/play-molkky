@@ -16,9 +16,9 @@ export function NavBar() {
     const [modalIsOpen, setModalIsOpen] = useState(false)
     const gameIsStarted = useGameSettingsStore(gameSettings => gameSettings.gameIsStarted)
 
-    const handleCloseModal = useCallback(() => {
+    const handleCloseModal = () => {
         setModalIsOpen(false)
-    }, [])
+    }
 
     const handleOpenModal = () => {
         setModalIsOpen(true)
