@@ -15,12 +15,20 @@ export function SettingsModal({ closeModal }: SettingsModalProps) {
     const [confirmModalContent, setConfirmModalContent] = useState<JSX.Element>()
 
     const handleResetScore = () => {
-        setConfirmModalContent(<ResetScoreModal closeModal={handleCloseConfirmModal} closeParentModal={closeModal} />)
+        setConfirmModalContent(
+            <ResetScoreModal
+                closeModal={handleCloseConfirmModal}
+                closeParentModal={closeModal}
+            />)
         setConfirmModalIsOpen(true)
     }
 
     const handleQuitGame = () => {
-        setConfirmModalContent(<QuitGameModal closeModal={handleCloseConfirmModal} />)
+        setConfirmModalContent(
+            <QuitGameModal
+                closeModal={handleCloseConfirmModal}
+                closeParentModal={closeModal}
+            />)
         setConfirmModalIsOpen(true)
     }
 

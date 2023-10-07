@@ -13,6 +13,7 @@ interface IPlayerStoreState {
     reOrderPlayers: (newPlayers: Player[], getValuesFunc: UseFormGetValues<FieldValues>) => void;
     addPlayerPoints: (player: Player, pointsToAdd: number) => void;
     resetAllPlayerPoints: () => void;
+    removeAllCurrentPlayers: () => void;
 }
 
 const randomizeOrder = (players: Player[], getValuesFunc: UseFormGetValues<FieldValues>) => {
@@ -92,5 +93,11 @@ export const usePlayerStore = create<IPlayerStoreState>((set) => ({
                 stars: 0
             }))
         }))
-    }
+    },
+    removeAllCurrentPlayers: () => {
+        set({ players: [
+          { id: nanoid(5), name: '', order: 1, score: 0, stars: 0 },
+          { id: nanoid(5), name: '', order: 2, score: 0, stars: 0 },
+        ] });
+      },
 }))
