@@ -58,7 +58,7 @@ export function NewGame({
                     >
                         <AnimatePresence initial={false}>
                             {
-                                players.map((player: Player, i) => {
+                                players.map((player, i) => {
                                     return (
                                         <NewPlayerForm
                                             player={player}
@@ -77,7 +77,7 @@ export function NewGame({
                     <button
                         className="w-full btn btn-primary"
                         type="button"
-                        onClick={() => addNewPlayer()}>
+                        onClick={addNewPlayer}>
                         <div className="flex items-center justify-center space-x-2 text-white transition-all">
                             <span className="font-bold">Add Player</span>
                             <PlusCircleIcon className="w-6" />

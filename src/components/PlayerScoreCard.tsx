@@ -1,6 +1,7 @@
 import { PlusCircleIcon } from "@heroicons/react/20/solid"
 import { Player } from "../types/types"
 import { useGameSettingsStore } from "../stores/gameSettingsStore"
+import { motion } from "framer-motion"
 
 type PlayerScoreCardProps = {
     player: Player
@@ -31,14 +32,27 @@ export function PlayerScoreCard({
 
     const gameStars = useGameSettingsStore(state => state.gameStars)
     const currentPlayerId = useGameSettingsStore(state => state.currentPlayerId)
+    const isCurrentPlayer = player.id === currentPlayerId
 
     return (
         <>
-            <div className={`shadow transition-all lg:max-w-none card bg-primary text-primary-content ${player.id === currentPlayerId && currentPlayerStyles}`}>
+            <div className={`shadow transition-all lg:max-w-none card bg-primary text-primary-content ${isCurrentPlayer && currentPlayerStyles}`}>
                 <div className="p-4 card-body">
                     <h2 className="w-full card-title">
-                        {player.id === currentPlayerId && (
-                            <span>➡️</span>
+                        {isCurrentPlayer && (
+                            <motion.span
+                                initial={{ scale: 0 }}
+                                animate={{ scale: 1 }}
+                                exit={{ scale: 0 }}
+                                transition={{ 
+                                    duration: 0.7, 
+                                    type: 'spring', 
+                                    bounce: 0.5, 
+                                    delay: 0.3 //delay this so it's visible after the modal is closed
+                                }}
+                            >
+                                ➡️
+                            </motion.span>
                         )}
                         {player.name}
                     </h2>
@@ -55,7 +69,11 @@ export function PlayerScoreCard({
                         <button className="shadow btn btn-sm btn-secondary">
                             Edit
                         </button>
-                        <button className="shadow btn btn-sm" onClick={() => openPlayerScoreModal(player)}>
+                        <button
+                            className="shadow btn btn-sm"
+                            onClick={() => openPlayerScoreModal(player)}
+                            disabled={!isCurrentPlayer}
+                        >
                             Add points <PlusCircleIcon className="w-6 h-6" />
                         </button>
                     </div>
