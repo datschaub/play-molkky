@@ -4,17 +4,21 @@ import { usePlayerStore } from "../../stores/playerStore";
 type ResetScoreModalProps = {
     closeModal: () => void;
     closeParentModal: () => void;
-}
+};
 
-export function ResetScoreModal({ closeModal, closeParentModal }: ResetScoreModalProps) {
-
-    const resetAllPlayerPoints = usePlayerStore(state => state.resetAllPlayerPoints)
+export function ResetScoreModal({
+    closeModal,
+    closeParentModal,
+}: ResetScoreModalProps) {
+    const resetAllPlayerPoints = usePlayerStore(
+        (state) => state.resetAllPlayerPoints,
+    );
 
     const handleResetScore = () => {
         resetAllPlayerPoints();
         closeModal();
         closeParentModal();
-    }
+    };
 
     return (
         <>
@@ -25,11 +29,10 @@ export function ResetScoreModal({ closeModal, closeParentModal }: ResetScoreModa
                 🔄️ Reset Score
             </Dialog.Title>
             <div className="pb-4">
-                This will reset all players scores and stars to 0, but will not exit the current game
+                This will reset all players scores and stars to 0, but will not
+                exit the current game
             </div>
-            <div
-                className="flex justify-between mt-4"
-            >
+            <div className="flex justify-between mt-4">
                 <button
                     type="button"
                     className="btn btn-secondary"
@@ -46,5 +49,5 @@ export function ResetScoreModal({ closeModal, closeParentModal }: ResetScoreModa
                 </button>
             </div>
         </>
-    )
+    );
 }

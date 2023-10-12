@@ -10,10 +10,8 @@ export function Rules() {
                 Rules
             </Dialog.Title>
             <div className="mt-2">
-                <p className="text-sm text-gray-500">
-                    These are the rules
-                </p>
+                <p className="text-sm text-gray-500">These are the rules</p>
             </div>
         </>
-    )
+    );
 }

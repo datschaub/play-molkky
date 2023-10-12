@@ -4,4 +4,4 @@ export type Player = {
     order: number;
     score: number;
     stars: number;
-}
+};

@@ -8,21 +8,22 @@ import { useGameSettingsStore } from "../../stores/gameSettingsStore";
 
 const settingsIconsVariants = {
     rotate: { rotate: [0, -90] },
-    stop: { rotate: 0 }
-}
+    stop: { rotate: 0 },
+};
 
 export function NavBar() {
-
-    const [modalIsOpen, setModalIsOpen] = useState(false)
-    const gameIsStarted = useGameSettingsStore(gameSettings => gameSettings.gameIsStarted)
+    const [modalIsOpen, setModalIsOpen] = useState(false);
+    const gameIsStarted = useGameSettingsStore(
+        (gameSettings) => gameSettings.gameIsStarted,
+    );
 
     const handleCloseModal = () => {
-        setModalIsOpen(false)
-    }
+        setModalIsOpen(false);
+    };
 
     const handleOpenModal = () => {
-        setModalIsOpen(true)
-    }
+        setModalIsOpen(true);
+    };
 
     return (
         <>
@@ -34,7 +35,8 @@ export function NavBar() {
                 </div>
                 <div className="navbar-center">
                     <h1 className="text-3xl font-extrabold leading-normal md:text-md">
-                        <span className="text-primary">Play</span> <span className="text-accent">MÖLKKY</span>
+                        <span className="text-primary">Play</span>{" "}
+                        <span className="text-accent">MÖLKKY</span>
                     </h1>
                 </div>
                 <div className="navbar-end">
@@ -45,19 +47,21 @@ export function NavBar() {
                         >
                             <motion.div
                                 variants={settingsIconsVariants}
-                                animate={modalIsOpen ? 'rotate' : 'stop'}
-                                transition={{ duration: 0.5, type: "spring" }}
+                                animate={modalIsOpen ? "rotate" : "stop"}
+                                transition={{
+                                    duration: 0.5,
+                                    type: "spring",
+                                }}
                             >
                                 <Cog6ToothIcon className="w-6 h-6" />
                             </motion.div>
                         </motion.button>
                     )}
-
                 </div>
             </div>
             <Modal isOpen={modalIsOpen}>
                 <SettingsModal closeModal={handleCloseModal} />
             </Modal>
         </>
-    )
+    );
 }

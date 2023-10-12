@@ -7,34 +7,36 @@ import { QuitGameModal } from "./QuitGameModal";
 
 type SettingsModalProps = {
     closeModal: () => void;
-}
+};
 
 export function SettingsModal({ closeModal }: SettingsModalProps) {
-
-    const [confirmModalIsOpen, setConfirmModalIsOpen] = useState(false)
-    const [confirmModalContent, setConfirmModalContent] = useState<JSX.Element>()
+    const [confirmModalIsOpen, setConfirmModalIsOpen] = useState(false);
+    const [confirmModalContent, setConfirmModalContent] =
+        useState<JSX.Element>();
 
     const handleResetScore = () => {
         setConfirmModalContent(
             <ResetScoreModal
                 closeModal={handleCloseConfirmModal}
                 closeParentModal={closeModal}
-            />)
-        setConfirmModalIsOpen(true)
-    }
+            />,
+        );
+        setConfirmModalIsOpen(true);
+    };
 
     const handleQuitGame = () => {
         setConfirmModalContent(
             <QuitGameModal
                 closeModal={handleCloseConfirmModal}
                 closeParentModal={closeModal}
-            />)
-        setConfirmModalIsOpen(true)
-    }
+            />,
+        );
+        setConfirmModalIsOpen(true);
+    };
 
     const handleCloseConfirmModal = useCallback(() => {
-        setConfirmModalIsOpen(false)
-    }, [])
+        setConfirmModalIsOpen(false);
+    }, []);
 
     return (
         <>
@@ -44,9 +46,7 @@ export function SettingsModal({ closeModal }: SettingsModalProps) {
             >
                 Settings
             </Dialog.Title>
-            <div className="pb-4">
-                Update settings 👇
-            </div>
+            <div className="pb-4">Update settings 👇</div>
             <div className="flex flex-col gap-y-5">
                 <AmountOfStarsSettings />
             </div>
@@ -68,9 +68,7 @@ export function SettingsModal({ closeModal }: SettingsModalProps) {
                 </button>
             </div>
             <div className="divider" />
-            <div
-                className="flex justify-between mt-4"
-            >
+            <div className="flex justify-between mt-4">
                 <button
                     type="button"
                     className="btn btn-secondary"
@@ -79,9 +77,7 @@ export function SettingsModal({ closeModal }: SettingsModalProps) {
                     Close
                 </button>
             </div>
-            <Modal isOpen={confirmModalIsOpen}>
-                {confirmModalContent}
-            </Modal>
+            <Modal isOpen={confirmModalIsOpen}>{confirmModalContent}</Modal>
         </>
-    )
+    );
 }

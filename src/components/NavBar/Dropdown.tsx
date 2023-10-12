@@ -21,27 +21,37 @@ export const Dropdown = () => {
             y: 0,
             opacity: 1,
             transition: {
-                type: 'spring',
-                duration: 0.2
+                type: "spring",
+                duration: 0.2,
             },
         },
     };
 
     return (
         <div className="">
-            <label tabIndex={0} className="btn btn-ghost btn-circle" onClick={toggleDropdown}>
+            <label
+                tabIndex={0}
+                className="btn btn-ghost btn-circle"
+                onClick={toggleDropdown}
+            >
                 <Bars3Icon className="w-6 h-6" />
             </label>
             <motion.div
                 className="z-[1] p-2 shadow bg-secondary rounded-box w-52 menu menu-sm dropdown-content "
                 variants={dropdownVariants}
                 initial="hidden"
-                animate={isDropdownOpen ? 'visible' : 'hidden'}
+                animate={isDropdownOpen ? "visible" : "hidden"}
             >
                 <ul tabIndex={0}>
-                    <li><a>Homepage</a></li>
-                    <li><a>Portfolio</a></li>
-                    <li><a>About</a></li>
+                    <li>
+                        <a>Homepage</a>
+                    </li>
+                    <li>
+                        <a>Portfolio</a>
+                    </li>
+                    <li>
+                        <a>About</a>
+                    </li>
                 </ul>
             </motion.div>
         </div>

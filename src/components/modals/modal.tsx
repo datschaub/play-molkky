@@ -1,20 +1,30 @@
-import { Dialog, Transition } from '@headlessui/react'
-import { Fragment } from 'react'
+import { Dialog, Transition } from "@headlessui/react";
+import { Fragment } from "react";
 //import { motion } from 'framer-motion'
 
 type ModalProps = {
     isOpen: boolean;
     children?: JSX.Element;
-}
+};
 
 export default function Modal({ isOpen, children }: ModalProps) {
-
     return (
         <>
-            <Transition appear show={isOpen} as={Fragment}>
-                <Dialog as="div" className="relative z-10" onClose={() => { }}>
+            <Transition
+                appear
+                show={isOpen}
+                as={Fragment}
+            >
+                <Dialog
+                    as="div"
+                    className="relative z-10"
+                    onClose={() => {}}
+                >
                     {/* The backdrop, rendered as a fixed sibling to the panel container */}
-                    <div className="fixed inset-0 bg-black/50" aria-hidden="true" />
+                    <div
+                        className="fixed inset-0 bg-black/50"
+                        aria-hidden="true"
+                    />
                     <Transition.Child
                         as={Fragment}
                         enter="ease-out duration-300"
@@ -47,5 +57,5 @@ export default function Modal({ isOpen, children }: ModalProps) {
                 </Dialog>
             </Transition>
         </>
-    )
+    );
 }
