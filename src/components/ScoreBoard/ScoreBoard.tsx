@@ -1,8 +1,8 @@
-import { Player } from "../types/types";
-import { PlayerScoreCard } from "../components/PlayerScoreCard";
-import Modal from "./modals/modal";
+import { Player } from "../../types/types";
+import { PlayerScoreCard } from "./PlayerScoreCard";
+import Modal from "../modals/modal";
 import { useCallback, useState } from "react";
-import { PlayerScoreModal } from "./modals/PlayerScoreModal";
+import { PlayerScoreModal } from "../modals/PlayerScoreModal";
 
 type ScoreBoardProps = {
     players: Player[];

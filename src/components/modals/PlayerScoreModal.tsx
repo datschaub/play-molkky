@@ -1,7 +1,7 @@
 import { Player } from "../../types/types";
 import { useState } from "react";
 import { Dialog } from "@headlessui/react";
-import { ScoreNumberBtn } from "../ScoreNumberBtn";
+import { ScoreNumberBtn } from "../ScoreBoard/ScoreNumberBtn";
 import { usePlayerStore } from "../../stores/playerStore/playerStore";
 import { useGameSettingsStore } from "../../stores/gameSettingsStore/gameSettingsStore";
 

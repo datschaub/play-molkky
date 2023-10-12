@@ -8,7 +8,7 @@ import { PlayIcon, DocumentTextIcon } from "@heroicons/react/20/solid";
 import { ModalButton } from "../components/ModalButton";
 import { Player } from "../types/types";
 import { FieldValues, UseFormGetValues } from "react-hook-form";
-import { ScoreBoard } from "../components/ScoreBoard";
+import { ScoreBoard } from "../components/ScoreBoard/ScoreBoard";
 import { usePlayerStore } from "../stores/playerStore/playerStore";
 import { mapPlayers } from "../utils/utils";
 import { NavBar } from "../components/NavBar/NavBar";

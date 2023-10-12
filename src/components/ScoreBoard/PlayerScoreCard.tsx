@@ -1,9 +1,9 @@
 import { PlusCircleIcon } from "@heroicons/react/20/solid";
-import { Player } from "../types/types";
-import { useGameSettingsStore } from "../stores/gameSettingsStore/gameSettingsStore";
+import { Player } from "../../types/types";
+import { useGameSettingsStore } from "../../stores/gameSettingsStore/gameSettingsStore";
 import { motion } from "framer-motion";
-import Modal from "./modals/modal";
-import { EditPlayerModal } from "./modals/EditPlayerModal";
+import Modal from "../modals/modal";
+import { EditPlayerModal } from "../modals/EditPlayerModal";
 import { useState } from "react";
 
 type PlayerScoreCardProps = {
