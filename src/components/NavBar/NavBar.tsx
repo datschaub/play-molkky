@@ -4,7 +4,7 @@ import Modal from "../modals/modal";
 import { SettingsModal } from "../modals/SettingsModal";
 import { motion } from "framer-motion";
 import { Dropdown } from "./Dropdown";
-import { useGameSettingsStore } from "../../stores/gameSettingsStore";
+import { useGameSettingsStore } from "../../stores/gameSettingsStore/gameSettingsStore";
 
 const settingsIconsVariants = {
     rotate: { rotate: [0, -90] },

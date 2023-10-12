@@ -24,7 +24,7 @@ export function ScoreBoard({ players, updatePlayerPoints }: ScoreBoardProps) {
 
     return (
         <>
-            <div className="flex flex-col w-full space-x-0 space-y-4">
+            <div className="flex flex-col items-center w-full space-x-0 space-y-4">
                 {players.map((player) => {
                     return (
                         <PlayerScoreCard

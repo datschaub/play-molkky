@@ -1,6 +1,6 @@
 import { Dialog } from "@headlessui/react";
-import { usePlayerStore } from "../../stores/playerStore";
-import { useGameSettingsStore } from "../../stores/gameSettingsStore";
+import { usePlayerStore } from "../../stores/playerStore/playerStore";
+import { useGameSettingsStore } from "../../stores/gameSettingsStore/gameSettingsStore";
 
 type QuitGameModalProps = {
     closeModal: () => void;

@@ -9,10 +9,10 @@ import { ModalButton } from "../components/ModalButton";
 import { Player } from "../types/types";
 import { FieldValues, UseFormGetValues } from "react-hook-form";
 import { ScoreBoard } from "../components/ScoreBoard";
-import { usePlayerStore } from "../stores/playerStore";
+import { usePlayerStore } from "../stores/playerStore/playerStore";
 import { mapPlayers } from "../utils/utils";
 import { NavBar } from "../components/NavBar/NavBar";
-import { useGameSettingsStore } from "../stores/gameSettingsStore";
+import { useGameSettingsStore } from "../stores/gameSettingsStore/gameSettingsStore";
 
 const Home: NextPage<{}> = () => {
     const players = usePlayerStore((state) => state.players);

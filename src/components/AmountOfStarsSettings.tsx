@@ -1,4 +1,4 @@
-import { useGameSettingsStore } from "../stores/gameSettingsStore";
+import { useGameSettingsStore } from "../stores/gameSettingsStore/gameSettingsStore";
 
 export function AmountOfStarsSettings() {
     const gameStars = useGameSettingsStore((state) => state.gameStars);

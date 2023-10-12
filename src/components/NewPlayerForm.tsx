@@ -18,7 +18,7 @@ import {
 } from "framer-motion";
 import { Player } from "../types/types";
 import { ReorderIcon } from "./icons/ReorderIcon";
-import { usePlayerStore } from "../stores/playerStore";
+import { usePlayerStore } from "../stores/playerStore/playerStore";
 
 type NewGameFormProps = {
     player: Player;

@@ -1,28 +1,20 @@
 import { create } from "zustand";
-
-type GameSettingsStore = {
-    gameStars: number;
-    setAmountOfGameStars: (stars: number) => void;
-    gameIsStarted: boolean;
-    setGameIsStarted: (isStarted: boolean) => void;
-    currentPlayerId: string | undefined;
-    setCurrentPlayerId: (playerId: string | undefined) => void;
-};
+import { GameSettingsStore } from "./gameSettingsStore.types";
 
 export const useGameSettingsStore = create<GameSettingsStore>((set) => ({
     gameStars: 3,
+    currentPlayerId: undefined,
+    gameIsStarted: false,
     setAmountOfGameStars(stars) {
         set(() => ({
             gameStars: stars,
         }));
     },
-    gameIsStarted: false,
     setGameIsStarted(isStarted) {
         set(() => ({
             gameIsStarted: isStarted,
         }));
     },
-    currentPlayerId: undefined,
     setCurrentPlayerId(playerId) {
         set(() => ({
             currentPlayerId: playerId,

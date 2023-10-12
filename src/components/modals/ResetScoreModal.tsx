@@ -1,5 +1,5 @@
 import { Dialog } from "@headlessui/react";
-import { usePlayerStore } from "../../stores/playerStore";
+import { usePlayerStore } from "../../stores/playerStore/playerStore";
 
 type ResetScoreModalProps = {
     closeModal: () => void;

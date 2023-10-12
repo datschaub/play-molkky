@@ -4,8 +4,8 @@ import { PlusCircleIcon } from "@heroicons/react/20/solid";
 import { Player } from "../types/types";
 import { FieldValues, useForm, UseFormGetValues } from "react-hook-form";
 import { AnimatePresence, Reorder } from "framer-motion";
-import { GameSettings } from "./GameSettings";
-import { usePlayerStore } from "../stores/playerStore";
+import { GameSettings } from "./GameSettings/GameSettings";
+import { usePlayerStore } from "../stores/playerStore/playerStore";
 
 type NewGameProps = {
     closeModal: (getValuesFunc: UseFormGetValues<FieldValues>) => void;

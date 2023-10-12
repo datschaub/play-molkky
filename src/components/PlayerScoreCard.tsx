@@ -1,6 +1,6 @@
 import { PlusCircleIcon } from "@heroicons/react/20/solid";
 import { Player } from "../types/types";
-import { useGameSettingsStore } from "../stores/gameSettingsStore";
+import { useGameSettingsStore } from "../stores/gameSettingsStore/gameSettingsStore";
 import { motion } from "framer-motion";
 import Modal from "./modals/modal";
 import { EditPlayerModal } from "./modals/EditPlayerModal";
@@ -62,7 +62,7 @@ export function PlayerScoreCard({
     return (
         <>
             <div
-                className={`shadow transition-all lg:max-w-none card bg-primary text-primary-content ${
+                className={`flex flex-row min-w-full shadow transition-all card bg-primary text-primary-content ${
                     isCurrentPlayer && currentPlayerStyles
                 } ${playerIsEliminated ? "opacity-30" : ""}`}
             >

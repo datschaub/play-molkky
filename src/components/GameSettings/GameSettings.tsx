@@ -1,9 +1,10 @@
 import { ChevronDownIcon, BoltIcon } from "@heroicons/react/20/solid";
 import { AnimatePresence, motion, MotionConfig } from "framer-motion";
-import { useState } from "react";
 import { FieldValues, UseFormGetValues } from "react-hook-form";
-import { usePlayerStore } from "../stores/playerStore";
-import { AmountOfStarsSettings } from "./AmountOfStarsSettings";
+import { usePlayerStore } from "../../stores/playerStore/playerStore";
+import { AmountOfStarsSettings } from "../AmountOfStarsSettings";
+import useGameSettingsAccordion from "./hooks/useGameSettingsAccordion";
+import { RandomizeOrderButton } from "./RandomizeOrderButton";
 
 type GameSettingsProps = {
     getFormValuesFunc: UseFormGetValues<FieldValues>;
@@ -15,23 +16,17 @@ const variants = {
 };
 
 export function GameSettings({ getFormValuesFunc }: GameSettingsProps) {
-    const [gameSettingsOpen, setGameSettingsOpen] = useState(false);
+    const { gameSettingsOpen, toggleAccordion, getContentHeight } =
+        useGameSettingsAccordion();
     const randomizePlayerOrder = usePlayerStore(
         (state) => state.randomizePlayerOrder,
     );
-
-    const toggleAccordion = () => {
-        setGameSettingsOpen((prev) => !prev);
-    };
-
-    const getContentHeight = (gameSettingsOpen: boolean) =>
-        gameSettingsOpen ? "auto" : 0;
 
     return (
         <div className="overflow-hidden">
             <div className="flex items-center justify-between align-center">
                 <div
-                    className="flex flex-col w-full border-opacity-50"
+                    className="flex flex-col w-full hover:cursor-pointer"
                     onClick={toggleAccordion}
                 >
                     <div className="divider">
@@ -56,7 +51,7 @@ export function GameSettings({ getFormValuesFunc }: GameSettingsProps) {
                             padding: 0,
                         }}
                         animate={{
-                            height: getContentHeight(gameSettingsOpen),
+                            height: getContentHeight(),
                         }}
                         exit={{
                             height: 0,
@@ -68,20 +63,11 @@ export function GameSettings({ getFormValuesFunc }: GameSettingsProps) {
                     >
                         <div className="flex flex-col px-1 gap-y-5">
                             <AmountOfStarsSettings />
-                            <button
-                                className="shadow btn btn-accent shadow-slate-500"
-                                type="button"
+                            <RandomizeOrderButton
                                 onClick={() =>
                                     randomizePlayerOrder(getFormValuesFunc)
                                 }
-                            >
-                                <div className="flex items-center justify-center space-x-2 text-white">
-                                    <span className="font-bold">
-                                        Randomize Order
-                                    </span>
-                                    <BoltIcon className="w-6" />
-                                </div>
-                            </button>
+                            />
                         </div>
                         <div className="divider" />
                     </motion.div>
