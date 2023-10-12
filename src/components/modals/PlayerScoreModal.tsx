@@ -66,7 +66,7 @@ export function PlayerScoreModal({
     const handleAddPlayerPoints = () => {
         if (selectedNumber !== undefined) {
             addPlayerPoints(player, selectedNumber);
-            
+
             // Get the current player
             const currentPlayer = players.find((p) => p.id === currentPlayerId);
 

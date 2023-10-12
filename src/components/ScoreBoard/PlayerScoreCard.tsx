@@ -83,7 +83,7 @@ export function PlayerScoreCard({
                                 ➡️
                             </motion.span>
                         )}
-                        {player.name} {playerIsEliminated &&('☠️')}
+                        {player.name} {playerIsEliminated && "☠️"}
                     </h2>
                     <div className="flex flex-row justify-between py-2">
                         <div className="p-2 text-2xl font-bold shadow shadow-slate-700 btn-circle bg-secondary-focus">

@@ -48,19 +48,19 @@ export const randomizeOrder = (
 
 export const generateDefaultPlayers = (amount: number = 2) => {
     const players = [];
-  
+
     for (let i = 0; i < amount; i++) {
-      const player = {
-        id: nanoid(5),
-        name: "",
-        order: i + 1,
-        score: 0,
-        stars: 0,
-        isEliminated: false,
-      };
-  
-      players.push(player);
+        const player = {
+            id: nanoid(5),
+            name: "",
+            order: i + 1,
+            score: 0,
+            stars: 0,
+            isEliminated: false,
+        };
+
+        players.push(player);
     }
-  
+
     return players;
-  };
+};

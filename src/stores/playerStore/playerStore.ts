@@ -2,7 +2,11 @@ import { nanoid } from "nanoid";
 import { create } from "zustand";
 import { mapPlayers } from "../../utils/utils";
 import { PlayerStoreState } from "./playerStore.types";
-import { addPlayerPoints, generateDefaultPlayers, randomizeOrder } from "./playerStoreUtils";
+import {
+    addPlayerPoints,
+    generateDefaultPlayers,
+    randomizeOrder,
+} from "./playerStoreUtils";
 
 export const usePlayerStore = create<PlayerStoreState>((set) => ({
     players: generateDefaultPlayers(),
@@ -60,7 +64,7 @@ export const usePlayerStore = create<PlayerStoreState>((set) => ({
     },
     removeAllCurrentPlayers: () => {
         set({
-            players: generateDefaultPlayers()
+            players: generateDefaultPlayers(),
         });
     },
 }));

@@ -23,4 +23,4 @@ export type PlayerStoreState = {
     addPlayerPoints: (player: Player, pointsToAdd: number) => void;
     resetAllPlayerPoints: () => void;
     removeAllCurrentPlayers: () => void;
-}
+};
