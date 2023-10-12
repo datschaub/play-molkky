@@ -53,7 +53,7 @@ export function NavBar() {
                                     type: "spring",
                                 }}
                             >
-                                <Cog6ToothIcon className="w-6 h-6" />
+                                <Cog6ToothIcon className="w-8 h-8" />
                             </motion.div>
                         </motion.button>
                     )}

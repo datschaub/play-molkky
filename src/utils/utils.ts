@@ -21,7 +21,8 @@ export const mapPlayers = (
             order: i + 1,
             score: player.score,
             stars: player.stars,
-        };
+            isEliminated: player.isEliminated
+        } as Player;
     });
 };
 

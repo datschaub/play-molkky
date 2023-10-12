@@ -34,7 +34,7 @@ export const Dropdown = () => {
                 className="btn btn-ghost btn-circle"
                 onClick={toggleDropdown}
             >
-                <Bars3Icon className="w-6 h-6" />
+                <Bars3Icon className="w-8 h-8" />
             </label>
             <motion.div
                 className="z-[1] p-2 shadow bg-secondary rounded-box w-52 menu menu-sm dropdown-content "

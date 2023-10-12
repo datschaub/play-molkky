@@ -56,19 +56,29 @@ export function PlayerScoreModal({
         setStarIsSelected((prev) => !prev);
     };
 
+    const playerIsEliminated = (player: Player | undefined): boolean => {
+        if (player) {
+            return player.stars === gameStars;
+        }
+        return false;
+    };
+
     const handleAddPlayerPoints = () => {
         if (selectedNumber !== undefined) {
             addPlayerPoints(player, selectedNumber);
+            
+            // Get the current player
+            const currentPlayer = players.find((p) => p.id === currentPlayerId);
 
-            // Find the index of the current player
-            const currentPlayerIndex = players.findIndex(
-                (player) => player.id === currentPlayerId,
-            );
+            // Find the next player index (excluding eliminated players)
+            let nextPlayerIndex = (currentPlayer?.order || 1) % players.length;
 
-            // Calculate the index of the next player
-            const nextPlayerIndex = (currentPlayerIndex + 1) % players.length;
+            // Iterate until a non-eliminated player is found
+            while (players[nextPlayerIndex]?.isEliminated) {
+                nextPlayerIndex = (nextPlayerIndex + 1) % players.length;
+            }
 
-            // Set the state to the next player's id
+            // Set the state to the next non-eliminated player's id
             setCurrentPlayerId(players[nextPlayerIndex]?.id);
 
             closeModal();
@@ -155,7 +165,7 @@ export function PlayerScoreModal({
                 <button
                     type="button"
                     className="btn btn-secondary"
-                    onClick={() => closeModal()}
+                    onClick={closeModal}
                 >
                     Close
                 </button>
@@ -167,7 +177,7 @@ export function PlayerScoreModal({
                             ? addPointsBtnStyles.btnDisabled
                             : addPointsBtnStyles.btnEnabled
                     }`}
-                    onClick={() => handleAddPlayerPoints()}
+                    onClick={handleAddPlayerPoints}
                 >
                     <span
                         className={`font-medium text-white transition-colors ${

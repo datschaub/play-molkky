@@ -57,12 +57,14 @@ export function PlayerScoreCard({
         setModalIsOpen(true);
     };
 
+    const playerIsEliminated = player.isEliminated;
+
     return (
         <>
             <div
                 className={`shadow transition-all lg:max-w-none card bg-primary text-primary-content ${
                     isCurrentPlayer && currentPlayerStyles
-                }`}
+                } ${playerIsEliminated ? "opacity-30" : ""}`}
             >
                 <div className="p-4 card-body">
                     <h2 className="w-full card-title">
@@ -81,7 +83,7 @@ export function PlayerScoreCard({
                                 ➡️
                             </motion.span>
                         )}
-                        {player.name}
+                        {player.name} {playerIsEliminated &&('☠️')}
                     </h2>
                     <div className="flex flex-row justify-between py-2">
                         <div className="p-2 text-2xl font-bold shadow shadow-slate-700 btn-circle bg-secondary-focus">
@@ -104,7 +106,7 @@ export function PlayerScoreCard({
                         <button
                             className="shadow btn btn-sm"
                             onClick={() => openPlayerScoreModal(player)}
-                            disabled={!isCurrentPlayer}
+                            disabled={!isCurrentPlayer || playerIsEliminated}
                         >
                             Add points <PlusCircleIcon className="w-6 h-6" />
                         </button>

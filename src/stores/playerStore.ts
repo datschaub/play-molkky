@@ -7,6 +7,7 @@ import {
 import { create } from "zustand";
 import { Player } from "../types/types";
 import { mapPlayers, shuffleArray } from "../utils/utils";
+import { useGameSettingsStore } from "./gameSettingsStore";
 
 interface IPlayerStoreState {
     players: Player[];
@@ -39,33 +40,50 @@ const randomizeOrder = (
 
 const addPlayerPoints = (
     players: Player[],
-    player: Player,
-    pointsToAdd: number,
-) => {
-    let playerToUpdate = players.filter((p) => p.id === player.id).at(0);
-    return players.map((p, i) => {
-        const addStarForCurrentUser = p === playerToUpdate && pointsToAdd === 0;
-        const starsShouldResetForCurrentPlayer =
-            p === playerToUpdate && pointsToAdd > 0;
-
+    playerToUpdate: Player,
+    pointsToAdd: number
+  ): Player[] => {
+    const updatedPlayers = players.map((player) => {
+      if (player.id === playerToUpdate.id) {
+        const addStarForCurrentUser = pointsToAdd === 0;
+        const starsShouldResetForCurrentPlayer = pointsToAdd > 0;
+        const newStars = addStarForCurrentUser ? player.stars + 1 : starsShouldResetForCurrentPlayer ? 0 : player.stars
+  
+        // Check if the player should be eliminated
+        const isEliminated = newStars >= useGameSettingsStore.getState().gameStars;
+  
         return {
-            name: p.name,
-            id: p.id,
-            order: p.order,
-            score: p === playerToUpdate ? p.score + pointsToAdd : p.score,
-            stars: addStarForCurrentUser
-                ? p.stars + 1
-                : starsShouldResetForCurrentPlayer
-                ? 0
-                : p.stars,
+          ...player,
+          score: player.score + pointsToAdd,
+          stars: newStars,
+          isEliminated,
         };
+      }
+  
+      return player;
     });
-};
+  
+    return updatedPlayers;
+  };
 
 export const usePlayerStore = create<IPlayerStoreState>((set) => ({
     players: [
-        { id: nanoid(5), name: "", order: 1, score: 0, stars: 0 },
-        { id: nanoid(5), name: "", order: 2, score: 0, stars: 0 },
+        {
+            id: nanoid(5),
+            name: "",
+            order: 1,
+            score: 0,
+            stars: 0,
+            isEliminated: false,
+        },
+        {
+            id: nanoid(5),
+            name: "",
+            order: 2,
+            score: 0,
+            stars: 0,
+            isEliminated: false,
+        },
     ],
     addNewPlayer: () => {
         set((state) => ({
@@ -77,6 +95,7 @@ export const usePlayerStore = create<IPlayerStoreState>((set) => ({
                     order: state.players.length + 1,
                     score: 0,
                     stars: 0,
+                    isEliminated: false,
                 },
             ],
         }));
@@ -114,14 +133,29 @@ export const usePlayerStore = create<IPlayerStoreState>((set) => ({
                 ...player,
                 score: 0,
                 stars: 0,
+                isEliminated: false,
             })),
         }));
     },
     removeAllCurrentPlayers: () => {
         set({
             players: [
-                { id: nanoid(5), name: "", order: 1, score: 0, stars: 0 },
-                { id: nanoid(5), name: "", order: 2, score: 0, stars: 0 },
+                {
+                    id: nanoid(5),
+                    name: "",
+                    order: 1,
+                    score: 0,
+                    stars: 0,
+                    isEliminated: false,
+                },
+                {
+                    id: nanoid(5),
+                    name: "",
+                    order: 2,
+                    score: 0,
+                    stars: 0,
+                    isEliminated: false,
+                },
             ],
         });
     },
