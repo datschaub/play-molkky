@@ -2,7 +2,7 @@ import { ChevronDownIcon, BoltIcon } from "@heroicons/react/20/solid";
 import { AnimatePresence, motion, MotionConfig } from "framer-motion";
 import { FieldValues, UseFormGetValues } from "react-hook-form";
 import { usePlayerStore } from "../../stores/playerStore/playerStore";
-import { AmountOfStarsSettings } from "../AmountOfStarsSettings";
+import { AmountOfStarsSettings } from "./AmountOfStarsSettings";
 import useGameSettingsAccordion from "./hooks/useGameSettingsAccordion";
 import { RandomizeOrderButton } from "./RandomizeOrderButton";
 

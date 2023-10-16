@@ -1,11 +1,11 @@
 import type { NextPage } from "next";
 import Head from "next/head";
-import { NewGame } from "../components/NewGame";
+import { NewGame } from "../components/modals/NewGameModal";
 import Modal from "../components/modals/modal";
-import { Rules } from "../components/rules";
+import { Rules } from "../components/modals/RulesModal";
 import { useCallback, useEffect, useState } from "react";
 import { PlayIcon, DocumentTextIcon } from "@heroicons/react/20/solid";
-import { ModalButton } from "../components/ModalButton";
+import { ModalButton } from "../components/modals/ModalButton";
 import { Player } from "../types/types";
 import { FieldValues, UseFormGetValues } from "react-hook-form";
 import { ScoreBoard } from "../components/ScoreBoard/ScoreBoard";

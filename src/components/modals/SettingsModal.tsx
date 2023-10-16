@@ -1,5 +1,5 @@
 import { Dialog } from "@headlessui/react";
-import { AmountOfStarsSettings } from "../AmountOfStarsSettings";
+import { AmountOfStarsSettings } from "../GameSettings/AmountOfStarsSettings";
 import Modal from "./modal";
 import { useCallback, useState } from "react";
 import { ResetScoreModal } from "./ResetScoreModal";
@@ -37,6 +37,8 @@ export function SettingsModal({ closeModal }: SettingsModalProps) {
     const handleCloseConfirmModal = useCallback(() => {
         setConfirmModalIsOpen(false);
     }, []);
+
+    console.log('SettingsModal rendered');
 
     return (
         <>
