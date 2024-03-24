@@ -152,10 +152,15 @@ export function PlayerScoreModal({
             </div>
             <div className="px-3 py-1 mt-4 text-xl rounded-lg shadow shadow-slate-500 gap-y-2 bg-accent">
                 <div className="my-4 font-bold">
-                    Current score:{" "}
-                    {selectedNumber !== undefined && selectedNumber > 0
-                        ? `${player.score} (${player.score + selectedNumber})`
-                        : player.score}
+                    <span>Current score: </span>
+                    {selectedNumber !== undefined && selectedNumber > 0 ? (
+                        <div className="inline">
+                            <span>{player.score}</span>{" "}
+                            <span className="italic">({player.score + selectedNumber})</span>
+                        </div>
+                    ) : (
+                        player.score
+                    )}
                 </div>
                 <div className="my-4 font-bold">
                     Current stars: {handleCurrentStars()}
