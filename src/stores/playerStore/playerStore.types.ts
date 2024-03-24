@@ -23,4 +23,6 @@ export type PlayerStoreState = {
     addPlayerPoints: (player: Player, pointsToAdd: number) => void;
     resetAllPlayerPoints: () => void;
     removeAllCurrentPlayers: () => void;
+    winnerId: string | null; 
+    setWinner: (playerId: string) => void;
 };

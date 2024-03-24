@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import Modal from "../modals/modal";
 import { EditPlayerModal } from "../modals/EditPlayerModal";
 import { useState } from "react";
+import { usePlayerStore } from "../../stores/playerStore/playerStore";
 
 type PlayerScoreCardProps = {
     player: Player;
@@ -48,6 +49,7 @@ export function PlayerScoreCard({
         (state) => state.currentPlayerId,
     );
     const isCurrentPlayer = player.id === currentPlayerId;
+    const winnerId = usePlayerStore((state) => state.winnerId); // Get the winnerId from the store
 
     const handleCloseModal = () => {
         setModalIsOpen(false);
@@ -83,7 +85,7 @@ export function PlayerScoreCard({
                                 ➡️
                             </motion.span>
                         )}
-                        {player.name} {playerIsEliminated && "☠️"}
+                        {player.name} {player.id === winnerId && "👑"} {playerIsEliminated && "☠️"}
                     </h2>
                     <div className="flex flex-row justify-between py-2">
                         <div className="p-2 text-2xl font-bold shadow shadow-slate-700 btn-circle bg-secondary-focus">

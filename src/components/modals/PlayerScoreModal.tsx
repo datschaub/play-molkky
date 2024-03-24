@@ -1,5 +1,5 @@
 import { Player } from "../../types/types";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Dialog } from "@headlessui/react";
 import { ScoreNumberBtn } from "../ScoreBoard/ScoreNumberBtn";
 import { usePlayerStore } from "../../stores/playerStore/playerStore";
@@ -21,7 +21,6 @@ const addPointsBtnStyles = {
 export function PlayerScoreModal({
     player,
     closeModal,
-    updatePlayerPoints,
 }: PlayerScoreModalProps) {
     const addPlayerPoints = usePlayerStore((state) => state.addPlayerPoints);
     const players = usePlayerStore((state) => state.players);
@@ -35,8 +34,24 @@ export function PlayerScoreModal({
         undefined,
     );
     const [starIsSelected, setStarIsSelected] = useState(false);
+    const setWinner = usePlayerStore((state) => state.setWinner);
     const addPointsDisabled = selectedNumber == undefined && !starIsSelected;
     const gameStars = useGameSettingsStore((state) => state.gameStars);
+
+    useEffect(() => {
+        const checkWinCondition = (player: Player): void => {
+            let isWin = false;
+
+            let currUpdatedPlayer = players.find((p) => p.id === player.id);
+
+            if (currUpdatedPlayer?.score === 50) {
+                isWin = true;
+                console.log(`Player ${player.name} won!`);
+                setWinner(player.id);
+            }
+        };
+        checkWinCondition(player);
+    }, [player, player.score, players, setWinner]);
 
     const handleOnSelectNumber = (number: number) => {
         if (number == selectedNumber) {
@@ -54,13 +69,6 @@ export function PlayerScoreModal({
             setSelectedNumber(0);
         }
         setStarIsSelected((prev) => !prev);
-    };
-
-    const playerIsEliminated = (player: Player | undefined): boolean => {
-        if (player) {
-            return player.stars === gameStars;
-        }
-        return false;
     };
 
     const handleAddPlayerPoints = () => {
@@ -156,7 +164,9 @@ export function PlayerScoreModal({
                     {selectedNumber !== undefined && selectedNumber > 0 ? (
                         <div className="inline">
                             <span>{player.score}</span>{" "}
-                            <span className="italic">({player.score + selectedNumber})</span>
+                            <span className="italic">
+                                ({player.score + selectedNumber})
+                            </span>
                         </div>
                     ) : (
                         player.score

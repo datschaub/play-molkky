@@ -10,6 +10,7 @@ import {
 
 export const usePlayerStore = create<PlayerStoreState>((set) => ({
     players: generateDefaultPlayers(),
+    winnerId: null,
     addNewPlayer: () => {
         set((state) => ({
             players: [
@@ -66,5 +67,8 @@ export const usePlayerStore = create<PlayerStoreState>((set) => ({
         set({
             players: generateDefaultPlayers(),
         });
+    },
+    setWinner: (playerId) => {
+        set({ winnerId: playerId });
     },
 }));
