@@ -1,6 +1,4 @@
-import { BoltIcon } from "@heroicons/react/20/solid";
-import { usePlayerStore } from "../../stores/playerStore/playerStore";
-import { FieldValues, UseFormGetValues } from "react-hook-form";
+import { BoltIcon, ArrowsUpDownIcon } from "@heroicons/react/20/solid";
 import { MouseEventHandler } from "react";
 
 type RandomizeOrderButton = {
@@ -9,13 +7,13 @@ type RandomizeOrderButton = {
 export const RandomizeOrderButton = ({ onClick }: RandomizeOrderButton) => {
     return (
         <button
-            className="shadow btn btn-accent shadow-slate-500"
+            className="shadow btn btn-primary shadow-slate-500"
             type="button"
             onClick={onClick}
         >
             <div className="flex items-center justify-center space-x-2 text-white">
-                <span className="font-bold">Randomize Order</span>
-                <BoltIcon className="w-6" />
+                <span className="font-bold">Randomize Player Order</span>
+                <ArrowsUpDownIcon className="w-6" />
             </div>
         </button>
     );
