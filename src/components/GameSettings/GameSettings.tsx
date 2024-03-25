@@ -5,6 +5,7 @@ import { usePlayerStore } from "../../stores/playerStore/playerStore";
 import { AmountOfStarsSettings } from "./AmountOfStarsSettings";
 import useGameSettingsAccordion from "./hooks/useGameSettingsAccordion";
 import { RandomizeOrderButton } from "./RandomizeOrderButton";
+import { AmountOfPointsSettings } from "./AmountOfPointsSettings";
 
 type GameSettingsProps = {
     getFormValuesFunc: UseFormGetValues<FieldValues>;
@@ -63,6 +64,7 @@ export function GameSettings({ getFormValuesFunc }: GameSettingsProps) {
                     >
                         <div className="flex flex-col px-1 gap-y-5">
                             <AmountOfStarsSettings />
+                            <AmountOfPointsSettings />
                             <RandomizeOrderButton
                                 onClick={() =>
                                     randomizePlayerOrder(getFormValuesFunc)
