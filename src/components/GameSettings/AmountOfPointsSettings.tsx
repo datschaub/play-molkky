@@ -1,5 +1,4 @@
 import { useGameSettingsStore } from "../../stores/gameSettingsStore/gameSettingsStore";
-import { TrophyIcon } from "@heroicons/react/20/solid";
 
 export function AmountOfPointsSettings() {
     const gameWinPoints = useGameSettingsStore((state) => state.winPoints);

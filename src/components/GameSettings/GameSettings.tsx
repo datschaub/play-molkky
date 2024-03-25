@@ -35,7 +35,7 @@ export function GameSettings({ getFormValuesFunc }: GameSettingsProps) {
                         <motion.div
                             variants={variants}
                             animate={gameSettingsOpen ? "rotate" : "stop"}
-                            transition={{ duration: 1.0, type: "spring" }}
+                            transition={{ duration: 1.0, type: "spring", bounce: 0.5, ease: "easeInOut"}}
                         >
                             <ChevronDownIcon className="w-6" />
                         </motion.div>

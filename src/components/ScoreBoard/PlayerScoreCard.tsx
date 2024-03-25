@@ -37,7 +37,7 @@ const generateStars = (count: number, totalGameStars: number) => {
     return stars;
 };
 
-const currentPlayerStyles = "shadow-accent shadow-lg bg-primary-focus";
+const currentPlayerStyles = "shadow-black shadow-md bg-primary-focus";
 
 export function PlayerScoreCard({
     player,
@@ -65,7 +65,7 @@ export function PlayerScoreCard({
         <>
             <div
                 className={`flex flex-row min-w-full shadow transition-all card bg-primary text-primary-content ${
-                    isCurrentPlayer && currentPlayerStyles
+                    isCurrentPlayer ? currentPlayerStyles : "opacity-90"
                 } ${playerIsEliminated ? "opacity-30" : ""}`}
             >
                 <div className="p-4 card-body">
@@ -88,7 +88,7 @@ export function PlayerScoreCard({
                         {player.name} {player.id === winnerId && "👑"} {playerIsEliminated && "☠️"}
                     </h2>
                     <div className="flex flex-row justify-between py-2">
-                        <div className="p-2 text-2xl font-bold shadow shadow-slate-700 btn-circle bg-secondary-focus">
+                        <div className="p-2 text-2xl font-bold shadow shadow-slate-700 btn-circle bg-secondary">
                             {player.score}
                         </div>
                         <div
