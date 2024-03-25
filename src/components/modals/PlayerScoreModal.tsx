@@ -1,100 +1,127 @@
-import { Player } from "../../types/types"
-import { useState } from "react"
-import { Dialog } from "@headlessui/react"
-import { ScoreNumberBtn } from "../ScoreNumberBtn"
-import { usePlayerStore } from "../../stores/playerStore"
-import { useGameSettingsStore } from "../../stores/gameSettingsStore"
+import { Player } from "../../types/types";
+import { useEffect, useState } from "react";
+import { Dialog } from "@headlessui/react";
+import { ScoreNumberBtn } from "../ScoreBoard/ScoreNumberBtn";
+import { usePlayerStore } from "../../stores/playerStore/playerStore";
+import { useGameSettingsStore } from "../../stores/gameSettingsStore/gameSettingsStore";
 
 type PlayerScoreModalProps = {
     player: Player;
     closeModal: () => void;
     updatePlayerPoints: (player: Player, pointsToAdd: number) => void;
-}
+};
 
 const addPointsBtnStyles = {
     btnEnabled: `btn-primary`,
     btnDisabled: `btn-ghost`,
     btnTextEnabled: ``,
-    btnTextDisabled: `hover:cursor-not-allowed`
-}
+    btnTextDisabled: `hover:cursor-not-allowed`,
+};
 
 export function PlayerScoreModal({
     player,
     closeModal,
-    updatePlayerPoints
 }: PlayerScoreModalProps) {
+    const addPlayerPoints = usePlayerStore((state) => state.addPlayerPoints);
+    const players = usePlayerStore((state) => state.players);
+    const setCurrentPlayerId = useGameSettingsStore(
+        (state) => state.setCurrentPlayerId,
+    );
+    const currentPlayerId = useGameSettingsStore(
+        (state) => state.currentPlayerId,
+    );
+    const [selectedNumber, setSelectedNumber] = useState<number | undefined>(
+        undefined,
+    );
+    const [starIsSelected, setStarIsSelected] = useState(false);
+    const setWinner = usePlayerStore((state) => state.setWinner);
+    const addPointsDisabled = selectedNumber == undefined && !starIsSelected;
+    const gameStars = useGameSettingsStore((state) => state.gameStars);
 
-    const addPlayerPoints = usePlayerStore(state => state.addPlayerPoints)
-    const players = usePlayerStore(state => state.players)
-    const setCurrentPlayerId = useGameSettingsStore(state => state.setCurrentPlayerId)
-    const currentPlayerId = useGameSettingsStore(state => state.currentPlayerId)
-    const [selectedNumber, setSelectedNumber] = useState<number | undefined>(undefined)
-    const [starIsSelected, setStarIsSelected] = useState(false)
-    const addPointsDisabled = selectedNumber == undefined && !starIsSelected
-    const gameStars = useGameSettingsStore(state => state.gameStars)
+    useEffect(() => {
+        const checkWinCondition = (player: Player): void => {
+            let isWin = false;
+
+            let currUpdatedPlayer = players.find((p) => p.id === player.id);
+
+            if (currUpdatedPlayer?.score === 50) {
+                isWin = true;
+                console.log(`Player ${player.name} won!`);
+                setWinner(player.id);
+            }
+        };
+        checkWinCondition(player);
+    }, [player, player.score, players, setWinner]);
 
     const handleOnSelectNumber = (number: number) => {
         if (number == selectedNumber) {
-            setSelectedNumber(undefined)
+            setSelectedNumber(undefined);
         } else {
-            setSelectedNumber(number)
+            setSelectedNumber(number);
         }
-        setStarIsSelected(false)
-    }
+        setStarIsSelected(false);
+    };
 
     const handleOnSelectStar = () => {
         if (starIsSelected) {
-            setSelectedNumber(undefined)
+            setSelectedNumber(undefined);
         } else {
-            setSelectedNumber(0)
+            setSelectedNumber(0);
         }
-        setStarIsSelected(prev => !prev)
-    }
+        setStarIsSelected((prev) => !prev);
+    };
 
     const handleAddPlayerPoints = () => {
         if (selectedNumber !== undefined) {
-            addPlayerPoints(player, selectedNumber)
+            addPlayerPoints(player, selectedNumber);
 
-            // Find the index of the current player
-            const currentPlayerIndex = players.findIndex(player => player.id === currentPlayerId);
+            // Get the current player
+            const currentPlayer = players.find((p) => p.id === currentPlayerId);
 
-            // Calculate the index of the next player
-            const nextPlayerIndex = (currentPlayerIndex + 1) % players.length;
+            // Find the next player index (excluding eliminated players)
+            let nextPlayerIndex = (currentPlayer?.order || 1) % players.length;
 
-            // Set the state to the next player's id
+            // Iterate until a non-eliminated player is found
+            while (players[nextPlayerIndex]?.isEliminated) {
+                nextPlayerIndex = (nextPlayerIndex + 1) % players.length;
+            }
+
+            // Set the state to the next non-eliminated player's id
             setCurrentPlayerId(players[nextPlayerIndex]?.id);
 
-            closeModal()
+            closeModal();
         }
-    }
+    };
 
     /**
      * Generates star icons based on the game stars and the player's star count,
      * reflecting the selection with opacity 100 when a star is selected.
      * @returns {Array} An array of React elements representing star icons.
      */
-    const handleCurrentStars = (): Array<any> => Array.from({ length: gameStars }, (_, index) => {
-        let opacityClass = 'opacity-30 transition transition-all';
+    const handleCurrentStars = (): Array<any> =>
+        Array.from({ length: gameStars }, (_, index) => {
+            let opacityClass = "opacity-30 transition transition-all";
 
-        if (starIsSelected) {
-            if (index < player.stars) {
-                opacityClass = 'opacity-100';
-            } else if (index === player.stars) {
-                opacityClass = 'transition transition-all opacity-70 border-b-4 border-b-primary border-dotted';
+            if (starIsSelected) {
+                if (index < player.stars) {
+                    opacityClass = "opacity-100";
+                } else if (index === player.stars) {
+                    opacityClass =
+                        "transition transition-all opacity-70 border-b-4 border-b-primary border-dotted";
+                }
+            } else if (index < player.stars) {
+                opacityClass = "opacity-100";
             }
-        } else if (index < player.stars) {
-            opacityClass = 'opacity-100';
-        }
 
-        return (
-            <span
-                key={index}
-                className={`text-lg ${opacityClass}`}
-            >
-                ⭐
-            </span>
-        );
-    });
+            return (
+                <span
+                    key={index}
+                    className={`text-lg ${opacityClass}`}
+                >
+                    ⭐
+                </span>
+            );
+        });
 
     return (
         <>
@@ -104,16 +131,19 @@ export function PlayerScoreModal({
             >
                 {player.name}
             </Dialog.Title>
-            <div className="pb-4">
-                Add points 👇
-            </div>
+            <div className="pb-4">Add points 👇</div>
             <div className="p-2 rounded-lg shadow bg-secondary shadow-slate-500">
                 <div className="grid grid-cols-4 gap-2 mb-4">
-                    {
-                        [...Array(12)].map((e, i) => {
-                            return <ScoreNumberBtn key={i} number={i + 1} isSelected={selectedNumber === (i + 1)} onSelectNumber={handleOnSelectNumber} />
-                        })
-                    }
+                    {[...Array(12)].map((e, i) => {
+                        return (
+                            <ScoreNumberBtn
+                                key={i}
+                                number={i + 1}
+                                isSelected={selectedNumber === i + 1}
+                                onSelectNumber={handleOnSelectNumber}
+                            />
+                        );
+                    })}
                 </div>
                 <div className="m-0 divider" />
                 <label className="flex flex-row items-center justify-center gap-2 cursor-pointer label">
@@ -130,37 +160,51 @@ export function PlayerScoreModal({
             </div>
             <div className="px-3 py-1 mt-4 text-xl rounded-lg shadow shadow-slate-500 gap-y-2 bg-accent">
                 <div className="my-4 font-bold">
-                    Current score: {
-                        selectedNumber !== undefined && selectedNumber > 0
-                            ? `${player.score} (${player.score + selectedNumber})`
-                            : player.score
-                    }
+                    <span>Current score: </span>
+                    {selectedNumber !== undefined && selectedNumber > 0 ? (
+                        <div className="inline">
+                            <span>{player.score}</span>{" "}
+                            <span className="italic">
+                                ({player.score + selectedNumber})
+                            </span>
+                        </div>
+                    ) : (
+                        player.score
+                    )}
                 </div>
                 <div className="my-4 font-bold">
                     Current stars: {handleCurrentStars()}
                 </div>
             </div>
-            <div
-                className="flex justify-between mt-4"
-            >
+            <div className="flex justify-between mt-4">
                 <button
                     type="button"
                     className="btn btn-secondary"
-                    onClick={() => closeModal()}
+                    onClick={closeModal}
                 >
                     Close
                 </button>
                 <button
                     type="button"
                     disabled={addPointsDisabled}
-                    className={`btn ${addPointsDisabled ? addPointsBtnStyles.btnDisabled : addPointsBtnStyles.btnEnabled}`}
-                    onClick={() => handleAddPlayerPoints()}
+                    className={`btn ${
+                        addPointsDisabled
+                            ? addPointsBtnStyles.btnDisabled
+                            : addPointsBtnStyles.btnEnabled
+                    }`}
+                    onClick={handleAddPlayerPoints}
                 >
-                    <span className={`font-medium text-white transition-colors ${addPointsDisabled ? addPointsBtnStyles.btnTextDisabled : addPointsBtnStyles.btnTextEnabled}`}>
+                    <span
+                        className={`font-medium text-white transition-colors ${
+                            addPointsDisabled
+                                ? addPointsBtnStyles.btnTextDisabled
+                                : addPointsBtnStyles.btnTextEnabled
+                        }`}
+                    >
                         Add points
                     </span>
                 </button>
             </div>
         </>
-    )
+    );
 }

@@ -1,4 +1,3 @@
-
 type ModalButtonProps = {
     name: string;
     closeModal: (players: any) => void;
@@ -13,22 +12,21 @@ type ActionButtonIconProps = {
 
 const ActionButtonIcon = ({ icon }: ActionButtonIconProps) => {
     return (
-        <div className="flex-shrink-0 w-8 h-8 ml-4 text-white transition-colors rounded-full group-active:text-purple-500 group-hover:text-purple-600">
+        <div className="flex-shrink-0 w-8 h-8 ml-4 text-white transition-colors rounded-full">
             {icon}
         </div>
-    )
-}
+    );
+};
 
 export const ModalButton = ({
     name,
     handleOpenModal,
     modalContent,
-    icon
+    icon,
 }: ModalButtonProps) => {
-
     const openModal = () => {
-        handleOpenModal(modalContent)
-    }
+        handleOpenModal(modalContent);
+    };
 
     return (
         <>

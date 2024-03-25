@@ -1,26 +1,34 @@
 import { Dialog } from "@headlessui/react";
-import { usePlayerStore } from "../../stores/playerStore";
-import { useGameSettingsStore } from "../../stores/gameSettingsStore";
+import { usePlayerStore } from "../../stores/playerStore/playerStore";
+import { useGameSettingsStore } from "../../stores/gameSettingsStore/gameSettingsStore";
 
 type QuitGameModalProps = {
     closeModal: () => void;
     closeParentModal: () => void;
-}
+};
 
-export function QuitGameModal({ closeModal, closeParentModal }: QuitGameModalProps) {
-
-    const removeAllCurrentPlayers = usePlayerStore(state => state.removeAllCurrentPlayers)
-    const setGameIsStarted = useGameSettingsStore(state => state.setGameIsStarted)
-    const setAmountOfGameStars = useGameSettingsStore(state => state.setAmountOfGameStars)
+export function QuitGameModal({
+    closeModal,
+    closeParentModal,
+}: QuitGameModalProps) {
+    const removeAllCurrentPlayers = usePlayerStore(
+        (state) => state.removeAllCurrentPlayers,
+    );
+    const setGameIsStarted = useGameSettingsStore(
+        (state) => state.setGameIsStarted,
+    );
+    const setAmountOfGameStars = useGameSettingsStore(
+        (state) => state.setAmountOfGameStars,
+    );
 
     const handleResetScore = () => {
         removeAllCurrentPlayers();
-        setAmountOfGameStars(3)
-        setGameIsStarted(false)
-        closeModal()
-        closeParentModal()
-    }
-    
+        setAmountOfGameStars(3);
+        setGameIsStarted(false);
+        closeModal();
+        closeParentModal();
+    };
+
     return (
         <>
             <Dialog.Title
@@ -32,9 +40,7 @@ export function QuitGameModal({ closeModal, closeParentModal }: QuitGameModalPro
             <div className="pb-4">
                 This will quit the game and go back to the start page
             </div>
-            <div
-                className="flex justify-between mt-4"
-            >
+            <div className="flex justify-between mt-4">
                 <button
                     type="button"
                     className="btn btn-secondary"
@@ -51,5 +57,5 @@ export function QuitGameModal({ closeModal, closeParentModal }: QuitGameModalPro
                 </button>
             </div>
         </>
-    )
+    );
 }

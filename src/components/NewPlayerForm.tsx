@@ -1,9 +1,24 @@
-import { MinusCircleIcon, HandRaisedIcon, ChevronDoubleUpIcon, ArrowsPointingOutIcon } from "@heroicons/react/20/solid";
-import { FieldValues, UseFormRegister, UseFormUnregister } from "react-hook-form";
-import { AnimatePresence, motion, Reorder, useDragControls, useMotionValue } from "framer-motion"
+import {
+    MinusCircleIcon,
+    HandRaisedIcon,
+    ChevronDoubleUpIcon,
+    ArrowsPointingOutIcon,
+} from "@heroicons/react/20/solid";
+import {
+    FieldValues,
+    UseFormRegister,
+    UseFormUnregister,
+} from "react-hook-form";
+import {
+    AnimatePresence,
+    motion,
+    Reorder,
+    useDragControls,
+    useMotionValue,
+} from "framer-motion";
 import { Player } from "../types/types";
 import { ReorderIcon } from "./icons/ReorderIcon";
-import { usePlayerStore } from "../stores/playerStore";
+import { usePlayerStore } from "../stores/playerStore/playerStore";
 
 type NewGameFormProps = {
     player: Player;
@@ -12,7 +27,7 @@ type NewGameFormProps = {
     unregisterInputFunc: UseFormUnregister<FieldValues>;
     disableDelete: boolean;
     errorMessage: string | undefined;
-}
+};
 
 export function NewPlayerForm({
     player,
@@ -20,14 +35,13 @@ export function NewPlayerForm({
     registerInputFunc: register,
     unregisterInputFunc,
     disableDelete,
-    errorMessage
+    errorMessage,
 }: NewGameFormProps) {
-
-    const removePlayer = usePlayerStore(state => state.removePlayer)
+    const removePlayer = usePlayerStore((state) => state.removePlayer);
 
     //Need this state to properly unregister removed fields
-    const dragControls = useDragControls()
-    const transitionDelay = playerPlaceholder - 1
+    const dragControls = useDragControls();
+    const transitionDelay = playerPlaceholder - 1;
 
     return (
         <>
@@ -45,11 +59,11 @@ export function NewPlayerForm({
                     }),
                     animate: (i) => ({
                         opacity: 1,
-                        height: 'auto',
+                        height: "auto",
                         // y: 0,
                         // transition: {
                         //     y: {
-                        //         delay: i * 0.1  
+                        //         delay: i * 0.1
                         //     },
                         //     opacity: {
                         //         delay: i * 0.1
@@ -61,13 +75,13 @@ export function NewPlayerForm({
                         height: 0,
                         transition: {
                             opacity: {
-                                duration: 0.2
+                                duration: 0.2,
                             },
                             height: {
-                                duration: 0.3
-                            }
-                        }
-                    }
+                                duration: 0.3,
+                            },
+                        },
+                    },
                 }}
                 custom={transitionDelay}
                 initial="initial"
@@ -76,13 +90,17 @@ export function NewPlayerForm({
             >
                 <div className="flex items-center py-2 pr-1 space-x-2">
                     <ReorderIcon dragControls={dragControls} />
-                    <label className="sr-only" htmlFor={player.id}>{` Player `}</label>
-                    <input className="w-full input input-bordered bg-slate-50"
+                    <label
+                        className="sr-only"
+                        htmlFor={player.id}
+                    >{` Player `}</label>
+                    <input
+                        className="w-full input input-bordered bg-slate-50"
                         id={player.id}
                         placeholder={`Player ${playerPlaceholder}`}
                         defaultValue={player.name}
                         {...register(player.id, {
-                            required: `Player can't be empty 👀`
+                            required: `Player can't be empty 👀`,
                         })}
                     />
                     {!disableDelete && (
@@ -90,18 +108,17 @@ export function NewPlayerForm({
                             className="w-8 rounded-full text-accent"
                             type="button"
                             onClick={() => {
-                                removePlayer(player.id, unregisterInputFunc)
-                            }}>
+                                removePlayer(player.id, unregisterInputFunc);
+                            }}
+                        >
                             <MinusCircleIcon className="ml-2" />
                         </button>
                     )}
                 </div>
             </Reorder.Item>
             {errorMessage && (
-                <div className="mt-2 text-red-500">
-                    {errorMessage}
-                </div>
+                <div className="mt-2 text-red-500">{errorMessage}</div>
             )}
         </>
-    )
+    );
 }
